@@ -1,0 +1,432 @@
+/*公共样式*/
+
+.yd-cell-right {
+  min-height: 0;
+}
+
+.long_btn {
+  width: 235px;
+  height: 40px;
+  margin: 90% auto 0 auto;
+  background: #3375C5;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 16px;
+  border: none;
+  display: table;
+}
+
+/*灰色下拉选项*/
+
+.sliderContainer {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.accordionbg {
+  background: #f5f5f5!important;
+  border: 1px solid #CECECE;
+  border-radius: 5px;
+}
+
+.eachAccordion {
+  border: 1px solid #CECECE;
+  border-radius: 5px;
+  margin-bottom: 8px;
+}
+#myMainPage .vux-popup-picker-placeholder,
+#myMainPage  .weui-label,
+#myMainPage  .vux-flexbox .vux-flexbox-item:first-child,
+#myMainPage  .vux-popup-picker-value,
+#myMainPage .weui-cells__title{
+  font-size: 14px;
+}
+#myMainPage  .vux-label,
+#myMainPage  .weui-cell_access .weui-cell__ft{
+  font-size: 14px;
+ }
+ #replyDetail  .vux-cell-value{
+  color: #3375C5!important
+}
+/*灰色下拉选项---end*/
+
+.noBorderTop {
+  border-top: none;
+}
+
+.noBorderBottom {
+  border-bottom: none;
+}
+
+.vux-popup-picker-placeholder, .vux-popup-picker-value {
+  color: #3375C5!important;
+  font-size: 14px;
+}
+
+.weui-cells {
+  margin-top: 0!important;
+}
+
+.weui-label, .vux-flexbox .vux-flexbox-item:first-child {
+  font-size: 14px;
+  color: #242424;
+}
+
+.weui-icon-success, .weui-icon-circle {
+  font-size: 14px!important;
+  color: #3375C5!important;
+}
+
+.vux-check-icon>.weui-icon-success:before, .vux-check-icon>.weui-icon-success-circle:before {
+  color: #3375C5!important;
+}
+
+.vux-check-icon>span {
+  font-size: 14px!important;
+  color: #3375C5!important;
+}
+
+.wbg {
+  background: #fff;
+}
+
+.mainText {
+  color: #3375C5;
+}
+.redText{
+  color: #F83345;
+}
+/*底部tab*/
+
+.weui-tabbar__icon {
+  line-height: 27px!important;
+}
+
+.weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon, .weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon>i, .weui-tabbar__item.weui-bar__item_on .weui-tabbar__label {
+  color: #3375C5!important;
+  font-weight: 800!important;
+}
+
+.weui-tabbar .iconfont {
+  font-weight: 20px!important;
+}
+
+.popBtnBox {
+  display: flex;
+  align-items: center;
+}
+
+.weui-btn {
+  width: 154px!important;
+  height: 45px!important;
+  border-radius: 5px;
+  display: inline-block!important;
+  font-size: 14px!important;
+  background: #3375C5!important;
+  color: #fff!important;
+  padding: 0!important;
+}
+
+.backBtn {
+  color: #3375C5!important;
+  background: #fff!important;
+}
+
+.weui-btn:after {
+  border-color: #3375C5!important;
+}
+
+.weui-cell.sortCell {
+  padding: 2px 16px;
+}
+
+.sortCell .vux-label {
+  font-size: 14px!important;
+  color: #242424!important;
+}
+
+.weui-btn+.weui-btn {
+  margin-top: 0!important;
+}
+
+.weui-switch:checked, .weui-switch-cp__input:checked~.weui-switch-cp__box {
+  border-color: #3375C5!important;
+  background-color: #3375C5!important;
+}
+
+.sxPop .weui-cells:before {
+  display: none;
+  border: none;
+}
+
+.flexSpace {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flexStart {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.flexCenter{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.flexEnd {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  flex-direction: column;
+}
+
+.flexWrap {
+  flex-wrap: wrap;
+}
+
+.borderRight {
+  border-right: 1px solid #CECECE;
+}
+
+.borderBottom {
+  border-bottom: 1px solid #CECECE;
+}
+.bgW{
+  background: #fff;
+}
+.bgG .weui-cells{
+  background: #f5f5f5;
+}
+.mainColor {
+    fill: #3375C5;
+}
+.mrb{
+  margin-bottom: 10px;
+}
+.textAright{
+  text-align: right;
+}
+textarea::placeholder {
+  color: #B6B6B6;
+}
+/*人相关*/
+
+#resultPeoples {
+  background: #fff;
+}
+
+#resultPeoples .userImg {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.userImg {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+#resultPeoples.reacResult .titleBox {
+  display: flex;
+  justify-contnt: space-between;
+  font-size: 14px;
+  font-weight: bold;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+#resultPeoples.reacResult .options {
+  color: #242424;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+#resultPeoples.reacResult .options .option {
+  margin-right: 17px;
+  color: #999;
+}
+
+#resultPeoples.reacResult .options .option i {
+  color: #3375C5;
+}
+
+#resultPeoples.reacResult .details {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  background: #EFEFEF;
+  padding: 9px 7px;
+}
+
+#resultPeoples.reacResult .titleBox .price {
+  color: #FF3939;
+  font-size: 12px;
+  font-weight: bolder;
+}
+
+/*底部弹窗相关*/
+
+#myPop {}
+
+#myPop .bigtitle {
+  background: #fff;
+  color: #242424;
+  font-size: 14px;
+  text-align: center;
+  padding-top: 32px;
+  padding-bottom: 36px;
+}
+#mission #myPop .bigtitle{
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+#myPop .bigtitle .lightText {
+  color: #3375C5;
+  font-weight: 800;
+}
+
+/*step*/
+
+.stepBox {
+  padding: 13px 11px;
+  border-bottom: 4px solid #2EA200;
+  position: relative;
+}
+
+.stepBox .line {
+  position: absolute;
+  z-index: -1;
+  border-bottom: 1px dashed #D1D1D1;
+      top: 30%;
+    width: 80%;
+    left: 10%;
+}
+
+.stepBox .item {
+  position: relative;
+  top: 50%;
+}
+
+.stepBox .circle {
+  width: 13px;
+  height: 13px;
+  border-radius: 54%;
+  border: 1px solid #D1D1D1;
+  background: #fff;
+  margin-bottom: 12px;
+}
+.stepBox .item.active{
+  color: #3375C5;
+}
+.stepBox .item.active .circle{
+  background: #3375C5;
+  border: 1px solid #3375C5;
+} 
+.vux-popup-dialog{
+  z-index: 999999999999999;
+}
+#myMainPage textarea{
+  background: #f5f5f5;
+  height: 122px;
+}
+#authorAuthentication .weui-textarea{
+  background: #F5F5F5!important;
+  border-radius: 5px;
+  height: 122px;
+  padding: 5px;
+  font-size: 13px;
+}
+#authorAuthentication  .weui-cells:before,
+#authorAuthentication  .weui-cells:after{
+  border: none
+}
+#myFallow .reacResult{
+  margin-top:0;
+}
+#searchResult .workAgeBox  .vux-label{
+  color: #242424;
+  font-size: 14px;
+  margin-right: 5px;
+}
+
+#searchResult .workAgeBox  .vux-cell-bd{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#missionDetail  .enrollBox  .reacResult .titleBox{
+  margin-bottom: 0;
+}
+#missionDetail  .enrollBox  .reacResult .details{
+  font-size: 12px;
+}
+#missionDetail  .reacResult {
+ margin-top: 0;
+}
+.icon-wenhao{
+  color: #999!important;
+}
+#replyDetail .weui-cells:before,#replyDetail .weui-cells:after{
+  border:none;
+}
+#replyDetail  .weui-cell{
+  padding-left: 0;
+}
+#recharge .vux-number-round .vux-number-selector.vux-number-disabled {
+  border-color: #DEDEDE;
+}
+#recharge  .vux-number-round .vux-number-input{
+  color: #3375C5;
+  font-size: 23px;
+}
+#recharge  .vux-number-selector svg {
+  fill: #3375C5;
+  width: 20px;
+  height: 20px;
+}
+#recharge  .vux-number-round .vux-number-selector{
+  border-radius: 50%;
+  line-height: 30px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#stagPlan .vux-no-group-title{
+  width: 100%;
+}
+#stagPlan .weui-cells:after,#stagPlan  .weui-cells:before{
+border: none;
+}
+#stagPlan  .vux-flexbox .vux-flexbox-item[data-v-6a87ebee]:first-child {
+  max-width: 125px;
+}
+#missionInExecutionBuss .hang p{
+  width: auto!important;
+}
+.fixBtn{
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #3375C5;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  position: fixed;
+  z-index: 99;
+  bottom: 10%;
+  right: 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: navajowhite;
+}
+.fixBtn span:nth-child(1){
+  font-size: 24px;
+}
