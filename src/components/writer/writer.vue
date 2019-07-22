@@ -3,6 +3,7 @@
 <div class="reacResult wbg">
     <div class="flexBox">
         <div class="left">
+            <!-- ?$store.state.imgUrl+imgurl:'' -->
             <img :src="$store.state.imgUrl+imgurl" class="userImg" alt="" @click.stop="seeUserDetail(uid)">
             </div>
             <div class="right">
@@ -70,7 +71,7 @@
                     </div>
                 </div>
                 <!-- 家长详情 -->
-                <div class="details businessDetail" v-if="type=='business'">
+                <div class="details businessDetail" >
                     {{selfCon==''?'未填写简述':selfCon}}
                 </div>
                 <!--第二行详情（有的页面不显示）-->
@@ -111,13 +112,9 @@ export default {
         }
     },
     mounted() {
-    //   console.log(this.sole)
-    //   alert(this.imgurl)
       
     },
-    props: ['userTags', 'cost','serviceHours','selfCon',
-'serviceOrderCount',
-'serviceUserCount','type','tag','authorAuth','feeConfirm', 'uid','sole','joint', 'priceType','avaTaskCount','workHours', 'missionNum', 'hang2IsShow', 'imgurl', 'isMissionDetail', 'isChoosen','shortName', 'workAge', 'realAuth', 'eduAuth', 'userCount', 'isCanChoose']
+    props: ['userTags', 'cost','serviceHours','selfCon','imgurl', 'serviceOrderCount','serviceUserCount','type','tag','authorAuth','feeConfirm', 'uid','sole','joint', 'priceType','avaTaskCount','workHours', 'missionNum', 'hang2IsShow', 'isMissionDetail', 'isChoosen','shortName', 'workAge', 'realAuth', 'eduAuth', 'userCount', 'isCanChoose']
 
 }
 </script>
@@ -242,6 +239,8 @@ export default {
     height: 40px;
     border-radius: 50%;
     margin-right: 10px;
+    display: inline-block;
+    border: 1px solid #ddd;
 }
 
 #searchResult {
