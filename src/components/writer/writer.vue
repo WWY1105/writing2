@@ -24,26 +24,26 @@
                        <span :class="feeConfirm==3||feeConfirm=='3'?'redText':'mainText'">  {{feeConfirm==1||feeConfirm=='1'?"待确认":feeConfirm==2||feeConfirm=='2'?'已确认':feeConfirm==3||feeConfirm=='3'?'已拒绝':''}}</span>
                      </p>
                 </div>
-                <p class="options" v-if="type=='author'">
+                <!-- <p class="options" >
                     <span class="option">实名
                          <i class="iconfont icon-wenhao" v-if="realAuth!=2?true:false"></i>
                         <i class="iconfont icon-gouxuan" v-if="realAuth==2?true:false"></i>
                     </span>
-                    <span class="option" v-if="type=='author'">学历
+                    <span class="option" >学历
                          <i class="iconfont icon-wenhao" v-if="eduAuth!=2?true:false"></i>
                         <i class="iconfont icon-gouxuan" v-if="eduAuth==2?true:false"></i>
                     </span>
-                    <span class="option" v-if="type=='author'">
+                    <span class="option" >
                         <span v-if="authorAuth!=2?true:false">  家教认证  <i class="iconfont icon-wenhao" v-if="authorAuth!=2?true:false"></i></span>
                        <router-link tag="span" :to="{path:'/viewingMechanism',query:{'tagid':tag?tag.id:''}}" v-if="authorAuth==2?true:false"> <u class="mainText">{{tag?tag.tag:''}} </u><i class="iconfont icon-gouxuan" ></i></router-link>
                     </span>
-                    <span class="option" v-if="type=='author'">资历：{{workAge}}年</span>
-                </p>
+                    <span class="option" >资历：{{workAge}}年</span>
+                </p> -->
                 <!-- 作者详情 -->
-                <div class="details" v-if="type=='author'">
+                <div class="details" >
 
                     <div class="hang">
-                        <p class="text">服务用户:
+                        <!-- <p class="text">服务用户:
                             <span class="mainText"> {{!serviceUserCount?'0':serviceUserCount}}</span>
                         </p>
                         <p class="text">服务订单:
@@ -51,11 +51,11 @@
                         </p>
                         <p class="text">服务小时:
                             <span class="mainText"> {{!serviceHours?'0':serviceHours}}</span>
-                        </p>
+                        </p> -->
                     </div>
                     <!--第二行详情（有的页面不显示）-->
                     <div class="hang" v-if="hang2IsShow">
-                        <p class="text">任务数:
+                        <!-- <p class="text">任务数:
                             <span class="mainText">{{!missionNum?'0':missionNum}}</span>
                         </p>
                         <p class="text">有效任务:
@@ -63,7 +63,7 @@
                         </p>
                         <p class="text">取消任务:
                             <span class="mainText">{{!missionNum?'0':missionNum-avaTaskCount}}</span>
-                        </p>
+                        </p> -->
                     </div>
                     <div class="hang flexStart">
                         <p class="box" v-if="item.tag!=''" v-for="item,index in Tags"><span class="smallBox" >{{item.tag}}</span></p>
@@ -114,7 +114,7 @@ export default {
     mounted() {
       
     },
-    props: ['userTags', 'cost','serviceHours','selfCon','imgurl', 'serviceOrderCount','serviceUserCount','type','tag','authorAuth','feeConfirm', 'uid','sole','joint', 'priceType','avaTaskCount','workHours', 'missionNum', 'hang2IsShow', 'isMissionDetail', 'isChoosen','shortName', 'workAge', 'realAuth', 'eduAuth', 'userCount', 'isCanChoose']
+    props: ['org','cost','serviceHours','selfCon','imgurl', 'serviceOrderCount','serviceUserCount','authorAuth','feeConfirm', 'uid','sole','joint', 'priceType','avaTaskCount','workHours', 'missionNum', 'hang2IsShow', 'isMissionDetail', 'isChoosen','shortName', 'workAge', 'realAuth', 'eduAuth', 'userCount', 'isCanChoose']
 
 }
 </script>

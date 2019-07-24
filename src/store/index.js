@@ -11,12 +11,12 @@ export default new Vuex.Store({
         // baseUrl: "http://www.shuimujiajia.net/works/",
         imgUrl:'http://nian.im/storage/',
         baseUrl:'http://nian.im/works/',
-        uid:'101'||localStorage.getItem('uid'),
+        uid:'11'||localStorage.getItem('uid'),
         openid:'', 
         userImg:'',
         code:'',
         recommadd:''||localStorage.getItem('recommadd'),
-        userType:"author"
+        userType:"business"
     },
     mutations: {
         setCode(state, n) {
@@ -44,5 +44,5 @@ export default new Vuex.Store({
     }
 })
 
-//34 ,80   business
-//101,7  作者
+//34 ,80 ,11  business
+//101,7  作者  author

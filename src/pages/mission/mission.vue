@@ -705,7 +705,7 @@ export default {
           uid: that.$store.state.uid
         };
 
-        that.$http("post", that.$store.state.baseUrl + "api/Order/Apply", postData)
+        that.$http("post", that.$store.state.baseUrl + "api/Order/apply", postData)
           .then(function(res) {
             if (res.data.code != "00") {
               AlertModule.show({
@@ -1021,7 +1021,7 @@ export default {
       that.postData.directional = false;
 
       that.postData.loginUid = that.$store.state.uid;
-
+     
       // console.log(that.postData);
 
       if (that.postData.minWorkAge < 0 || that.postData.maxWorkAge > 80) {
@@ -1161,7 +1161,7 @@ export default {
 
     getMIssionlist(fn) {
       var that = this;
-
+       that.postData.status='1'
       that
 
         .$http(

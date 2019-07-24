@@ -41,6 +41,7 @@ import handelEnroll  from '@/pages/mission/handelEnroll'
 import taskPay  from '@/pages/mission/taskPay'
 import paySuccess  from '@/pages/mission/paySuccess'
 import payFail  from '@/pages/mission/payFail'
+import chooseSuccess from '@/pages/mission/chooseSuccess'
 // 任务  end
 
 
@@ -497,6 +498,13 @@ export default new Router({
       component: payFail,
       meta:{
         title:'支付结果'
+      }
+    },{
+      path: '/chooseSuccess',
+      name: 'chooseSuccess',
+      component: chooseSuccess,
+      meta:{
+        title:'选择家教'
       }
     },{
       path: '/paySuccess',

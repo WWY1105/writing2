@@ -31,8 +31,8 @@
             </div>
             <div class="bgDetail">
                 <p class="firstP">简述：{{showData.introduction}}</p>
-                <div style="word-wrap: break-word;">详述：{{showData.content}}
-                </div>
+                <!-- <div style="word-wrap: break-word;">详述：{{showData.content}}
+                </div> -->
             </div>
 
             <!--进度条-->
@@ -54,14 +54,14 @@
 
         </div>
         <!-- -->
-        <div class="enrollBox bgW" v-if="isMyTask">
+        <div class="enrollBox bgW" >
             <div class="title flexSpace">
                 <div class="left flexSpace">
                     <p>处理报名</p>
                 </div>
             </div>
             <!-- 循环报名者 satrt-->
-            <div class="writerBox" v-if="isMyTask">
+            <div class="writerBox" >
                 <div class="eachWriter flexBox" v-for="item,index in enrollerWriterList">
                     <div class="left">
                         <img :src="$store.state.imgUrl+item.user.imgurl" class="userImg" alt="">
@@ -72,7 +72,7 @@
                             <div>
                                 <p class="tel"><i class="iconfont icon-dianhua"></i></p>
                                 <p class="msg"><i class="iconfont icon-send"></i></p>
-                                <button class="choose">选择</button>
+                                <button class="choose" @click="chooseWriter(item.id)">选择</button>
                             </div>
                         </div>
                         <div class="content">
@@ -104,15 +104,25 @@
         <!-- 不是我的任务 -->
         <div class="btnBox bgw" v-if="!isMyTask">
             <!-- 如果我书商 -->
-            <button class="long_btn" v-if="showData.status=='1'">{{'参加报名（截至'+showData.deadline+"）"}}</button>
+            <button class="long_btn" @click="toEnroll" v-if="showData.status=='1'">{{'参加报名（截至'+showData.deadline+"）"}}</button>
             <!-- 如果我是作者 -->
         </div>
         <!-- 是我的任务 -->
         <div class="btnBox bgw" v-if="isMyTask">
-            <button class="long_btn red" @click.stop="deleteTesk" v-if="showData.status=='1'">取消发布</button>
-            <button class="long_btn" @click="toEvaluate" v-if="showData.status>='2'">评价</button>
+            <button class="long_btn red" @click.stop="deleteTesk" v-if="showData.status<='2'">取消发布</button>
+            <button class="long_btn" @click="toEvaluate" v-if="showData.status>'2'">评价</button>
         </div>
 
+    </div>
+    <!-- 弹窗 -->
+    <div v-transfer-dom>
+      <confirm v-model="show"
+       title='提示'
+      @on-cancel="show=false"
+      @on-confirm="onConfirm"
+     >
+        <p style="text-align:center;">确定选择TA吗</p>
+      </confirm>
     </div>
 
 </div>
@@ -120,7 +130,7 @@
 
 <script>
 import common from '@/assets/js/common'
-import enrollWriter from '@/components/writer/enrollWriter'
+// import enrollWriter from '@/components/writer/enrollWriter'
 import sortPopup from "@/components/sortPopup/sortPopup";
 import sliderPopupPicker from "@/components/sliderPopupPicker";
 import radioPicker from "@/components/radioPicker";
@@ -140,12 +150,12 @@ import {
     XSwitch,
     ChinaAddressV4Data,
     Value2nameFilter as value2name,
-    Group,
+   
+    Group
 } from 'vux'
 export default {
     components: {
         Badge,
-        enrollWriter,
         Step,
         StepItem,
         XButton,
@@ -163,6 +173,7 @@ export default {
         radioPicker,
         slidePicker,
         Group,
+        Confirm 
     },
     data() {
         return {
@@ -170,7 +181,9 @@ export default {
             isMyTask: this.$route.query.isMyTask,
             showData: {},
             missionId: this.$route.query.id,
-            authorInfo: {}
+            authorInfo: {},
+            show:false,
+            chooseWriterId:''
         }
     },
     created() {
@@ -180,9 +193,46 @@ export default {
     mounted() {
         // status (integer, optional): 对家长状态(1-报名中,2-已选择,3-已评价,4-已失效,5-已取消),,\
         // 对家教状态(1-已报名,2-未选中,3-待评价,4-已完成)) ,
+        // alert(this.isMyTask)
     },
     methods: {
         ...common,
+        // 选择作者
+        chooseWriter(id){
+            // alert(id)
+            this.show=true;
+            this.chooseWriterId=id
+        },
+        onConfirm(){
+            var that = this;
+            that.$http('post', that.$store.state.baseUrl + 'api/Order/confirm',{
+                'applyId':that.chooseWriterId,
+                'oid':that.showData.id
+            }).then(function (res) {
+                if (res.data.code != '00') {
+                        AlertModule.show({
+                            title: res.data.msg,
+                            onHide: function () {
+                                that.$router.push({
+                                    name: 'index'
+                                })
+                            }
+                        })
+                    } else {
+                        AlertModule.show({
+                            title: '选择成功',
+                            onHide: function () {
+                                that.$router.push({
+                                    name: 'chooseSuccess'
+                                })
+                            }
+
+                        })
+
+                    }
+
+            })
+        },
         // 获取任务详情
         getMissiondetail(id) {
             var that = this;
@@ -207,7 +257,15 @@ export default {
             })
         },
         // 去评价
-        toEvaluate() {},
+        toEvaluate() {
+            const that=this;
+            that.$router.push({
+                path:'/evaluationAuthor',
+                query:{
+                    taskId:that.showData.id
+                }
+            })
+        },
 
         // 取消发布
         deleteTesk() {
@@ -221,24 +279,24 @@ export default {
             //任务类型：1-找家教,2-找家长,3-团家长找家教
             // var missionType = that.showData.taskType;
             // 当前用户的身份
-            var userType = that.userData.type;
+            var userType = that.$store.state.type;
             if (userType == 'author' && missionType == '2' || userType == 'business' && missionType == '1') {
                 AlertModule.show({
                     title: "报名身份条件不满足",
                 })
             } else {
                 var postData = {
-                    taskId: that.id,
-                    uid: this.$store.state.uid
+                    oid: that.showData.id,
+                    uid: that.$store.state.uid
                 }
-                that.$http('post', that.$store.state.baseUrl + 'api/Order/Apply', postData).then(function (res) {
+                that.$http('post', that.$store.state.baseUrl + 'api/Order/apply', postData).then(function (res) {
                     // console.log(res.data.data);
                     if (res.data.code != '00') {
                         AlertModule.show({
                             title: res.data.msg,
                             onHide: function () {
                                 that.$router.push({
-                                    name: 'mission'
+                                    name: 'index'
                                 })
                             }
                         })
@@ -247,12 +305,11 @@ export default {
                             title: '报名成功',
                             onHide: function () {
                                 that.$router.push({
-                                    name: 'mission'
+                                    name: 'index'
                                 })
                             }
 
                         })
-
                     }
                 })
             }
