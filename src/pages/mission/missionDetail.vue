@@ -38,11 +38,11 @@
             <!--进度条-->
             <div class="stepBox flexSpace">
                 <div class="line"></div>
-                <div :class="showData.status=='2'?'active item flexCenter':''">
+                <div :class="showData.status=='1'?'active item flexCenter':''">
                     <p class="circle"></p>
                     <p class="text">待确认</p>
                 </div>
-                <div :class="showData.status=='8'?'active item flexCenter':''">
+                <div :class="showData.status=='2'||showData.status=='3'?'active item flexCenter':''">
                     <p class="circle"></p>
                     <p class="text">执行</p>
                 </div>
@@ -104,13 +104,13 @@
         <!-- 不是我的任务 -->
         <div class="btnBox bgw" v-if="!isMyTask">
             <!-- 如果我书商 -->
-            <button class="long_btn">{{'参加报名（截至'+showData.deadline+"）"}}</button>
+            <button class="long_btn" v-if="showData.status=='1'">{{'参加报名（截至'+showData.deadline+"）"}}</button>
             <!-- 如果我是作者 -->
         </div>
         <!-- 是我的任务 -->
         <div class="btnBox bgw" v-if="isMyTask">
-            <button class="long_btn red" @click.stop="deleteTesk">取消发布</button>
-            <button class="long_btn" @click="toEvaluate">评价</button>
+            <button class="long_btn red" @click.stop="deleteTesk" v-if="showData.status=='1'">取消发布</button>
+            <button class="long_btn" @click="toEvaluate" v-if="showData.status>='2'">评价</button>
         </div>
 
     </div>
@@ -198,7 +198,7 @@ export default {
                 if (that.showData.uid == that.$store.state.uid) {
                     that.isMyTask = true;
                     // 我是家长
-                   
+                    
                 } else {
                     that.isMyTask = false;
                     // 我是家教
