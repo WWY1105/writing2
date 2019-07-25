@@ -23,8 +23,6 @@ const common = {
 
       that.userType = res.data.data.type;
       // 拼接名字
-      // that.authodShortName = that.shortName(res.data.data.authorInfo.classParent) + that.shortName(res.data.data.authorInfo.subject) + res.data.data.nickname + (res.data.data.realName.firstName) + (res.data.data.type == 'author' ? "家教" : "家长")
-
       that.workAge = res.data.data.authorAuthInfo.workAge;
       that.networkCount = res.data.data.networkCount
       console.log("用户信息")

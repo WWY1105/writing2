@@ -5,7 +5,7 @@
       </button>
     <!--顶部简介-->
     <div class="topBox" :type="userData.type" :type1="$store.state.userType">
-        <writers :hang2IsShow='hang2IsShow' :selfCon="userData.authorInfo?userData.authorInfo.selfCon:''" :tag="userData.tag" :serviceHours="userData.serviceHours" :serviceOrderCount="userData.serviceOrderCount" :serviceUserCount="userData.serviceUserCount" :authorAuth="userData.authorAuth" :type="userData.type" :isMissionDetail="isMissionDetail" :missionNum="userData.taskCount" :userTags="userTags" :realAuth="userData.realAuth" :eduAuth="userData.eduAuth" :userCount="userData.userCount" :avaTaskCount="userData.avaTaskCount " :cost="userData.cost" :workAge="workAge" :workHours="userData.workHours" :imgurl="userImg" :shortName="userData.nickname"></writers>
+        <writers :gender="userData.authorInfo.gender" :soleCost="userData.authorInfo.soleCost" :school="userData.eduCertificate.school" :org="userData.authorAuthInfo.org" :hang2IsShow='hang2IsShow' :selfCon="userData.authorInfo?userData.authorInfo.selfCon:''" :tag="userData.tag" :serviceHours="userData.serviceHours" :serviceOrderCount="userData.serviceOrderCount" :serviceUserCount="userData.serviceUserCount" :authorAuth="userData.authorAuth" :type="userData.type" :isMissionDetail="isMissionDetail" :missionNum="userData.taskCount" :userTags="userTags" :realAuth="userData.realAuth" :eduAuth="userData.eduAuth" :userCount="userData.userCount" :avaTaskCount="userData.avaTaskCount " :cost="userData.cost" :workAge="workAge" :workHours="userData.workHours" :imgurl="userImg" :shortName="userData.nickname"></writers>
         <!--三个按钮-->
         <div class="btnBox bgW"  v-if="userData.type=='author'&&$store.state.userType=='business'">
             <x-button v-if="!isLocalUser" @click.native="fellowThisWriter" :class="userData.follow?'hasFellow':''">
@@ -45,8 +45,7 @@
             <div class="eachHang">
                 <p class="leftText">参考费用：</p>
                 <p class="rightText">
-                    1对1：{{soleCost}}/人时；
-                    1对多：{{jointCost}}/人时；
+                    {{soleCost?soleCost+'/人时':''}}
                 </p>
             </div>
             <div class="eachHang">
@@ -60,21 +59,6 @@
         </div>
     </div>
 
-    <!--他的圈子-->
-
-    <!-- <div class="eachBox circle2">
-        <p class="title">TA的圈子</p>
-        <router-link class="content flexSpace" tag="div" :to="{path:'/myMineCircle',query:{uid:writerId}}" v-if="circleList.length==0?false:true">
-
-            <div v-if="circleObj.imgurls==''?false:true">
-                <img v-for="item,index in circleObj.imgurls" :src="item.src" alt="">
-            </div>
-                <div v-if="circleObj.imgurls==''?true:false">
-                    <span>{{circleObj.content}}</span>
-                </div>
-                <x-icon type="ios-arrow-right" size="30"></x-icon>
-        </router-link>
-    </div> -->
     <!--他的任务-->
     <div class="eachBox">
         <p class="title flexTitle">
@@ -86,41 +70,42 @@
         <div class="content" v-if="taskList.length==0?false:true" @click="toseeMissionDetail">
             <div class="peple flexSpace">
                 <div class="left flexStart">
-                    <img :src="$store.state.imgUrl+taskObj.webUser.imgurl" alt="">
+                    <img :src="$store.state.imgUrl+taskObj.user.imgurl" alt="">
                     <div class="desc">
-                        <p class="name">{{taskObj.webUser==null?'':taskObj.webUser.nickname}}</p>
-                        <p class="tag">
+                        <p class="name">{{taskObj.user==null?'':taskObj.user.nickname}}</p>
+                        <!-- <p class="tag">
                             <span>实名
-                                    <i class="iconfont icon-wenhao" v-if="taskObj.webUser.realAuth==2?false:true"></i>
-                <i class="iconfont icon-gouxuan" v-if="taskObj.webUser.realAuth==2?true:false"></i><span>{{taskObj.webUser.realAuth==2?'已':"未"}}认证</span>
+                                    <i class="iconfont icon-wenhao" v-if="taskObj.user.realAuth==2?false:true"></i>
+                <i class="iconfont icon-gouxuan" v-if="taskObj.user.realAuth==2?true:false"></i><span>{{taskObj.user.realAuth==2?'已':"未"}}认证</span>
                             </span>
                             <span >学历
-                                   <i class="iconfont icon-wenhao" v-if="taskObj.webUser.eduAuth==2?false:true"></i>
-                <i class="iconfont icon-gouxuan" v-if="taskObj.webUser.eduAuth==2?true:false"></i><span>{{taskObj.webUser.eduAuth==2?'已':"未"}}认证</span>
+                                   <i class="iconfont icon-wenhao" v-if="taskObj.user.eduAuth==2?false:true"></i>
+                <i class="iconfont icon-gouxuan" v-if="taskObj.user.eduAuth==2?true:false"></i><span>{{taskObj.user.eduAuth==2?'已':"未"}}认证</span>
                             </span>
-                        </p>
+                        </p> -->
                     </div>
                 </div>
                 <div class="right">
-                    <!-- <p class="smallBtn">找家长</p> -->
+                    <!-- <p class="smallBtn">找家长</p>
                     <p class="button searchSS" v-if="taskObj.taskType=='2'?true:false">找家长</p>
                     <p class="button searchZZ" v-if="taskObj.taskType=='1'?true:false">找家教</p>
-                    <p class="button searchSZ" v-if="taskObj.taskType=='3'?true:false">团家长找家教</p>
+                    <p class="button searchSZ" v-if="taskObj.taskType=='3'?true:false">团家长找家教</p> -->
+                     <p class="priceDesc">费用预算</p>
                     <p class="price">￥{{taskObj.fee}}/人时</p>
                 </div>
             </div>
             <div class="otherDesc">
                 <p class="flexSpace light">
-                    <span>状态：{{taskObj.supplement?"补充登记":taskObj.status}}</span>
-                    <span>截至报名：{{taskObj.deadline}}</span>
+                    <span>状态：{{taskObj.statusText}}</span>
+                    <span>截止报名：{{taskObj.deadline.slice(0,11)}}</span>
                 </p>
                 <p class="flexSpace">
-                    <span>{{taskObj.classNo}} / {{taskObj.category}} / {{taskObj.coordination}}</span>
+                    <span>{{taskObj.classNo}} / {{taskObj.subject}}</span>
                     <span>已报名：{{taskObj.applicationCount}} </span>
                 </p>
                 <p class="flexSpace">
-                    <span>{{taskObj.coordination}} / {{taskObj.area}}</span>
-                    <span>发布日期：{{taskObj.createTime}}</span>
+                    <span>{{taskObj.coordination=='online'?'远程协作':taskObj.coordination=='busniess'?'家长拜访':'家教拜访'}}/ {{taskObj.area}}</span>
+                    <span>发布日期：{{taskObj.createTime.slice(0,11)}}</span>
                 </p>
             </div>
 
@@ -140,7 +125,7 @@
         </div>
     </div>
     <!--自我简介-->
-    <div class="eachBox">
+    <div class="eachBox" v-if="userData.type=='author'">
         <p class="title">自我简述</p>
         <div class="content flexSpace">
             <p class="selfDesc">
@@ -164,22 +149,9 @@
             <p>{{experience}}</p>
         </div>
     </div>
-    <!--家教成果-->
-    <!-- <div class="eachBox" v-if="userData.type=='author'">
-        <p class="title">家教成果</p>
-        <div class="content">
-            <p>{{achievement}}</p>
-        </div>
-    </div> -->
-    <!--写过的著作的家长名单-->
-    <!-- <div class="eachBox" v-if="userData.type=='author'">
-        <p class="title">写过的著作的家长名单</p>
-        <div class="content">
-            <p>{{books}}</p>
-        </div>
-    </div> -->
+
     <!--背景信息-->
-    <div class="eachBox">
+    <div class="eachBox" v-if="userData.type=='author'">
         <p class="title">背景信息</p>
         <div class="content">
             <p class="eachBgMsg flexStart">
@@ -275,10 +247,12 @@ export default {
         }
         // 获取标签列表
         this.getTasgs(this.writerId)
+      
 
     },
     methods: {
         ...common,
+   
         // 回主页
         goToIndex(){
             this.$router.push({
@@ -406,72 +380,127 @@ export default {
         // 获取任务列表
         getMIssionlist(status) {
             var that = this;
-           
-         that.postData = {
-                uid: that.writerId
-            }
-            
-           
-            // that.postData.status = status;
-            console.log(that.postData)
-            that.$http('get', that.$store.state.baseUrl + 'api/Order/correlation-task', that.postData).then(function (res) {
-                // that.postList = res.data.data;
-                if (res.data.code == '00') {
-                    var result = res.data.data;
-                    // console.log(result.webUser.type)
-                    for (var i in result) {
-                        var arr = result[i].fee.split('-')
-                        result[i].priceMin = arr[0];
-                        result[i].priceMax = arr[1];
-
-                        if (result[i].taskType == 1) {
-                            result[i].borderColor = 'zz'
-                        } else if (result[i].taskType == 2) {
-                            result[i].borderColor = 'ss'
-                        } else {
-                            result[i].borderColor = 'sz'
+             // 对家长状态(1-报名中,2-已选择,3-已评价,4-已失效,5-已取消),, 对家教状态(1-已报名,2-未选中,3-待评价,4-已完成)) ,
+            if (that.$store.state.userType == 'author') {
+                // 家教获取订单列表
+                that.$http('get', that.$store.state.baseUrl + 'api/Order/apply?uid=' + that.$route.query.writerId).then(function (res) {
+                    res.data.data.forEach((item, index) => {
+                        switch (item.status) {
+                            case 1:
+                                item.statusText = '已报名'
+                                break;
+                            case 2:
+                                item.statusText = '未选中'
+                                break;
+                            case 3:
+                                item.statusText = '待评价'
+                                break;
+                            case 4:
+                                item.statusText = '已结束'
+                                break;
                         }
+                    })
+                    if(res.data.data.length>0){
+                         that.taskList=res.data.data
+                         that.taskObj = res.data.data[0];
                     }
-                    // console.log('我的任务')
-                    // console.log(res.data.data)
-                    that.taskList = res.data.data
-                    // that.postList = res.data.data;
-                    if( res.data.data.length>0){
+
+                })
+            } else {
+                // 家长获取发布的订单
+                that.$http('get', that.$store.state.baseUrl + 'api/Order/List?uid=' + that.$route.query.writerId).then(function (res) {
+                    res.data.data.forEach((item, index) => {
+                        switch (item.status) {
+                            case 1:
+                                item.statusText = '报名中'
+                                break;
+                            case 2:
+                                item.statusText = '待评价'
+                                break;
+                            case 3:
+                                item.statusText = '可追评'
+                                break;
+                            case 4:
+                                item.statusText = '已失效'
+                                break;
+                            case 5:
+                                item.statusText = '已失效'
+                                break;
+                        }
+                    })
+                    if(res.data.data.length>0){
+                         that.taskList=res.data.data
                          that.taskObj = res.data.data[0];
                     }
                    
+                })
+            }
+           
+        //  that.postData = {
+        //         uid: that.writerId
+        // }
+            
+           
+            // that.postData.status = status;
+            // console.log(that.postData)
+            // that.$http('get', that.$store.state.baseUrl + 'api/Order/correlation-task', that.postData).then(function (res) {
+            //     // that.postList = res.data.data;
+            //     if (res.data.code == '00') {
+            //         var result = res.data.data;
+            //         // console.log(result.webUser.type)
+            //         for (var i in result) {
+            //             var arr = result[i].fee.split('-')
+            //             result[i].priceMin = arr[0];
+            //             result[i].priceMax = arr[1];
+
+            //             if (result[i].taskType == 1) {
+            //                 result[i].borderColor = 'zz'
+            //             } else if (result[i].taskType == 2) {
+            //                 result[i].borderColor = 'ss'
+            //             } else {
+            //                 result[i].borderColor = 'sz'
+            //             }
+            //         }
+            //         // console.log('我的任务')
+            //         // console.log(res.data.data)
+            //         that.taskList = res.data.data
+            //         // that.postList = res.data.data;
+            //         if( res.data.data.length>0){
+            //              that.taskObj = res.data.data[0];
+            //         }
                    
-                    switch (that.taskObj.status) {
-                        case 1:
-                            that.taskObj.status = '发布中'
-                            break;
-                        case 2:
-                            that.taskObj.status = '已选定服务人'
-                            break;
-                        case 3:
-                            that.taskObj.status = '双方已确认代付款'
-                            break;
-                        case 4:
-                            that.taskObj.status = '已结束'
-                            break;
-                        case 6:
-                            that.taskObj.status = '已取消'
-                            break;
-                        case 7:
-                            that.taskObj.status = '已有人报名'
-                            break;
-                        case 8:
-                            that.taskObj.status = '执行中'
-                            break;
-                        case 88:
-                            that.taskObj.status = '取消中'
-                            break;
-                        case 99:
-                            that.taskObj.status = '已失败'
-                            break;
-                    }
-                } else {}
-            })
+                   
+            //         switch (that.taskObj.status) {
+            //             case 1:
+            //                 that.taskObj.status = '发布中'
+            //                 break;
+            //             case 2:
+            //                 that.taskObj.status = '已选定服务人'
+            //                 break;
+            //             case 3:
+            //                 that.taskObj.status = '双方已确认代付款'
+            //                 break;
+            //             case 4:
+            //                 that.taskObj.status = '已结束'
+            //                 break;
+            //             case 6:
+            //                 that.taskObj.status = '已取消'
+            //                 break;
+            //             case 7:
+            //                 that.taskObj.status = '已有人报名'
+            //                 break;
+            //             case 8:
+            //                 that.taskObj.status = '执行中'
+            //                 break;
+            //             case 88:
+            //                 that.taskObj.status = '取消中'
+            //                 break;
+            //             case 99:
+            //                 that.taskObj.status = '已失败'
+            //                 break;
+            //         }
+            //     } else {}
+            // })
         },
     }
 }
@@ -480,6 +509,10 @@ export default {
 <style>
 #writerDetail .reacResult {
     margin-top: 0;
+}
+ #writerDetail .priceDesc {
+  color: #707070;
+  font-size: 12px;
 }
 
 #writerDetail .topBox {
@@ -548,6 +581,7 @@ export default {
     width: 79px;
     height: 79px;
     margin-right: 5px;
+  
 }
 
 #writerDetail .eachBox .content .peple img {
@@ -555,6 +589,8 @@ export default {
     height: 40px;
     border-radius: 50%;
     margin-right: 11px;
+       border: 1px solid #ccc;
+    margin-bottom: 10px;
 }
 
 #writerDetail .eachBox .content .peple .name {
@@ -574,7 +610,7 @@ export default {
 }
 
 #writerDetail .eachBox .content .peple {
-    padding-bottom: 12px;
+    /* padding-bottom: 12px; */
     border-bottom: 1px solid #cecece;
 }
 

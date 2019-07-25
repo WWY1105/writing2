@@ -46,7 +46,7 @@
                     <p class="circle"></p>
                     <p class="text">执行</p>
                 </div>
-                <div :class="showData.status=='4'||showData.status=='88'?'active item flexCenter':''">
+                <div :class="showData.status=='4'||showData.status>='4'?'active item flexCenter':''">
                     <p class="circle"></p>
                     <p class="text">结束</p>
                 </div>
@@ -62,7 +62,7 @@
             </div>
             <!-- 循环报名者 satrt-->
             <div class="writerBox" >
-                <div class="eachWriter flexBox" v-for="item,index in enrollerWriterList">
+                <div class="eachWriter flexBox" v-for="item,index in enrollerWriterList" @click="goToWriterDetail(item.uid)">
                     <div class="left">
                         <img :src="$store.state.imgUrl+item.user.imgurl" class="userImg" alt="">
                     </div>
@@ -70,9 +70,11 @@
                         <div class="top flexBox">
                             <p class="nickname">{{item.user.nickname}}</p>
                             <div>
-                                <p class="tel"><i class="iconfont icon-dianhua"></i></p>
-                                <p class="msg"><i class="iconfont icon-send"></i></p>
-                                <button class="choose" @click="chooseWriter(item.id,index)">{{item.status=='3'?'选择':'已选择'}}</button>
+                            <!--  <a class="weui-btn" :href="'tel://'+userData.mobile">  <x-button v-if="!isLocalUser" @click.native="goTel">
+                <i class="iconfont icon-dianhua"></i>电话</x-button></a> -->
+                                <p class="tel"><a :href="'tel://'+item.user.mobile"> <i class="iconfont icon-dianhua"></i></a></p>
+                                <p class="msg" @click="gotoSendMsg(item.uid)"><i class="iconfont icon-send"></i></p>
+                                <button class="choose" @click.stop="chooseWriter(item.id,index)">{{item.status=='3'?'选择':'已选择'}}</button>
                             </div>
                         </div>
                         <div class="content">
@@ -99,6 +101,28 @@
                     </div>
                 </div>
             </div>
+            <!-- 任务评价 -->
+               <div class="eachPart commentPart bgW" v-if="commentList.length>0">
+            <div class="title flexSpace">
+                <div class="left">家长评价</div>
+
+            </div>
+            <div class="content">
+                <div class="eachComment flexStart" v-for="item,index in commentList">
+                    <img  :src="$store.state.imgUrl+item.webUser.imgurl" alt="">
+                    <div class="right">
+                        <div class="flexSpace">
+                            <p class="name">{{item.webUser.nickname}}</p>
+                            <p class="date">{{item.commentTime}}</p>
+                        </div>
+                        <p class="content">{{item.content}}</p>
+                        <p class="tags">
+                            <span class="eachTags" v-for="item,index in item.commentTags">{{item}}</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
         </div>
 
         <!-- 不是我的任务 -->
@@ -184,7 +208,8 @@ export default {
             missionId: this.$route.query.id,
             authorInfo: {},
             show:false,
-            chooseWriterId:''
+            chooseWriterId:'',
+            commentList:[]
         }
     },
     created() {
@@ -193,12 +218,32 @@ export default {
         this.getCommentList(this.missionId)
     },
     mounted() {
-        // status (integer, optional): 对家长状态(1-报名中,2-已选择,3-已评价,4-已失效,5-已取消),,\
+        // status (integer, optional): 对家长状态(1-报名中,2-已选择,3-已评价,4-已失效,5-已取消),,
         // 对家教状态(1-已报名,2-未选中,3-待评价,4-已完成)) ,
         // alert(this.isMyTask)
     },
     methods: {
         ...common,
+        // 查看作者详情
+        goToWriterDetail(id){
+             var that = this;
+            that.$router.push({
+                path: '/writerDetail',
+                query: {
+                    'writerId':id
+                }
+            })
+        },
+          // 私信
+        gotoSendMsg(writerId) {
+            var that = this;
+            that.$router.push({
+                path: '/privateMsg',
+                query: {
+                    writerId:writerId
+                }
+            })
+        },
          //    获取任务评价列表
         getCommentList(id) {
             var that = this;
@@ -681,4 +726,52 @@ body {
 }
 
 /* ======================================================= */
+/* 评价 */
+
+.commentPart .eachComment {
+    align-items: flex-start;
+    padding-top: 10px;
+}
+
+.commentPart .right {
+    padding-top: 5px;
+    color: #333;
+    font-size: 12px;
+    border-bottom: 1px solid #B2B2B2;
+    width: 100%;
+    padding-bottom: 16px;
+}
+
+.commentPart img {
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%
+}
+
+.commentPart .name {
+    color: #333;
+    font-size: 12px;
+    margin-bottom: 14px;
+}
+
+.commentPart .date {
+    color: #686868;
+    font-size: 10px;
+}
+
+.tags .eachTags {
+    color: #333333;
+    font-size: 12px;
+    width: 65px;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    border: 1px solid #C9C37B;
+    display: inline-block;
+    margin-right: 5px;
+    margin-top: 10px;
+    background: #FFF6C5;
+}
 </style>
