@@ -949,45 +949,20 @@ export default {
 
     toSeeMissionDetail(i) {
       var that = this;
-
       // 任务的id
-
       var id = that.postList[i].id;
-
       // 任务发布人的id
-
       var postUid = that.postList[i].uid;
-
       var isMyTask = false;
-
       if (postUid == that.$store.state.uid) {
         isMyTask = true;
       }
-
       var isAuthor;
 
       if (that.postList[i].authorId == that.$store.state.uid) {
         isAuthor = true;
       }
-
-      // alert(that.postList[i].status)
-
-      // 如果是执行中的任务
-
-      if (that.postList[i].status == "3" && isAuthor) {
-        // 我执行的任务，所以我是家教
-
-        // 家教版正在执行的任务
-
-        this.$router.push({
-          path: "/missionInExecutionAuth",
-
-          query: {
-            id: id
-          }
-        });
-      } else {
-        that.$router.push({
+       that.$router.push({
           path: "/missionDetail",
 
           query: {
@@ -996,7 +971,26 @@ export default {
             isMyTask: isMyTask
           }
         });
-      }
+
+      // alert(that.postList[i].status)
+
+      // 如果是执行中的任务
+
+      // if (that.postList[i].status == "3" && isAuthor) {
+      //   // 我执行的任务，所以我是家教
+
+      //   // 家教版正在执行的任务
+
+      //   this.$router.push({
+      //     path: "/missionInExecutionAuth",
+
+      //     query: {
+      //       id: id
+      //     }
+      //   });
+      // } else {
+       
+      // }
     },
 
     addressChange() {},

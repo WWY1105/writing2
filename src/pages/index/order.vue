@@ -95,16 +95,39 @@ export default {
         },
         // 查看任务详情
         toSeeOrderDetail(i) {
-            var id = this.postList[i].id;
-            var taskStatus = this.postList[i].status;
-            var type = this.userData.type;
-            var status = this.postList[i].status;
+            // var id = this.postList[i].id;
+            // var taskStatus = this.postList[i].status;
+            // var type = this.userData.type;
+            // var status = this.postList[i].status;
 
-            var autherId = this.postList[i].authorId;
-            var isAuthor = false;;
-            if (autherId == this.$store.state.uid) {
+            // var autherId = this.postList[i].authorId;
+            // var isAuthor = false;;
+            // if (autherId == this.$store.state.uid) {
+            //     isAuthor = true;
+            // }
+            var that = this;
+            // 任务的id
+            var id = that.postList[i].id;
+            // 任务发布人的id
+            var postUid = that.postList[i].uid;
+            var isMyTask = false;
+            if (postUid == that.$store.state.uid) {
+                isMyTask = true;
+            }
+            var isAuthor;
+
+            if (that.postList[i].authorId == that.$store.state.uid) {
                 isAuthor = true;
             }
+            that.$router.push({
+                path: "/missionDetail",
+
+                query: {
+                    id: id,
+
+                    isMyTask: isMyTask
+                }
+            });
 
         },
         // 获取任务列表
@@ -117,17 +140,17 @@ export default {
                     res.data.data.forEach((item, index) => {
                         switch (item.status) {
                             case 1:
-                            item.statusText='已报名'
-                            break;
+                                item.statusText = '已报名'
+                                break;
                             case 2:
-                            item.statusText='未选中'
-                            break;
+                                item.statusText = '未选中'
+                                break;
                             case 3:
-                            item.statusText='待评价'
-                            break;
+                                item.statusText = '待评价'
+                                break;
                             case 4:
-                            item.statusText='已结束'
-                            break;
+                                item.statusText = '已结束'
+                                break;
                         }
                     })
                     that.postList = res.data.data;
@@ -139,20 +162,20 @@ export default {
                     res.data.data.forEach((item, index) => {
                         switch (item.status) {
                             case 1:
-                            item.statusText='报名中'
-                            break;
+                                item.statusText = '报名中'
+                                break;
                             case 2:
-                            item.statusText='待评价'
-                            break;
+                                item.statusText = '待评价'
+                                break;
                             case 3:
-                            item.statusText='可追评'
-                            break;
+                                item.statusText = '可追评'
+                                break;
                             case 4:
-                            item.statusText='已失效'
-                            break;
+                                item.statusText = '已失效'
+                                break;
                             case 5:
-                            item.statusText='已失效'
-                            break;
+                                item.statusText = '已失效'
+                                break;
                         }
                     })
                     that.postList = res.data.data;
@@ -312,9 +335,11 @@ export default {
     font-weight: bold;
     border: none;
 }
-.eachPeople .submitBtn.submitBtnDis{
-     background: #B2B2B2;
+
+.eachPeople .submitBtn.submitBtnDis {
+    background: #B2B2B2;
 }
+
 #resultPeoples.reacResult .content {
     padding: 5px 17px;
 }

@@ -72,7 +72,7 @@
                             <div>
                                 <p class="tel"><i class="iconfont icon-dianhua"></i></p>
                                 <p class="msg"><i class="iconfont icon-send"></i></p>
-                                <button class="choose" @click="chooseWriter(item.id)">选择</button>
+                                <button class="choose" @click="chooseWriter(item.id,index)">{{item.status=='3'?'选择':'已选择'}}</button>
                             </div>
                         </div>
                         <div class="content">
@@ -109,8 +109,9 @@
         </div>
         <!-- 是我的任务 -->
         <div class="btnBox bgw" v-if="isMyTask">
-            <button class="long_btn red" @click.stop="deleteTesk" v-if="showData.status<='2'">取消发布</button>
-            <button class="long_btn" @click="toEvaluate" v-if="showData.status>'2'">评价</button>
+            <button class="long_btn red" @click.stop="deleteTesk" v-if="showData.status<'2'">取消发布</button>
+            <button class="long_btn" @click="toEvaluate" v-if="showData.status=='2'">评价</button>
+             <button class="long_btn" @click="toEvaluate" v-if="showData.status>'2'">追评</button>
         </div>
 
     </div>
@@ -189,6 +190,7 @@ export default {
     created() {
         //  获取任务详情
         this.getMissiondetail(this.missionId)
+        this.getCommentList(this.missionId)
     },
     mounted() {
         // status (integer, optional): 对家长状态(1-报名中,2-已选择,3-已评价,4-已失效,5-已取消),,\
@@ -197,9 +199,29 @@ export default {
     },
     methods: {
         ...common,
+         //    获取任务评价列表
+        getCommentList(id) {
+            var that = this;
+            that.$http('get', that.$store.state.baseUrl + "api/TaskComment/List?taskId=" + id).then(function (res) {
+                if (res.data.code == '00') {
+                   var  result=res.data.data
+                    for(var i in result){
+                        result[i].commentTags= result[i].commentTags.split(',')
+                    }
+                    that.commentList = res.data.data
+                    console.log(that.commentList)
+                }
+            })
+        },
         // 选择作者
-        chooseWriter(id){
+        chooseWriter(id,index){
             // alert(id)
+            if(this.enrollerWriterList[index].status=='2'){
+                AlertModule.show({
+                            title: '不能重复选择',
+                        })
+                        return false;
+            }
             this.show=true;
             this.chooseWriterId=id
         },
@@ -262,7 +284,7 @@ export default {
             that.$router.push({
                 path:'/evaluationAuthor',
                 query:{
-                    taskId:that.showData.id
+                    taskId:that.missionId
                 }
             })
         },
@@ -279,8 +301,10 @@ export default {
             //任务类型：1-找家教,2-找家长,3-团家长找家教
             // var missionType = that.showData.taskType;
             // 当前用户的身份
-            var userType = that.$store.state.type;
-            if (userType == 'author' && missionType == '2' || userType == 'business' && missionType == '1') {
+            var userType = that.$store.state.userType;
+            // alert(userType)
+            // alert(that.isMyTask)
+            if (userType == 'business' && !that.isMyTask) {
                 AlertModule.show({
                     title: "报名身份条件不满足",
                 })

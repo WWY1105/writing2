@@ -108,13 +108,13 @@ export default {
                 content: this.content,
                 commentTags: arr.join(',')
             }
-            that.$http('post', baseUrl + 'api/OrderComment', postData).then(function (res) {
+            that.$http('post', baseUrl + 'api/TaskComment', postData).then(function (res) {
                 if (res.data.code == '00') {
                     AlertModule.show({
                         title: '提交成功',
                         onHide(){
                             that.$router.push({
-                                path:'/mineIndex',
+                                path:'/missionDetail',
                                 query:{
                                     keepActive:true,
                                      id: that.$route.query.taskId
