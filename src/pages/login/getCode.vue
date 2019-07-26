@@ -25,7 +25,8 @@ export default {
         // http://www.shuimujiajia.net/app/index.html
         getBaseInfo() {
             var that = this;
-            var appid = "wx95a2bb5d427d8498";
+           // var appid = "wx95a2bb5d427d8498";//正式
+             var appid = 'wx086161b30df8e46d'//测试
             var recommadd=that.GetQueryString('recommadd');
             var seeUid=that.GetQueryString('uid');
             var redirect_uri ;
