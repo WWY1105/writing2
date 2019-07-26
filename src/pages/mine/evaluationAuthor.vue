@@ -7,7 +7,7 @@
     </div>
     <!-- 标签盒子 -->
     <div class="tagBox bgW">
-        <p class="title">家长评价标签（2018-7-1起）</p>
+        <p class="title">选择符合家教的特征</p>
         <div class="flexSpace tagBox">
             <div class="content flexCenter">
                  <div :class="item.active?'eachItem active':'eachItem '" v-for="item,index in goodtags" @click="chooseTagsG(index)">{{item.tagName}} </div>
@@ -189,13 +189,16 @@ export default {
 }
 
 #evaluationAuthor .btnBox {
-    width: 100%;
-    padding-left: 10px;
-    padding-right: 10px;
+      width: 100%;
+    /* padding-left: 10px; */
+    /* padding-right: 10px; */
+    padding: 10px;
+    background: #fff;
+    border-top: 10px solid #f5f5f5;
 }
 
 #evaluationAuthor .btnBox button.long_btn {
     width: 100%;
-    margin-top: 54px;
+    margin-top: 0px;
 }
 </style>

@@ -7,20 +7,17 @@
             <img :src="$store.state.imgUrl+imgurl" class="userImg" alt="" @click.stop="seeUserDetail(uid)">
             </div>
             <div class="right">
-                <div class="titleBox">
-                    <span class="title">{{shortName}}</span>
-                    <!-- <input type="text"> -->
+                <div class=" titleBox flexSpace">
+                    <span class="title ">{{shortName}}</span>
                     <div>
-                         <p class='priceDesc'>预算费用</p>
-                        <p class="price">{{soleCost}}</p>
-                      
-                    </div>
-                     <p >
-                       <!-- <span :class="feeConfirm==3||feeConfirm=='3'?'redText':'mainText'">  {{feeConfirm==1||feeConfirm=='1'?"待确认":feeConfirm==2||feeConfirm=='2'?'已确认':feeConfirm==3||feeConfirm=='3'?'已拒绝':''}}</span> -->
-                     </p>
+                        <p class='priceDesc' v-if="type=='author'">预算费用</p>
+                        <p class="price">{{!soleCost?'￥暂无':soleCost}}</p>
+                     </div>
                 </div>
-                <p class="options" >
-                </p>
+                 <!-- <div class="titleBox flexSpace">
+                        <span></span>
+                        
+                    </div> -->
                 <!-- 作者详情 -->
                 <div class="details" v-if="type=='author'">
                     <!-- 1 -->
@@ -30,11 +27,11 @@
                         </p>
                          <p class="option">实名
                             <i class="iconfont icon-wenhao" v-if="realAuth!=2?true:false"></i>
-                            <i class="iconfont icon-gouxuan" v-if="realAuth==2?true:false"></i>
+                            <i class="iconfont mainText icon-gouxuan" v-if="realAuth==2?true:false"></i>
                          </p>
                         <p class="option" >学历
                             <i class="iconfont icon-wenhao" v-if="eduAuth!=2?true:false"></i>
-                            <i class="iconfont icon-gouxuan" v-if="eduAuth==2?true:false"></i>
+                            <i class="iconfont mainText icon-gouxuan" v-if="eduAuth==2?true:false"></i>
                          </p>
                     </div>
                     <!-- 2 -->
@@ -49,7 +46,7 @@
                             {{'资历：'+workAge+'年'?'资历：'+workAge+'年':'资历：0年'}}
                         </p>
                     </div>
-                     <div class="hang"><p>{{selfCon==''?'未填写简述':selfCon}}</p></div>
+                     <div class="hang shifDesc"><p>{{selfCon==''?'未填写简述':selfCon}}</p></div>
                 </div>
                 <!-- 家长详情 -->
                 <div class="details businessDetail"  v-if="type=='business'">
@@ -118,6 +115,15 @@ export default {
 }
 #missionInAfterEvaluteBuss .hang p {
     width: 50%;
+}
+.shifDesc p{
+    width: 100%!important;
+    text-overflow: -o-ellipsis-lastline;
+overflow: hidden;
+text-overflow: ellipsis;
+display: -webkit-box;
+-webkit-line-clamp: 2;
+-webkit-box-orient: vertical;
 }
 #missionInAfterEvaluteBuss .hang p .left,.hang p {
     text-align: left;
@@ -235,6 +241,9 @@ export default {
 .reacResult {
     margin-top: 10px;
     padding: 10px;
+}
+.titleBox .title{
+    max-width: 170px;
 }
 
 .reacResult .options .option i.icon-wenhao {

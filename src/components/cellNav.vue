@@ -7,7 +7,7 @@
                 <div slot='value' style="float:right" v-if="leftTitle=='我的推荐人'||leftTitle=='TA的推荐人'">
                     <div class="flexSpace">
                         <!-- 推荐人 -->
-                    <img  v-if="recommenderId" :recommenderId="recommenderId" :src="recommenderSrc" alt="" class="recommender"  @click.stop.self="gotoWriterDetail">
+                    <img  v-if="recommenderId"  :recommenderId="recommenderId" :src="recommenderSrc" alt="" class="recommender"  @click.stop.self="gotoWriterDetail">
                     <!-- 发信息 -->
                     <p v-if="isMsg" class="msg flexCenter" @click.stop="gotoSendMsg">
                         <i class="iconfont icon-feiji"></i>

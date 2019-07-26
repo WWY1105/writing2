@@ -11,12 +11,12 @@ export default new Vuex.Store({
         // baseUrl: "http://www.shuimujiajia.net/works/",
         imgUrl:'http://nian.im/storage/',
         baseUrl:'http://nian.im/works/',
-        uid:'11'||localStorage.getItem('uid'),
+        uid:''||localStorage.getItem('uid'),
         openid:'', 
         userImg:'',
         code:'',
         recommadd:''||localStorage.getItem('recommadd'),
-        userType:"business"
+        userType:""
     },
     mutations: {
         setCode(state, n) {

@@ -62,9 +62,9 @@
             </div>
             <!-- 循环报名者 satrt-->
             <div class="writerBox" >
-                <div class="eachWriter flexBox" v-for="item,index in enrollerWriterList" @click="goToWriterDetail(item.uid)">
+                <div class="eachWriter flexBox" v-for="item,index in enrollerWriterList" v-if="item.status!='2'">
                     <div class="left">
-                        <img :src="$store.state.imgUrl+item.user.imgurl" class="userImg" alt="">
+                        <img  @click.stop="goToWriterDetail(item.uid)" :src="$store.state.imgUrl+item.user.imgurl" class="userImg" alt="">
                     </div>
                     <div class="right flexBox">
                         <div class="top flexBox">
@@ -72,9 +72,11 @@
                             <div>
                             <!--  <a class="weui-btn" :href="'tel://'+userData.mobile">  <x-button v-if="!isLocalUser" @click.native="goTel">
                 <i class="iconfont icon-dianhua"></i>电话</x-button></a> -->
-                                <p class="tel"><a :href="'tel://'+item.user.mobile"> <i class="iconfont icon-dianhua"></i></a></p>
+                                <p class="tel"><a  @click.stop=""  :href="'tel://'+item.user.mobile" > <i class="iconfont icon-dianhua"></i></a></p>
                                 <p class="msg" @click="gotoSendMsg(item.uid)"><i class="iconfont icon-send"></i></p>
-                                <button class="choose" @click.stop="chooseWriter(item.id,index)">{{item.status=='3'?'选择':'已选择'}}</button>
+                                <button class="choose" @click.stop="chooseWriter(item.id,index)" v-if="showData.status=='1'">选择</button>
+                                <!-- item.status=='2'是作者未被选中  isSelectedWriter为false的时候  说明进来的不是被选中的作者-->
+                                <button :class="item.status=='2'?'choose chooseDis':isSelectedWriter?'choose':'choose chooseDis'" @click.stop="chooseWriter(item.id,index)" v-if="showData.status!='1'">{{item.status=='2'?'未选中':'已选择'}}</button>
                             </div>
                         </div>
                         <div class="content">
@@ -104,7 +106,7 @@
             <!-- 任务评价 -->
                <div class="eachPart commentPart bgW" v-if="commentList.length>0">
             <div class="title flexSpace">
-                <div class="left">家长评价</div>
+                <div class="left">评价</div>
 
             </div>
             <div class="content">
@@ -129,7 +131,8 @@
         <div class="btnBox bgw" v-if="!isMyTask">
             <!-- 如果我书商 -->
             <button class="long_btn" @click="toEnroll" v-if="showData.status=='1'">{{'参加报名（截至'+showData.deadline+"）"}}</button>
-            <!-- 如果我是作者 -->
+            <!-- 如果我是作者  没有被选中-->
+             <button class="long_btn notSelect" v-if="showData.status!='1'&&!isSelectedWriter">未选中，请再接再厉</button>
         </div>
         <!-- 是我的任务 -->
         <div class="btnBox bgw" v-if="isMyTask">
@@ -209,7 +212,8 @@ export default {
             authorInfo: {},
             show:false,
             chooseWriterId:'',
-            commentList:[]
+            commentList:[],
+            isSelectedWriter:false
         }
     },
     created() {
@@ -261,6 +265,13 @@ export default {
         // 选择作者
         chooseWriter(id,index){
             // alert(id)
+            // 判断是不是发布者】
+            if(this.$store.state.uid!=this.showData.uid){
+                 AlertModule.show({
+                            title: '抱歉，您不是发布者',
+                        })
+                        return false;
+            }
             if(this.enrollerWriterList[index].status=='2'){
                 AlertModule.show({
                             title: '不能重复选择',
@@ -303,15 +314,40 @@ export default {
         // 获取任务详情
         getMissiondetail(id) {
             var that = this;
+            let selectWriters=[]
             that.$http('get', that.$store.state.baseUrl + 'api/Order/' + id).then(function (res) {
 
                 // 都是任务的信息
                 that.authorInfo = res.data.data.author
+                 switch (res.data.data.status) {
+                            case 1:
+                                res.data.data.statusText = '报名中'
+                                break;
+                            case 2:
+                                res.data.data.statusText = '待评价'
+                                break;
+                            case 3:
+                                res.data.data.statusText = '可追评'
+                                break;
+                            case 4:
+                                res.data.data.statusText = '已失效'
+                                break;
+                            case 5:
+                                res.data.data.statusText = '已失效'
+                                break;
+                        }
                 that.showData = res.data.data;
                 that.enrollerWriterList = res.data.data.applies;
-                // console.log('that.showData')
-                // console.log(that.showData)
-
+                // 遍历报名者：isSelectedWriter为真的时候，说明进入页面的是被选择的作者
+                selectWriters=res.data.data.applies.filter((item,index)=>{
+                    if(item.status=='3'&&that.$store.state.uid==item.uid){
+                        return true;
+                    }
+                })
+                if(selectWriters.length>0){
+                    // 进入页面的用户是被选中的人
+                    that.isSelectedWriter=true
+                }
                 if (that.showData.uid == that.$store.state.uid) {
                     that.isMyTask = true;
                     // 我是家长
@@ -705,6 +741,9 @@ body {
     color: #fff;
     margin-left: 15px;
 }
+.eachWriter .right .choose.chooseDis{
+    background: #c3c3c3;
+}
 
 .eachWriter .right .content {
     background: #f0f0f0;
@@ -723,6 +762,7 @@ body {
 }
 .eachWriter .right .content .item {
     width: 33.33%;
+    text-align: left
 }
 
 /* ======================================================= */
@@ -730,16 +770,20 @@ body {
 
 .commentPart .eachComment {
     align-items: flex-start;
-    padding-top: 10px;
+    padding: 10px;
 }
+
 
 .commentPart .right {
     padding-top: 5px;
     color: #333;
     font-size: 12px;
     border-bottom: 1px solid #B2B2B2;
-    width: 100%;
+    width: 90%;
     padding-bottom: 16px;
+}
+.commentPart .eachComment:last-of-type .right{
+    border:none;
 }
 
 .commentPart img {
@@ -773,5 +817,8 @@ body {
     margin-right: 5px;
     margin-top: 10px;
     background: #FFF6C5;
+}
+.long_btn.notSelect{
+    background: #c3c3c3;
 }
 </style>

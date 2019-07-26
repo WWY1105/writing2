@@ -1,21 +1,23 @@
 <template>
-<div id="writerDetail" >
-      <button class="fixBtn" @click="goToIndex" >
-          <span>回主页</span>
-      </button>
+<div id="writerDetail">
+    <button class="fixBtn" @click="goToIndex">
+        <span>回主页</span>
+    </button>
     <!--顶部简介-->
     <div class="topBox" :type="userData.type" :type1="$store.state.userType">
-        <writers :gender="userData.authorInfo.gender" :soleCost="userData.authorInfo.soleCost" :school="userData.eduCertificate.school" :org="userData.authorAuthInfo.org" :hang2IsShow='hang2IsShow' :selfCon="userData.authorInfo?userData.authorInfo.selfCon:''" :tag="userData.tag" :serviceHours="userData.serviceHours" :serviceOrderCount="userData.serviceOrderCount" :serviceUserCount="userData.serviceUserCount" :authorAuth="userData.authorAuth" :type="userData.type" :isMissionDetail="isMissionDetail" :missionNum="userData.taskCount" :userTags="userTags" :realAuth="userData.realAuth" :eduAuth="userData.eduAuth" :userCount="userData.userCount" :avaTaskCount="userData.avaTaskCount " :cost="userData.cost" :workAge="workAge" :workHours="userData.workHours" :imgurl="userImg" :shortName="userData.nickname"></writers>
+        <writers :gender="gender" :soleCost="soleCost" :school="userData.eduCertificate?userData.eduCertificate.school:''" :org="org" :hang2IsShow='hang2IsShow' :selfCon="userData.authorInfo?userData.authorInfo.selfCon:''" :tag="userData.tag" :serviceHours="userData.serviceHours" :serviceOrderCount="userData.serviceOrderCount" :serviceUserCount="userData.serviceUserCount" :authorAuth="userData.authorAuth" :type="userData.type" :isMissionDetail="isMissionDetail" :missionNum="userData.taskCount" :userTags="userTags" :realAuth="userData.realAuth" :eduAuth="userData.eduAuth" :userCount="userData.userCount" :avaTaskCount="userData.avaTaskCount " :cost="userData.cost" :workAge="workAge" :workHours="userData.workHours" :imgurl="userImg" :shortName="userData.nickname"></writers>
         <!--三个按钮-->
-        <div class="btnBox bgW"  v-if="userData.type=='author'&&$store.state.userType=='business'">
+        <div class="btnBox bgW" v-if="userData.type=='author'&&$store.state.userType=='business'" :isLocalUser="isLocalUser">
             <x-button v-if="!isLocalUser" @click.native="fellowThisWriter" :class="userData.follow?'hasFellow':''">
                 <i class="iconfont icon-aixin"></i>{{userData.follow?'取消关注':"关注"}}</x-button>
             <x-button @click.native="gotoSendMsg" v-if="!isLocalUser">
                 <i class="iconfont icon-feiji"></i>私信</x-button>
             <!-- <x-button v-if="!isLocalUser" @click.native="gotoSendOrientationTask">
                 <i class="iconfont icon-xie"></i>发起任务</x-button> -->
-              <a class="weui-btn" :href="'tel://'+userData.mobile">  <x-button v-if="!isLocalUser" @click.native="goTel">
-                <i class="iconfont icon-dianhua"></i>电话</x-button></a>
+            <a class="weui-btn" :href="'tel://'+userData.mobile" v-if="!isLocalUser">
+                <x-button   @click.native="goTel">
+                    <i class="iconfont icon-dianhua"></i>电话</x-button>
+            </a>
         </div>
         <!-- 家长主页的按钮 -->
         <div class="btnBox businessBtn bgW" v-if="!(userData.type=='author'&&$store.state.userType=='business')">
@@ -27,7 +29,7 @@
     <!-- 推荐人 -->
     <div class="bgW recommenderBox">
         <group>
-            <cellNav  :link="recommenderLink"  :leftTitle="leftTitle" :icon="recommenderIcon" :num="recommenderNum" :isMsg="isMsg"></cellNav>
+            <cellNav :recommenderId="recommenderId" :link="recommenderLink" :leftTitle="leftTitle" :icon="recommenderIcon" :recommenderSrc="recommenderSrc" :num="recommenderNum" :isMsg="isMsg"></cellNav>
         </group>
     </div>
     <!--工作方式-->
@@ -90,7 +92,7 @@
                     <p class="button searchSS" v-if="taskObj.taskType=='2'?true:false">找家长</p>
                     <p class="button searchZZ" v-if="taskObj.taskType=='1'?true:false">找家教</p>
                     <p class="button searchSZ" v-if="taskObj.taskType=='3'?true:false">团家长找家教</p> -->
-                     <p class="priceDesc">费用预算</p>
+                    <p class="priceDesc">费用预算</p>
                     <p class="price">￥{{taskObj.fee}}/人时</p>
                 </div>
             </div>
@@ -189,18 +191,19 @@ import {
 export default {
     data() {
         return {
-            isMsg:true,
-            recommenderLink:'/recommender',
-            recommenderNum:0,
+            isMsg: true,
+            recommenderLink: '/writerDetail',
+            recommenderNum: 0,
             hang2IsShow: true,
             authodShortName: '',
             workAge: '',
             userCount: '',
-            leftTitle:'TA的推荐人',
+            leftTitle: 'TA的推荐人',
             userData: {},
             classNo: '',
             subject: '',
             selfCon: '',
+            org: '',
             coordination: '',
             jointCost: '',
             area: '',
@@ -215,16 +218,49 @@ export default {
             soleCost: '',
             experience: '',
             achievement: "",
+            gender: '',
             books: '',
             isLocalUser: false,
             userTags: [],
             selfTag: [],
             otherTags: [],
             circleList: [],
-            isMissionDetail:true,
-            userImg:'',
-            recommenderIcon:'icon-hezuo'
+            isMissionDetail: true,
+            userImg: '',
+            recommenderIcon: 'icon-hezuo',
+            recommenderId: '',
+            recommenderSrc: ''
 
+        }
+    },
+    // 监听路由参数改变，刷新页面
+    watch: {
+        '$route'(to, from) {
+            if (to.query.writerId != from.query.writerId) {
+                this.writerId = to.query.writerId;
+                // 获取用户信息
+                this.getWebUser(this.writerId);
+                // 获取任务信息
+                this.getMIssionlist()
+                // 获取圈子信息
+                // this.getCircleLoist();
+                // alert(this.writerId)
+                if (this.writerId == this.$store.state.uid) {
+                    this.isLocalUser = true
+                }
+                // 获取标签列表
+                // this.getTasgs(this.writerId)
+                // 推荐人
+                this.getMediator(this.writerId)
+                // this.init()
+            }
+        }
+    },
+
+    created() {
+        if (this.$route.query) {
+            this.writerId = this.$route.query.writerId;
+            // this.init();
         }
     },
     components: {
@@ -246,17 +282,42 @@ export default {
             this.isLocalUser = true
         }
         // 获取标签列表
-        this.getTasgs(this.writerId)
-      
+        // this.getTasgs(this.writerId)
+        // 推荐人
+        this.getMediator(this.writerId)
 
     },
     methods: {
         ...common,
-   
+        // 获取我的调解人
+        getMediator(uid) {
+            var that = this;
+            var baseUrl = this.$store.state.baseUrl;
+            that
+                .$http("get", baseUrl + "api/Mediator/List", {
+                    uid: uid
+                })
+                .then(function (res) {
+                    if (res.data.code != "00") {
+                        AlertModule.show({
+                            title: res.data.msg
+                        });
+                    } else {
+                        if (res.data.data.myMediator.length > 0) {
+                            //   that.myMediator = res.data.data.myMediator[0];
+                            that.recommenderSrc = res.data.data.myMediator[0].imgurl;
+                            that.recommenderId = res.data.data.myMediator[0].id;
+                        }
+
+                        // that.needMediator = res.data.data.needMediator;
+                    }
+                });
+        },
+
         // 回主页
-        goToIndex(){
+        goToIndex() {
             this.$router.push({
-                path:'/index'
+                path: '/index'
             })
         },
         // 发起定向任务
@@ -270,14 +331,14 @@ export default {
             })
         },
         // 点击查看任务详情
-        toseeMissionDetail(){
-            var that=this;
+        toseeMissionDetail() {
+            var that = this;
             console.log(that.taskObj)
             that.$router.push({
-                path:'/missionInAfterEvaluteBuss',
-                query:{
-                    id:that.taskObj.id,
-                    showAllMsg:true
+                path: '/missionInAfterEvaluteBuss',
+                query: {
+                    id: that.taskObj.id,
+                    showAllMsg: true
                 }
             })
         },
@@ -380,7 +441,7 @@ export default {
         // 获取任务列表
         getMIssionlist(status) {
             var that = this;
-             // 对家长状态(1-报名中,2-已选择,3-已评价,4-已失效,5-已取消),, 对家教状态(1-已报名,2-未选中,3-待评价,4-已完成)) ,
+            // 对家长状态(1-报名中,2-已选择,3-已评价,4-已失效,5-已取消),, 对家教状态(1-已报名,2-未选中,3-待评价,4-已完成)) ,
             if (that.$store.state.userType == 'author') {
                 // 家教获取订单列表
                 that.$http('get', that.$store.state.baseUrl + 'api/Order/apply?uid=' + that.$route.query.writerId).then(function (res) {
@@ -400,9 +461,9 @@ export default {
                                 break;
                         }
                     })
-                    if(res.data.data.length>0){
-                         that.taskList=res.data.data
-                         that.taskObj = res.data.data[0];
+                    if (res.data.data.length > 0) {
+                        that.taskList = res.data.data
+                        that.taskObj = res.data.data[0];
                     }
 
                 })
@@ -428,19 +489,18 @@ export default {
                                 break;
                         }
                     })
-                    if(res.data.data.length>0){
-                         that.taskList=res.data.data
-                         that.taskObj = res.data.data[0];
+                    if (res.data.data.length > 0) {
+                        that.taskList = res.data.data
+                        that.taskObj = res.data.data[0];
                     }
-                   
+
                 })
             }
-           
-        //  that.postData = {
-        //         uid: that.writerId
-        // }
-            
-           
+
+            //  that.postData = {
+            //         uid: that.writerId
+            // }
+
             // that.postData.status = status;
             // console.log(that.postData)
             // that.$http('get', that.$store.state.baseUrl + 'api/Order/correlation-task', that.postData).then(function (res) {
@@ -468,8 +528,7 @@ export default {
             //         if( res.data.data.length>0){
             //              that.taskObj = res.data.data[0];
             //         }
-                   
-                   
+
             //         switch (that.taskObj.status) {
             //             case 1:
             //                 that.taskObj.status = '发布中'
@@ -507,12 +566,16 @@ export default {
 </script>
 
 <style>
+#writerDetail{
+    padding-bottom: 100px;
+}
 #writerDetail .reacResult {
     margin-top: 0;
 }
- #writerDetail .priceDesc {
-  color: #707070;
-  font-size: 12px;
+
+#writerDetail .priceDesc {
+    color: #707070;
+    font-size: 12px;
 }
 
 #writerDetail .topBox {
@@ -581,7 +644,7 @@ export default {
     width: 79px;
     height: 79px;
     margin-right: 5px;
-  
+
 }
 
 #writerDetail .eachBox .content .peple img {
@@ -589,7 +652,7 @@ export default {
     height: 40px;
     border-radius: 50%;
     margin-right: 11px;
-       border: 1px solid #ccc;
+    border: 1px solid #ccc;
     margin-bottom: 10px;
 }
 
@@ -614,10 +677,11 @@ export default {
     border-bottom: 1px solid #cecece;
 }
 
-.recommenderBox{
+.recommenderBox {
     margin-bottom: 10px;
     padding: 0 10px;
 }
+
 #writerDetail .eachBox .content .peple .right .button {
     font-size: 14px;
     padding: 1px 7px 1px 12px;
@@ -678,6 +742,7 @@ export default {
     padding: 11px 14px;
     background: #f5f5f5;
     border-bottom: 4px solid #2EA200;
+    width: 100%;
 }
 
 #writerDetail .eachBox .evaluateTag {
@@ -717,13 +782,16 @@ export default {
     background: #ccc !important;
     border-color: #ccc !important;
 }
-#writerDetail .btnBox .hasFellow.weui-btn:after{
+
+#writerDetail .btnBox .hasFellow.weui-btn:after {
     display: none;
 }
-#writerDetail .btnBox.businessBtn .weui-btn{
-    width: 95%!important;
+
+#writerDetail .btnBox.businessBtn .weui-btn {
+    width: 95% !important;
 }
- #writerDetail .fixBtn span{
-     font-size: 16px!important;
- }
+
+#writerDetail .fixBtn span {
+    font-size: 16px !important;
+}
 </style>

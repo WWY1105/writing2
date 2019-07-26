@@ -192,7 +192,6 @@ export default {
 #Order {
     background: #f5f5f5;
     padding-bottom: 60px;
-    padding-top: 10px;
 }
 
 .priceDesc {
@@ -290,6 +289,9 @@ export default {
 
 .eachPeople.sz {
     border-bottom: 4px solid #feab29;
+}
+.reacResult{
+    margin-top: 0!important;
 }
 
 .reacResult .right .button {

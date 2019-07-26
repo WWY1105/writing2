@@ -200,7 +200,7 @@ export default {
   mounted() {
     this.getWebUser();
     this.getSystemMsg();
-    this.getNewMailMsg();
+    // this.getNewMailMsg();
     this.getMediator(this.$store.state.uid);
   },
 
