@@ -83,6 +83,7 @@
           :leftTitle="item.title"
           :icon="item.icon"
           :num="item.rightNum"
+          @tofellow="tofellow"
         ></cellNav>
       </group>
     </div>

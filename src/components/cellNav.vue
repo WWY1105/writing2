@@ -34,6 +34,7 @@ export default {
     methods:{
         // 推荐人主页
         gotoWriterDetail(){
+
             this.$router.push({path:'/writerDetail',query:{'writerId':this.recommenderId}})
         },
         // 私信
@@ -49,8 +50,8 @@ export default {
         gotoSeePage(){
            if(this.leftTitle=='关注公众号'){
                this.$emit('tofellow','https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU4NTczOTE4NQ==#wechat_redirect')
-           }
-            this.$router.push({
+           }else{
+                  this.$router.push({
                 path:this.link,
                 query:{
                     'writerId':this.writerId,
@@ -60,6 +61,8 @@ export default {
                     keepActive:false
                 }
             })
+           }
+         
         }
     }
 }

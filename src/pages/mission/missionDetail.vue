@@ -62,7 +62,7 @@
             </div>
             <!-- 循环报名者 satrt-->
             <div class="writerBox" >
-                <div class="eachWriter flexBox" v-for="item,index in enrollerWriterList" v-if="item.status!='2'">
+                <div class="eachWriter flexBox" v-for="item,index in enrollerWriterList" v-if="item.status!='3'">
                     <div class="left">
                         <img  @click.stop="goToWriterDetail(item.uid)" :src="$store.state.imgUrl+item.user.imgurl" class="userImg" alt="">
                     </div>
@@ -76,7 +76,7 @@
                                 <p class="msg" @click="gotoSendMsg(item.uid)"><i class="iconfont icon-send"></i></p>
                                 <button class="choose" @click.stop="chooseWriter(item.id,index)" v-if="showData.status=='1'">选择</button>
                                 <!-- item.status=='2'是作者未被选中  isSelectedWriter为false的时候  说明进来的不是被选中的作者-->
-                                <button :class="item.status=='2'?'choose chooseDis':isSelectedWriter?'choose':'choose chooseDis'" @click.stop="chooseWriter(item.id,index)" v-if="showData.status!='1'">{{item.status=='2'?'未选中':'已选择'}}</button>
+                                <button :class="item.status=='3'?'choose chooseDis':isSelectedWriter?'choose':'choose chooseDis'" @click.stop="chooseWriter(item.id,index)" v-if="showData.status!='1'">{{item.status=='3'?'未选中':'已选择'}}</button>
                             </div>
                         </div>
                         <div class="content">
@@ -133,6 +133,8 @@
             <button class="long_btn" @click="toEnroll" v-if="showData.status=='1'">{{'参加报名（截至'+showData.deadline+"）"}}</button>
             <!-- 如果我是作者  没有被选中-->
              <button class="long_btn notSelect" v-if="showData.status!='1'&&!isSelectedWriter">未选中，请再接再厉</button>
+              <!-- 如果我是作者  我被选中了-->
+            <button class="long_btn notSelect" v-if="isSelectedWriter">已完成</button>
         </div>
         <!-- 是我的任务 -->
         <div class="btnBox bgw" v-if="isMyTask">
@@ -222,7 +224,8 @@ export default {
         this.getCommentList(this.missionId)
     },
     mounted() {
-        // status (integer, optional): 对家长状态(1-报名中,2-已选择,3-已评价,4-已失效,5-已取消),,
+        // status (integer, optional): 
+        //对家长状态(1-报名中,2-已选择,3-已评价,4-已失效,5-已取消),,
         // 对家教状态(1-已报名,2-未选中,3-待评价,4-已完成)) ,
         // alert(this.isMyTask)
     },
@@ -340,7 +343,7 @@ export default {
                 that.enrollerWriterList = res.data.data.applies;
                 // 遍历报名者：isSelectedWriter为真的时候，说明进入页面的是被选择的作者
                 selectWriters=res.data.data.applies.filter((item,index)=>{
-                    if(item.status=='3'&&that.$store.state.uid==item.uid){
+                    if(item.status=='2'&&that.$store.state.uid==item.uid){
                         return true;
                     }
                 })
