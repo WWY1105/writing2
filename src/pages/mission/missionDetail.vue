@@ -30,7 +30,7 @@
                 </p>
             </div>
             <div class="bgDetail">
-                <p class="firstP">简述：{{showData.introduction}}</p>
+                <p class="firstP">简述：{{showData.content}}</p>
                 <!-- <div style="word-wrap: break-word;">详述：{{showData.content}}
                 </div> -->
             </div>
@@ -81,7 +81,7 @@
                         </div>
                         <div class="content">
                             <div class="hang">
-                                    <div class="item">{{item.user.org?item.user.org:'暂无'}}</div>
+                                    <div class="item">{{item.user.tag?item.user.tag:'暂无'}}</div>
                                 <p class="item">实名
                                     <i class="iconfont icon-wenhao" v-if="item.user.realAuth!=2?true:false"></i>
                                     <i class="iconfont icon-gouxuan" v-if="item.user.realAuth==2?true:false"></i>
@@ -375,7 +375,30 @@ export default {
 
         // 取消发布
         deleteTesk() {
-            this.show = !this.show;
+            // this.show = !this.show;
+            const that=this;
+              that.$http('delete', that.$store.state.baseUrl + 'api/Order/' + that.missionId).then(function (res) {
+                  if (res.data.code != '00') {
+                        AlertModule.show({
+                            title: res.data.msg,
+                            onHide: function () {
+                                that.$router.push({
+                                    name: 'index'
+                                })
+                            }
+                        })
+                    } else {
+                        AlertModule.show({
+                            title: '取消成功',
+                            onHide: function () {
+                                that.$router.push({
+                                    name: 'index'
+                                })
+                            }
+
+                        })
+                    }
+              })
         },
 
         // 报名

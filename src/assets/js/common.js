@@ -257,18 +257,19 @@ const common = {
     // '家教拜访','家长拜访','远程协作'
     console.log('啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊')
     console.log(val)
-        switch (val.join(',')) {
-      case '家教拜访':
-        this.postData.coordination = 'author';
-        break;
-      case '家长拜访':
-        this.postData.coordination = 'busniess';
-        break;
-      case '远程协作':
-        this.postData.coordination = 'online';
-        break;
+    this.postData.coordination=val.join(',')
+    //     switch (val.join(',')) {
+    //   case '家教拜访':
+    //     this.postData.coordination = 'author';
+    //     break;
+    //   case '家长拜访':
+    //     this.postData.coordination = 'busniess';
+    //     break;
+    //   case '远程协作':
+    //     this.postData.coordination = 'online';
+    //     break;
 
-    }
+    // }
     console.log(this.postData.coordination)
 
   },

@@ -10,7 +10,7 @@
               <!--年级选择-->
               <sliderPopupPicker
                 :zindex="90000"
-                :gradesArr="sliderBigClassArr"
+                :gradesArr="sliderClassArr"
                 :leftText="leftText1"
                 v-on:changeResult="changeResultGrade"
               ></sliderPopupPicker>
@@ -78,17 +78,7 @@
           </div>
         </div>
         <div class="scrollerBox" v-if="scrollerShow">
-          <scroller
-            use-pullup
-            :pullup-config="pullupDefaultConfig"
-            @on-pullup-loading="loadMore"
-            use-pulldown
-            :pulldown-config="pulldownDefaultConfig"
-            @on-pulldown-loading="refresh"
-            lock-x
-            ref="scrollerBottom"
-            height="-48"
-          >
+       
             <!--轮播图 -->
             <swiper
               auto
@@ -99,6 +89,17 @@
               v-model="demo01_index"
               @on-index-change="demo01_onIndexChange"
             ></swiper>
+               <scroller
+            use-pullup
+            :pullup-config="pullupDefaultConfig"
+            @on-pullup-loading="loadMore"
+            use-pulldown
+            :pulldown-config="pulldownDefaultConfig"
+            @on-pulldown-loading="refresh"
+            lock-x
+            ref="scrollerBottom"
+            height="-200"
+          >
             <!--轮播图 end-->
 
             <!-- 类型筛选 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
@@ -147,14 +148,14 @@
                     <div class="right flexEnd">
                       <span class="priceDesc">费用预算</span>
 
-                      <p class="price">￥ {{item.priceMin}} - ￥{{item.priceMax}}/小时</p>
+                      <p class="price">￥ {{item.fee.split('-')[0]}} - ￥{{item.fee.split('-')[1]}}/小时</p>
                     </div>
                   </div>
 
                   <div class="details">
                     <p class="hang flexSpace">
                       <span class="eachItem">年级：{{item.classNo}}</span>
-                      <span class="eachItem">科目：{{item.category}}</span>
+                      <span class="eachItem">科目：{{item.subject}}</span>
                     </p>
                     <p class="hang flexStart">
                       <span
@@ -165,7 +166,7 @@
                     </p>
 
                     <p class="hang">
-                      <span>简述：{{item.introduction}}</span>
+                      <span>简述：{{item.content}}</span>
                     </p>
                   </div>
 
@@ -350,16 +351,17 @@ export default {
       sortOptions: [
         {
           value: "按发布时间由近到远（默认）",
-          key: "follow"
+          key: "create_time-desc"
         },
         {
           value: "预算价格从高到低",
-          key: "userCount"
+          key: "fee-desc"
         },
         {
           value: "预算价格从低到高",
-          key: "workHours"
+          key: "fee-asc"
         }
+      
       ],
 
       order: "",
@@ -400,7 +402,7 @@ export default {
       rangValue: 0,
 
       sliderSubjectArr: [],
-
+      sliderClassArr:[],
       sliderBigClassArr: [],
 
       sliderClassArr: [],
@@ -614,7 +616,7 @@ export default {
 
     that.getCategory();
 
-    that.getBigGrade();
+    that.getGrade();
     that.getSwipper();
     // 获取当前登陆用户信息
 
@@ -847,8 +849,8 @@ export default {
 
       that.postList = [];
 
-      that.postData.order = val;
-
+      that.postData.order = val?val.split('-')[0]:'';
+      that.postData.orderType = val?val.split('-')[1]:'';
       that.nowPage = 1;
 
       that.postData.currentPage = that.nowPage;
@@ -860,15 +862,15 @@ export default {
       that.sortOptions = [
         {
           value: "按发布时间由近到远（默认）",
-          key: "follow"
+          key: "create_time-desc"
         },
         {
           value: "预算价格从高到低",
-          key: "userCount"
+          key: "fee-desc"
         },
         {
           value: "预算价格从低到高",
-          key: "workHours"
+          key: "fee-asc"
         }
       ];
     },
@@ -949,20 +951,45 @@ export default {
 
     toSeeMissionDetail(i) {
       var that = this;
+
       // 任务的id
+
       var id = that.postList[i].id;
+
       // 任务发布人的id
+
       var postUid = that.postList[i].uid;
+
       var isMyTask = false;
+
       if (postUid == that.$store.state.uid) {
         isMyTask = true;
       }
+
       var isAuthor;
 
       if (that.postList[i].authorId == that.$store.state.uid) {
         isAuthor = true;
       }
-       that.$router.push({
+
+      // alert(that.postList[i].status)
+
+      // 如果是执行中的任务
+
+      if (that.postList[i].status == "3" && isAuthor) {
+        // 我执行的任务，所以我是家教
+
+        // 家教版正在执行的任务
+
+        this.$router.push({
+          path: "/missionInExecutionAuth",
+
+          query: {
+            id: id
+          }
+        });
+      } else {
+        that.$router.push({
           path: "/missionDetail",
 
           query: {
@@ -971,26 +998,7 @@ export default {
             isMyTask: isMyTask
           }
         });
-
-      // alert(that.postList[i].status)
-
-      // 如果是执行中的任务
-
-      // if (that.postList[i].status == "3" && isAuthor) {
-      //   // 我执行的任务，所以我是家教
-
-      //   // 家教版正在执行的任务
-
-      //   this.$router.push({
-      //     path: "/missionInExecutionAuth",
-
-      //     query: {
-      //       id: id
-      //     }
-      //   });
-      // } else {
-       
-      // }
+      }
     },
 
     addressChange() {},
@@ -1217,7 +1225,7 @@ export default {
     changeResultKM(val) {
       // 科目
 
-      this.postData.category = val.name;
+      this.postData.subject = val.name;
     },
 
     changeResult(val) {}
@@ -1384,33 +1392,22 @@ export default {
 
 #resultPeoples.reacResult .details {
   display: block;
-
   color: #707070;
 }
 
 #resultPeoples.reacResult .hang {
   width: 100%;
-
   text-align: left;
-
   margin-bottom: 7px;
 }
 
 #resultPeoples.reacResult span.eachItem {
   width: 50%;
-
   display: inline-block;
 }
-
-/* #resultPeoples.reacResult span.eachItem.add {
-  width: 66%;
-} */
-
 .smalltitle {
   color: #242424;
-
   font-size: 14px;
-
   padding: 10px 16px;
 }
 

@@ -32,15 +32,16 @@ export default {
             var redirect_uri ;
             if(recommadd){
                 if(seeUid){
-                    redirect_uri = encodeURI("http://nian.im/app/index.html#/getCode?recommadd="+recommadd+"_"+seeUid);
+                    redirect_uri = encodeURIComponent("http://nian.im/app/index.html?recommadd="+recommadd+"_"+seeUid);
                 }else{
                     // 扫码我的海报，不用跳转用户主页
-                    redirect_uri = encodeURI("http://nian.im/app/index.html#/getCode?recommadd="+recommadd+"_"+"A");
+                    redirect_uri = encodeURIComponent("http://nian.im/app/index.html?recommadd="+recommadd+"_"+"A");
                 }
                  
             }else{
-                 redirect_uri = encodeURI("http://nian.im/app/index.html#/getCode");
+                 redirect_uri = encodeURIComponent("http://nian.im/app/index.html");
             }
+            // redirect_uri=encodeURIComponent(redirect_uri)
             // var redirect_uri = encodeURI("http://nian.im/app/index.html#/getCode?recommadd="+recommadd+"_"+seeUid);
             var url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + redirect_uri + "&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect"
             window.location.href = url;

@@ -90,23 +90,27 @@ export default {
                                 // console.log(url)
                                 that.$http('put', url, postData).then(function (res) {
                                     if (res.data.code == '00') {
-                                        if(that.GetQueryString('recommadd')){
+                                        console.log('2')
+                                        if (that.GetQueryString('recommadd')) {
                                             //alert(that.GetQueryString('recommadd').split('_')[1])
-                                            if (that.GetQueryString('recommadd').split('_')[1]!='A') {
-                                            that.$router.push({
-                                                path: "/writerDetail",
-                                                query: {
-                                                    writerId: that.GetQueryString('recommadd').split('_')[1]
-                                                }
-                                            })
-                                        } else {
-                                            that.$router.push({
-                                                name: 'index',
-                                                path: 'index',
-                                            })
+                                            if (that.GetQueryString('recommadd').split('_')[1] != 'A') {
+                                                that.$router.push({
+                                                    path: "/writerDetail",
+                                                    query: {
+                                                        writerId: that.GetQueryString('recommadd').split('_')[1]
+                                                    }
+                                                })
+                                            } else {
+                                                console.log('1')
+                                                that.$router.push({
+                                                    path: '/index'
+                                                })
+                                            }
+                                        }else{
+                                             that.$router.push({
+                                                    path: '/index'
+                                                })
                                         }
-                                        }
-                                        
 
                                     }
                                 })
@@ -136,7 +140,7 @@ export default {
         format1: function (value, name) {
             return `${value[0]}/${value[1]}/${value[2]}`
         },
-          GetQueryString(name) {
+        GetQueryString(name) {
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
             var r = window.location.search.substr(1).match(reg);
             if (r != null) return unescape(r[2]);

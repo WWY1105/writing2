@@ -5,7 +5,7 @@
     </button>
     <!--顶部简介-->
     <div class="topBox" :type="userData.type" :type1="$store.state.userType">
-        <writers :gender="gender" :soleCost="soleCost" :school="userData.eduCertificate?userData.eduCertificate.school:''" :org="org" :hang2IsShow='hang2IsShow' :selfCon="userData.authorInfo?userData.authorInfo.selfCon:''" :tag="userData.tag" :serviceHours="userData.serviceHours" :serviceOrderCount="userData.serviceOrderCount" :serviceUserCount="userData.serviceUserCount" :authorAuth="userData.authorAuth" :type="userData.type" :isMissionDetail="isMissionDetail" :missionNum="userData.taskCount" :userTags="userTags" :realAuth="userData.realAuth" :eduAuth="userData.eduAuth" :userCount="userData.userCount" :avaTaskCount="userData.avaTaskCount " :cost="userData.cost" :workAge="workAge" :workHours="userData.workHours" :imgurl="userImg" :shortName="userData.nickname"></writers>
+        <writers :gender="gender" :soleCost="soleCost" :school="userData.eduCertificate?userData.eduCertificate.school:''" :org="userData.tag" :hang2IsShow='hang2IsShow' :selfCon="userData.authorInfo?userData.authorInfo.selfCon:''" :tag="userData.tag" :serviceHours="userData.serviceHours" :serviceOrderCount="userData.serviceOrderCount" :serviceUserCount="userData.serviceUserCount" :authorAuth="userData.authorAuth" :type="userData.type" :isMissionDetail="isMissionDetail" :missionNum="userData.taskCount" :userTags="userTags" :realAuth="userData.realAuth" :eduAuth="userData.eduAuth" :userCount="userData.userCount" :avaTaskCount="userData.avaTaskCount " :cost="userData.cost" :workAge="workAge" :workHours="userData.workHours" :imgurl="userImg" :shortName="userData.nickname"></writers>
         <!--三个按钮-->
         <div class="btnBox bgW" v-if="userData.type=='author'&&$store.state.userType=='business'" :isLocalUser="isLocalUser">
             <x-button v-if="!isLocalUser" @click.native="fellowThisWriter" :class="userData.follow?'hasFellow':''">
@@ -29,7 +29,7 @@
     <!-- 推荐人 -->
     <div class="bgW recommenderBox">
         <group>
-            <cellNav :recommenderId="recommenderId" :link="recommenderLink" :leftTitle="leftTitle" :icon="recommenderIcon" :recommenderSrc="recommenderSrc" :num="recommenderNum" :isMsg="isMsg"></cellNav>
+            <cellNav :recommenderId="recommenderId" :link="recommenderLink" :leftTitle="leftTitle" :icon="recommenderIcon" :recommenderSrc="$store.state.imgUrl+recommenderSrc" :num="recommenderNum" :isMsg="isMsg"></cellNav>
         </group>
     </div>
     <!--工作方式-->
