@@ -5,85 +5,90 @@
         <div class="imgBox">
 
             <img :src="$store.state.imgUrl+myImage" class="myPic" alt @click.stop="chooseImg">
-             <input v-if="isios"  type="file" name="img" accept="image/*" id="upload_file"   mutiple="mutiple"   class="add" @change="chooseImage"/>
-             <input v-if="!isios" type="file" name="img" accept="image/*" id="upload_file"   mutiple="mutiple"   class="add"  @change="chooseImage"/>
-           <!-- capture="camera" -->
-            
+            <input v-if="isios" type="file" name="img" accept="image/*" id="upload_file" mutiple="mutiple" class="add" @change="chooseImage" />
+            <input v-if="!isios" type="file" name="img" accept="image/*" id="upload_file" mutiple="mutiple" class="add" @change="chooseImage" />
+            <!-- capture="camera" -->
 
         </div>
 
-            <!--不能更改的部分-->
-            <div class="disPart flexSpace">
-                <p class="left">昵称</p>
-                <!--@change="shortNamePut" -->
-                <p class="right"><input type="text" v-model="shortName" class="shortName" ></p>
+        <!--不能更改的部分-->
+        <div class="disPart flexSpace">
+            <p class="left">昵称</p>
+            <!--@change="shortNamePut" -->
+            <p class="right"><input type="text" v-model="shortName" class="shortName"></p>
+        </div>
+        <!--选项-->
+        <div class="content bgW">
+            <div class="eachArea">
+                <!--性别-->
+                <radioPicker class="bgG" :radiosArr="radiosArr" :title="publish_title" v-on:getRadioValue="getGender"></radioPicker>
             </div>
-            <!--选项-->
-            <div class="content bgW">
-                <div class="eachArea">
-                    <!--性别-->
-                    <radioPicker class="bgG" :radiosArr="radiosArr" :title="publish_title" v-on:getRadioValue="getGender"></radioPicker>
-                </div>
-                <!--选项内容-->
-                <div class="eachArea">
-                    <!--年级选择-->
-                    <cell title="年级" is-link :value="rightText1" @click.native="gotoMultiPicker('class')"></cell>
-                    <!--科目选择器-->
-                    <cell title="科目" is-link :value="rightText2" @click.native="gotoMultiPicker('category')"></cell>
-                </div>
-                <div class="eachArea">
-                    <!--费用预算（每小时）-->
-                    <sliderPopupPicker class="bgG" :gradesArr="slidePriceArr2" :leftText="leftText3" :rightText="rightText4" v-on:changeResult="changeResultSoleCost"></sliderPopupPicker>
-                    <sliderPopupPicker class="bgG" :gradesArr="slidePriceArr2" :leftText="leftText7" :rightText="rightText5" v-on:changeResult="changeResultJointCost"></sliderPopupPicker>
-                </div>
-                <div class="eachArea">
-                    <cell class="xzfs" title="上课方式" is-link :value="rightText3" @click.native="gotoMultiPicker('coordination')"></cell>
-                    <!--上课区域-->
-                    <x-address :gradesArr="addressData" :title="leftText5" :list="addressData" class="areaBox" v-model="address" @on-hide="onAddressChange"></x-address>
-                </div>
-                <!--报名截至日期-->
-                <div class="eachArea">
-                    <group title="简述（200字内）">
-                        <x-textarea style="background:#f5f5f5" :show-counter="false" :rows="3" :max="200" autosize v-model="introductionContent"></x-textarea>
-                    </group>
-                </div>
-                <!--选项内容ENDbtnSave-->
-                <div class="btn_box">
-                    <button class="long_btn " @click="savuAllContent">保存</button>
-                </div>
+            <!--选项内容-->
+            <div class="eachArea">
+                <!--年级选择-->
+                <cell title="年级" is-link :value="rightText1" @click.native="gotoMultiPicker('class')"></cell>
+                <!--科目选择器-->
+                <cell title="科目" is-link :value="rightText2" @click.native="gotoMultiPicker('category')"></cell>
             </div>
-
+            <div class="eachArea">
+                <!--费用预算（每小时）-->
+                <sliderPopupPicker class="bgG" :gradesArr="slidePriceArr2" :leftText="leftText3" :rightText="rightText4" v-on:changeResult="changeResultSoleCost"></sliderPopupPicker>
+                <!-- <sliderPopupPicker class="bgG" :gradesArr="slidePriceArr2" :leftText="leftText7" :rightText="rightText5" v-on:changeResult="changeResultJointCost"></sliderPopupPicker> -->
+            </div>
+            <div class="eachArea">
+                <cell class="xzfs" title="上课方式" is-link :value="rightText3" @click.native="gotoMultiPicker('coordination')"></cell>
+                <!--上课区域-->
+                <x-address :gradesArr="addressData" :title="leftText5" :list="addressData" class="areaBox" v-model="address" @on-hide="onAddressChange"></x-address>
+            </div>
+            <!--报名截至日期-->
+            <div class="eachArea">
+                <group title="简述（200字内）">
+                    <x-textarea style="background:#f5f5f5" :show-counter="false" :rows="3" :max="200" autosize v-model="introductionContent"></x-textarea>
+                </group>
+            </div>
+            <div class="eachArea" v-if="$store.state.userType=='author'">
+                <!-- <span class="titleBox leftText">家教经历</span> -->
+                <group title="家教经历">
+                    <x-textarea style="background: #F5F5F5" v-model="value2"></x-textarea>
+                </group>
+            </div>
+            <!--选项内容ENDbtnSave-->
+            <div class="btn_box">
+                <button class="long_btn " @click="savuAllContent">保存</button>
+            </div>
         </div>
 
-        <div id="multiPicker" class="component" v-if="!mainShow">
-            <!-- 年级 -->
-            <div class="gradeContent" v-if="classShow">
-                <p class="title bgW">{{leftText1}}（选择后保存）</p>
-                <div class="content flexSpace bgW">
-                    <p :class="item.active==true?'item active':'item'" v-for="item,index in gradesArr" @click="addActive(index)">{{item.className}}</p>
-                </div>
+    </div>
 
-                <div class="btn_box"><button class="long_btn" @click="getResult">确认</button></div>
+    <div id="multiPicker" class="component" v-if="!mainShow">
+        <!-- 年级 -->
+        <div class="gradeContent" v-if="classShow">
+            <p class="title bgW">{{leftText1}}（选择后保存）</p>
+            <div class="content flexSpace bgW">
+                <p :class="item.active==true?'item active':'item'" v-for="item,index in gradesArr" @click="addActive(index)">{{item.className}}</p>
+            </div>
 
+            <div class="btn_box"><button class="long_btn" @click="getResult">确认</button></div>
+
+        </div>
+        <!-- 科目 -->
+        <div class="categoryContent" v-if="categoryShow">
+            <p class="title bgW">{{leftText2}}（选择后保存）</p>
+            <div class="content flexSpace bgW">
+                <p :class="item.active==true?'item active':'item'" v-for="item,index in subjectArr" @click="addActive2(index)">{{item.categroy}}</p>
             </div>
-            <!-- 科目 -->
-            <div class="categoryContent" v-if="categoryShow">
-                <p class="title bgW">{{leftText2}}（选择后保存）</p>
-                <div class="content flexSpace bgW">
-                    <p :class="item.active==true?'item active':'item'" v-for="item,index in subjectArr" @click="addActive2(index)">{{item.categroy}}</p>
-                </div>
-                <div class="btn_box"> <button class="long_btn" @click="getResult2">确认</button></div>
+            <div class="btn_box"> <button class="long_btn" @click="getResult2">确认</button></div>
+        </div>
+        <!-- 上课方式 -->
+        <div class="categoryContent" v-if="coordinationShow">
+            <p class="title bgW">{{leftText5}}（选择后保存）</p>
+            <div class="content flexSpace bgW">
+                <p :class="item.active==true?'item active':'item'" v-for="item,index in coordination" @click="addActive3(index)">{{item.name}}</p>
             </div>
-            <!-- 上课方式 -->
-            <div class="categoryContent" v-if="coordinationShow">
-                <p class="title bgW">{{leftText5}}（选择后保存）</p>
-                <div class="content flexSpace bgW">
-                    <p :class="item.active==true?'item active':'item'" v-for="item,index in coordination" @click="addActive3(index)">{{item.name}}</p>
-                </div>
-                <div class="btn_box"> <button class="long_btn" @click="getResult3">确认</button></div>
-            </div>
+            <div class="btn_box"> <button class="long_btn" @click="getResult3">确认</button></div>
         </div>
     </div>
+</div>
 </template>
 
 <script>
@@ -165,6 +170,7 @@ export default {
             subjectArr: [],
             priceArr: [],
             slidePriceArr2: [],
+            slidePriceArr:[],
             coordination: [{
                     name: "家教拜访",
                     active: false
@@ -183,7 +189,7 @@ export default {
                 [1, 2, 3, 4, 5]
             ],
             leftText2: "科目",
-            leftText3: "1对1参考费用",
+            leftText3: "参考费用",
             leftText4: "上课方式",
             leftText5: "上课区域",
             leftText6: "招标家长人数",
@@ -206,17 +212,89 @@ export default {
                 }
             ],
             // data--end
-            addressData: [{"name":"上海市","value":"310000"},{"name":"市辖区","value":"310100","parent":"310000"},{"name":"黄浦区","value":"310101","parent":"310100"},{"name":"徐汇区","value":"310104","parent":"310100"},{"name":"长宁区","value":"310105","parent":"310100"},{"name":"静安区","value":"310106","parent":"310100"},{"name":"普陀区","value":"310107","parent":"310100"},{"name":"虹口区","value":"310109","parent":"310100"},{"name":"杨浦区","value":"310110","parent":"310100"},{"name":"闵行区","value":"310112","parent":"310100"},{"name":"宝山区","value":"310113","parent":"310100"},{"name":"嘉定区","value":"310114","parent":"310100"},{"name":"浦东新区","value":"310115","parent":"310100"},{"name":"金山区","value":"310116","parent":"310100"},{"name":"松江区","value":"310117","parent":"310100"},{"name":"青浦区","value":"310118","parent":"310100"},{"name":"奉贤区","value":"310120","parent":"310100"},{"name":"崇明区","value":"310151","parent":"310100"}],
+            addressData: [{
+                "name": "上海市",
+                "value": "310000"
+            }, {
+                "name": "市辖区",
+                "value": "310100",
+                "parent": "310000"
+            }, {
+                "name": "黄浦区",
+                "value": "310101",
+                "parent": "310100"
+            }, {
+                "name": "徐汇区",
+                "value": "310104",
+                "parent": "310100"
+            }, {
+                "name": "长宁区",
+                "value": "310105",
+                "parent": "310100"
+            }, {
+                "name": "静安区",
+                "value": "310106",
+                "parent": "310100"
+            }, {
+                "name": "普陀区",
+                "value": "310107",
+                "parent": "310100"
+            }, {
+                "name": "虹口区",
+                "value": "310109",
+                "parent": "310100"
+            }, {
+                "name": "杨浦区",
+                "value": "310110",
+                "parent": "310100"
+            }, {
+                "name": "闵行区",
+                "value": "310112",
+                "parent": "310100"
+            }, {
+                "name": "宝山区",
+                "value": "310113",
+                "parent": "310100"
+            }, {
+                "name": "嘉定区",
+                "value": "310114",
+                "parent": "310100"
+            }, {
+                "name": "浦东新区",
+                "value": "310115",
+                "parent": "310100"
+            }, {
+                "name": "金山区",
+                "value": "310116",
+                "parent": "310100"
+            }, {
+                "name": "松江区",
+                "value": "310117",
+                "parent": "310100"
+            }, {
+                "name": "青浦区",
+                "value": "310118",
+                "parent": "310100"
+            }, {
+                "name": "奉贤区",
+                "value": "310120",
+                "parent": "310100"
+            }, {
+                "name": "崇明区",
+                "value": "310151",
+                "parent": "310100"
+            }],
             date: "",
             postData: {},
             uid: this.$store.state.uid,
             rightText4: "不限",
             rightText5: "不限",
-            address:  [],
+            address: [],
             editFlag: false,
             notEditshortName: '',
             shortName: '',
-            myImage: ''
+            myImage: '',
+            value2: ''
         };
     },
     mounted() {
@@ -239,6 +317,34 @@ export default {
 
     methods: {
         ...common,
+        // 保存家教经历
+        submitData() {
+            var that = this;
+           
+            // if(that.$store.state.userType != 'author'){
+            //      that.savuAllContent()
+            // }else  if (that.value2.trim() == '' && that.$store.state.userType == 'author') {
+            //     AlertModule.show({
+            //         title: "请填写家教经历"
+            //     })
+            //     return false
+            // }
+            // var data = {
+            //     experience: that.value2
+            // }
+            // data.uid = that.$store.state.uid
+            // var baseUrl = this.$store.state.baseUrl;
+            // that.$http('post', baseUrl + 'api/WebUser/Certificate/Author', data).then(function (res) {
+            //     if (res.data.code == '00') {
+            //         that.savuAllContent()
+            //     } else {
+            //         AlertModule.show({
+            //             title: res.data.msg
+            //         })
+            //     }
+            // })
+
+        },
         chooseImg() {
             var file1 = document.getElementById("upload_file");
             file1.click()
@@ -335,18 +441,20 @@ export default {
                     that.rightText2 = res.data.data.authorInfo.subject;
 
                     // 1对1参考费用authorInfo.soleCost
+                    that.rightText4=''
                     that.rightText4 = res.data.data.authorInfo.soleCost + "元";
+                    // alert(that.rightText4)
                     that.soleCost = res.data.data.authorInfo.soleCost
                         .split("元")[0]
                         .split("~")
                         .join("-");
                     // 1对多参考费用authorInfo.jointCost
-                    that.rightText5 = res.data.data.authorInfo.jointCost + "元";
-                    // alert(that.rightText5)
-                    that.jointCost = res.data.data.authorInfo.jointCost
-                        .split("元")[0]
-                        .split("~")
-                        .join("-");
+                    // that.rightText5 = res.data.data.authorInfo.jointCost + "元";
+                    // // alert(that.rightText5)
+                    // that.jointCost = res.data.data.authorInfo.jointCost
+                    //     .split("元")[0]
+                    //     .split("~")
+                    //     .join("-");
                     // 上课方式authorInfo.coordination
                     that.coordinations = res.data.data.authorInfo.coordination;
                     that.rightText3 = res.data.data.authorInfo.coordination;
@@ -459,7 +567,7 @@ export default {
         },
         changeResultGrade(val) {
             // 年级
-            this.postData.classNo = val;
+            this.postData.classNo = val.join(',');
             console.log('年纪' + val)
         },
         changeResultKM(val) {
@@ -498,18 +606,19 @@ export default {
             var postData = {
                 uid: that.uid,
                 gender: that.gender,
-                classNo: that.classNo.indexOf(',') > 0 ? that.classNojoin(",") : that.classNo,
-                subject: that.subject.indexOf(',') > 0 ? that.subject.join(",") : that.subject,
+                classNo: that.classNo.length > 0 ? that.classNo.join(",") : that.classNo,
+                subject: that.subject.length > 0 ? that.subject.join(",") : that.subject,
                 soleCost: that.soleCost, //1对1参考费用
-                jointCost: that.jointCost, //1对多参考费用
+                // jointCost: that.jointCost, //1对多参考费用
                 coordination: that.coordinations,
                 area: that.area,
                 selfCon: that.introductionContent,
-                nickname: that.shortName 
-               
-
+                nickname: that.shortName,
+                
             };
-
+            if(that.$store.state.userType=='author'){
+                postData.experience=that.value2
+            }
             var flag = false;
             for (var i in postData) {
                 if (postData[i] == '') {
@@ -624,13 +733,15 @@ html {}
     /* margin: 0 auto;
     display: table;
     margin-bottom: 50px; */
+    border: 2px solid #ccc;
 }
 
 #myMainPage .disPart {
     padding: 0px 15px;
     border-radius: 5px;
-    background: #cdcdcd;
+    background: #f5f5f5;
     margin-bottom: 8px;
+    border: 1px solid #cecece;
 }
 
 #myMainPage .disPart .left,
@@ -675,7 +786,7 @@ html {}
 .shortName {
     text-align: right;
     height: 100%;
-    padding: 15px 5px;
+    padding: 11px 5px;
     border: none;
 }
 

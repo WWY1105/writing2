@@ -4,6 +4,7 @@
 
 <script>
 export default {
+    name:'getCode',
     data() {
         return {
             code: '',

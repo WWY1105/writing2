@@ -12,8 +12,8 @@
         </div> -->
         <!-- 二维码 -->
         <!-- <img :src="myEwm" class="ewmPic" alt> -->
-        <img :src="item.src" v-for="item,index in imgArr" class="ewmPic previewer-demo-img uploadImg"    @click.stop.self="show(index)"/>
-      
+        <img :src="item.src" v-for="item,index in imgArr" class="ewmPic previewer-demo-img uploadImg" @click.stop.self="show(index)" />
+
         <p class="mainText">邀请您加入家教家长线上平台</p>
     </div>
     <!-- 上半部分 END-->
@@ -25,10 +25,12 @@
             <div class="left flexStart">
                 <router-link :to="{path:'/writerDetail',query:{'writerId':item.id}}">
                     <img :src="$store.state.imgUrl+item.imgurl" class="userImg mediatorImg" alt>
-          </router-link>
-                    <p class="name">{{item.nickname}}</p>
+                </router-link>
+                <p class="name">{{item.nickname}}</p>
             </div>
             <div class="right" @click="addMyMediator">
+                <!-- 发消息 -->
+                <p class="msg" @click.stop="toSendMsg(item.id)"><i class="iconfont icon-feiji"></i></p>
                 <i class="iconfont icon-jiantou"></i>
             </div>
         </div>
@@ -37,6 +39,8 @@
             <!-- 没有数据的时候 -->
             <div class="left flexStart">添加我的调解人</div>
             <div class="right">
+                <!-- 发消息 -->
+                <p class="msg" @click.stop="toSendMsg(item.id)"><i class="iconfont icon-feiji"></i></p>
                 <i class="iconfont icon-jiantou"></i>
             </div>
         </div>
@@ -45,7 +49,7 @@
     <div class="mymediator bottomMediator">
         <p class="smallTitle">我要调解的人</p>
         <p class="tips">
-            <i class="iconfont icon-warming"></i> 下方用户产生交易时，您将获得一定比例奖励
+            <i class="iconfont icon-warming"></i> 将来，下方用户产生交易时，您将获得一定比例奖励，敬请期待！
         </p>
         <router-link :to="{path:'/writerDetail',query:{'writerId':item.id}}" class="mediator flexSpace bgW" v-for="item,index in needMediator">
             <div class="left flexStart">
@@ -57,9 +61,9 @@
             </div>
         </router-link>
     </div>
-      <div v-transfer-dom>
-            <previewer :list="imgArr" ref="previewer" :options="options"></previewer>
-        </div>
+    <div v-transfer-dom>
+        <previewer :list="imgArr" ref="previewer" :options="options"></previewer>
+    </div>
 </div>
 </template>
 
@@ -141,6 +145,16 @@ export default {
     },
     methods: {
         ...common,
+        // 发消息
+        toSendMsg(uid){
+            var that = this;
+            that.$router.push({
+                path: '/privateMsg',
+                query: {
+                    writerId: uid
+                }
+            })
+        },
         // 获取我的二维码
         getEWM() {
             var that = this;
@@ -227,6 +241,7 @@ export default {
 #myNetwork .mymediator .tips {
     padding-left: 19px;
     margin-bottom: 14px;
+    color: #f83345;
 }
 
 #myNetwork .mymediator .tips .iconfont {
@@ -276,6 +291,17 @@ export default {
     margin-right: 10px;
 }
 
+#myNetwork .right p.msg{
+        width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    margin: 0 10px;
+    line-height: 25px;
+    text-align: center;
+    display: inline-block;
+        background: #44C447;
+    color: #fff
+}
 #myNetwork .ewmPic {
     width: auto;
     height: 400px;
@@ -290,6 +316,6 @@ export default {
 }
 
 #myNetwork .bottomMediator {
-    padding-bottom:30px;
+    padding-bottom: 30px;
 }
 </style>

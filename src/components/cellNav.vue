@@ -9,9 +9,10 @@
                         <!-- 推荐人 -->
                     <img  v-if="recommenderId"  :recommenderId="recommenderId" :src="recommenderSrc" alt="" class="recommender"  @click.stop.self="gotoWriterDetail">
                     <!-- 发信息 -->
-                    <p v-if="isMsg" class="msg flexCenter" @click.stop="gotoSendMsg">
+                    <p   v-if="isMsg&&recommenderId" class="msg flexCenter" @click.stop="gotoSendMsg">
                         <i class="iconfont icon-feiji"></i>
                     </p>
+                    <p v-if="!recommenderId" >暂无</p>
                     </div>
                 </div> 
         </cell>

@@ -26,12 +26,12 @@ export default {
             routers: [
                 {
                     name: '找家教',
-                    iconfontName: 'iconfont icon-boshimao1',
+                    iconfontName: 'iconfont icon-boshimao',
                     link: '/index',
                     active: true
                 }, {
                     name: '订单',
-                    iconfontName: 'iconfont icon-dingdan',
+                    iconfontName: 'iconfont icon-dingdan1',
                     link: '/order',
                     active: false
                 }, {
@@ -95,5 +95,8 @@ export default {
     height: 49px;
     display: flex;
     justify-content: center;
+}
+#footer .weui-tabbar .iconfont.icon-boshimao{
+    font-size: 24px;
 }
 </style>

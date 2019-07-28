@@ -21,6 +21,12 @@ export default {
             myRight:''
         }
     },
+    watch:{
+        rightText(val){
+            console.log('watch'+val)
+            this.myRight=this.rightText
+        }
+    },
     props:['gradesArr','leftText','id','rightText','zindex'],
     components:{
         Picker,
@@ -29,6 +35,7 @@ export default {
     },
     mounted(){
         this.myRight=this.rightText
+        // alert(this.rightText)
     },
     methods:{
          // pop

@@ -1,6 +1,6 @@
 <template>
 <div id="myFallow">
-    <div ><router-link :to="{path:'/addFellow'}"><button class="long_btn topBtn" >+加关注</button></router-link></div>
+    <!-- <div ><router-link :to="{path:'/addFellow'}"><button class="long_btn topBtn" >+加关注</button></router-link></div> -->
     <router-link :to="{path:'/writerDetail',query:{'writerId':item.id}}" v-for="item,index in writerList">
        <writers :serviceHours="item.serviceHours" :serviceOrderCount="item.serviceOrderCount" :serviceUserCount="item.serviceUserCount" :imgurl="item.imgurl" :type="item.type" :uid="item.id"  :isMissionDetail="isMissionDetail" :userTags="item.authorInfo.userTags" :realAuth="item.realAuth" :eduAuth="item.eduAuth" :userCount="item.userCount" :workAge="item.authorAuthInfo.workAge" :soleCost="item.authorInfo.soleCost" :shortName="item.nickname"></writers>
     </router-link>

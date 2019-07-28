@@ -12,12 +12,7 @@
             <x-textarea style="background: #F5F5F5" v-model="value1" placeholder="例：“某年-某年：某培训机构”或“没有机构背景”"></x-textarea>
         </group>
     </div>
-    <div class="eachArea">
-        <span class="titleBox leftText">家教经历</span>
-        <group>
-            <x-textarea style="background: #F5F5F5" v-model="value2"></x-textarea>
-        </group>
-    </div>
+  
     <!-- <div class="eachArea">
         <span class="titleBox leftText">写过的发行的家长名单</span>
         <group>
@@ -215,7 +210,7 @@ export default {
             var data = {
                 achievement: that.value1,
                 books: that.value3,
-                experience: that.value2,
+                // experience: that.value2,
                 material: that.orgfrontUrl,
                 org: that.value4,
                 workAge: that.year,
@@ -224,16 +219,6 @@ export default {
             }
             console.log(data)
             var flag=true;
-            // for(var i in data){
-            //     if(!Boolean(data[i])){
-            //          AlertModule.show({
-            //             title:"请填写全部信息"
-            //         })
-            //         flag=false
-            //         break;
-            //     }
-            //     continue;
-            // }
             if(flag){
             data.othersMaterial=that.orgbackUrl;
             data.uid= that.$store.state.uid
@@ -265,7 +250,7 @@ export default {
     padding-top: 14px;
     padding-left: 50px;
     padding-right: 50px;
-    padding-bottom: 1093px;
+    /* padding-bottom: 1093px; */
 }
 
 #authorAuthentication .leftText {
