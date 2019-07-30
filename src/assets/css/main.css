@@ -28,7 +28,9 @@
   border: 1px solid #CECECE;
   border-radius: 5px;
 }
-
+.tagText{
+  text-decoration: underline;
+}
 .eachAccordion {
   border: 1px solid #CECECE;
   border-radius: 5px;

@@ -62,7 +62,8 @@
             </div>
             <!-- 循环报名者 satrt-->
             <div class="writerBox" >
-                <div class="eachWriter flexBox" v-for="item,index in enrollerWriterList" v-if="item.status!='3'">
+                <!--显示的情况： 未被选中且不是登陆的用户|| 登陆用户是发布者 || 选中之后，不是未被选中的人-->
+                <div class="eachWriter flexBox" v-for="item,index in enrollerWriterList" v-if="(item.status!='3'&& item.uid==$store.state.uid)||(showData.uid==$store.state.uid&&item.status!='3')" :q="item.uid" :a="$store.state.uid">
                     <div class="left">
                         <img  @click.stop="goToWriterDetail(item.uid)" :src="$store.state.imgUrl+item.user.imgurl" class="userImg" alt="">
                     </div>
@@ -70,18 +71,21 @@
                         <div class="top flexBox">
                             <p class="nickname">{{item.user.nickname}}</p>
                             <div>
-                            <!--  <a class="weui-btn" :href="'tel://'+userData.mobile">  <x-button v-if="!isLocalUser" @click.native="goTel">
-                <i class="iconfont icon-dianhua"></i>电话</x-button></a> -->
-                                <p class="tel"><a  @click.stop=""  :href="'tel://'+item.user.mobile" > <i class="iconfont icon-dianhua"></i></a></p>
-                                <p class="msg" @click="gotoSendMsg(item.uid)"><i class="iconfont icon-send"></i></p>
-                                <button class="choose" @click.stop="chooseWriter(item.id,index)" v-if="showData.status=='1'">选择</button>
+                                <p class="tel" v-if="$store.state.userType=='business'"><a  @click.stop=""  :href="'tel://'+item.user.mobile" > <i class="iconfont icon-dianhua"></i></a></p>
+                                <p class="msg" v-if="$store.state.userType=='business'" @click="gotoSendMsg(item.uid)"><i class="iconfont icon-send"></i></p>
+                                <button class="choose" @click.stop="chooseWriter(item.id,index)" v-if="(showData.status=='1'&&isSelectedWriter)||(showData.status=='1'&&showData.uid==$store.state.uid)">选择</button>
+                                 <button class="choose"   v-if="showData.status=='1'&& !isSelectedWriter&&showData.uid!=$store.state.uid">已报名</button>
                                 <!-- item.status=='2'是作者未被选中  isSelectedWriter为false的时候  说明进来的不是被选中的作者-->
                                 <button :class="item.status=='3'?'choose chooseDis':isSelectedWriter?'choose':'choose chooseDis'" @click.stop="chooseWriter(item.id,index)" v-if="showData.status!='1'">{{item.status=='3'?'未选中':'已选择'}}</button>
                             </div>
                         </div>
                         <div class="content">
                             <div class="hang">
-                                    <div class="item">{{item.user.tag?item.user.tag:'暂无'}}</div>
+                                    <div class="item mainText tagText">
+                                        <!-- 机构 -->
+                                      <span style="word-break: keep-all">  {{item.user.tag&&item.user?item.user.tag.tag:'暂无'}}<i class="iconfont icon-gouxuan" v-if="item.user.tag?true:false"></i></span>
+
+                                    </div>
                                 <p class="item">实名
                                     <i class="iconfont icon-wenhao" v-if="item.user.realAuth!=2?true:false"></i>
                                     <i class="iconfont icon-gouxuan" v-if="item.user.realAuth==2?true:false"></i>
@@ -92,7 +96,7 @@
                                 </p>
                             </div>
                             <div class="hang">
-                                 <div class="item">{{item.user.eduCertificate.school?item.user.eduCertificate.school:'暂无'}}</div>
+                                 <div class="item schoolText">{{item.user.eduCertificate.school?item.user.eduCertificate.school:'暂无'}}</div>
                             <div class="item">{{item.user.authorInfo?item.user.authorInfo.gender=='1'?'男':"女":'暂无'}}</div>
                             <div class="item">资历：{{item.user.authorAuthInfo?item.user.authorAuthInfo.workAge:0}}年</div>
                             </div>
@@ -134,7 +138,8 @@
             <!-- 如果我是作者  没有被选中-->
              <button class="long_btn notSelect" v-if="showData.status!='1'&&!isSelectedWriter">未选中，请再接再厉</button>
               <!-- 如果我是作者  我被选中了-->
-            <button class="long_btn notSelect" v-if="isSelectedWriter">已完成</button>
+            <button class="long_btn notSelect" v-if="isSelectedWriter&&showData.status>'2'">已完成</button>
+             <button class="long_btn notSelect" v-if="isSelectedWriter&&showData.status=='2'">待评价（请家长给予评价有助于您的评分上升）</button>
         </div>
         <!-- 是我的任务 -->
         <div class="btnBox bgw" v-if="isMyTask">
@@ -225,7 +230,7 @@ export default {
     },
     mounted() {
         // status (integer, optional): 
-        //对家长状态(1-报名中,2-已选择,3-已评价,4-已失效,5-已取消),,
+        // 对家长状态(1-报名中,2-已选择,3-已评价,4-已失效,5-已取消),,
         // 对家教状态(1-已报名,2-未选中,3-待评价,4-已完成)) ,
         // alert(this.isMyTask)
     },
@@ -490,6 +495,7 @@ body {
     pointer-events: none;
     color: #fff !important;
     border-color: #333 !important;
+    font-size: 14px;
 }
 
 #missionDetail .content .peple img {
@@ -567,6 +573,7 @@ body {
 #missionDetail .long_btn {
     width: 100%;
     margin-top: 0px !important;
+     font-size: 14px;
 }
 
 #missionDetail .long_btn.disable {
@@ -787,8 +794,11 @@ body {
     width: 100%;
 }
 .eachWriter .right .content .item {
-    width: 33.33%;
+    width:28%;
     text-align: left
+}
+.eachWriter .right .content .item.tagText,.eachWriter .right .content .item.schoolText{
+    width: 44%;
 }
 
 /* ======================================================= */

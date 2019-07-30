@@ -4,7 +4,7 @@
 
     <div class="main">
         <div v-transfer-dom>
-            <popup v-model="sxIsShow">
+            <popup v-model="sxIsShow" :popup-style="{zIndex: 89999}">
                 <div class="popup1">
                     <group>
                         <!--年级选择-->
@@ -33,11 +33,11 @@
             </popup>
         </div>
 
-        <div v-if="mainShow">
+        <div >
             <!--顶部按钮-->
 
             <div class="topBox flexSpace">
-                <div class="eachBtn shortOne" @click="pxIsShow=!pxIsShow">
+                <div class="eachBtn shortOne" @click="toSort">
                     排序
                     <i class="iconfont icon-paixu"></i>
                 </div>
@@ -114,11 +114,26 @@
 
                 <!--排序-->
 
-                <div v-transfer-dom id="myPop">
-                    <!-- 保存并推出getMissionOrderType -->
+                <!-- <div v-transfer-dom id="myPop">
                     <sortPopup :pxIsShow="pxIsShow" :sortOptions="sortOptions" @getPxIsShow="getPxIsShow" @getMissionOrderType="getMissionOrderType"></sortPopup>
+                </div> -->
+                <!--排序条件弹窗-->
+                <div v-transfer-dom class="bgW" id="sortPopup">
+                    <popup  v-model="pxIsShow" style="background-color:#fff;" class="sortBox bgW">
+                        <div style="background-color:#fff;height:auto;margin:0 auto;border-radius:5px;">
+                            <group>
+                                <radio :options="sortOptions" @on-change="choostItem"></radio>
+                            </group>
+                            <div style="padding:13px 10px;" class="popBtnBox">
+                                <x-button @click.native="saveOrder" class="popBtn saveBtn">确认</x-button>
+                                <x-button class="popBtn backBtn" @click.native="backSave">恢复默认排序</x-button>
+                            </div>
+
+                        </div>
+                    </popup>
                 </div>
             </div>
+             <!--排序条件弹窗----------------end-->
 
             <div class="component">
                 <div id="multiPicker">
@@ -199,6 +214,7 @@ import {
     XAddress,
     Loading,
     Scroller,
+       Radio,
     Value2nameFilter as value2name
 } from "vux";
 
@@ -259,8 +275,6 @@ export default {
                 }
 
             ],
-
-            order: "",
 
             addressData: [{
                     name: "上海市",
@@ -358,8 +372,6 @@ export default {
             borderColor: "",
 
             aLLIsShow: false,
-
-            pxIsShow: false,
 
             sxIsShow: false,
 
@@ -521,13 +533,12 @@ export default {
 
             coordinationShow: false,
 
-            mainShow: true,
-
             allWriter: "",
 
             list: [],
 
             userData: {},
+            order:'',
 
             missionTypeText: "全部类型",
 
@@ -544,7 +555,7 @@ export default {
         Swiper,
         SwiperItem,
         Popup,
-
+          Radio,
         XSwitch,
 
         Cell,
@@ -618,6 +629,29 @@ export default {
 
     methods: {
         ...common,
+        // 保存排序
+        saveOrder() {
+             this.pxIsShow=!this.pxIsShow;
+            // if (this.order == '') {
+            //     this.order = this.sortOptions[0].value
+            // }
+            // this.$emit('getPxIsShow', false)
+            // this.$emit('getOrderType', this.order)
+            // 任务中的排序监听
+            // this.$emit('getMissionOrderType', this.order)
+            // this.getOrderType()
+            this.getMissionOrderType(this.order)
+        },
+        // 点击每一个排序
+        choostItem(value, label) {
+             this.order = value;
+
+        },
+        // 恢复默认
+        backSave() {
+            this.pxIsShow=!this.pxIsShow;
+            this.order=''
+        },
         // 去发布
         goToPost() {
             this.$router.push({
@@ -854,8 +888,6 @@ export default {
                 }
             }
 
-            this.mainShow = true;
-
             this.classShow = false;
 
             this.rightText1 = arr.join(",");
@@ -874,7 +906,6 @@ export default {
                 }
             }
 
-            this.mainShow = true;
 
             this.categoryShow = false;
 
@@ -901,16 +932,17 @@ export default {
 
                 this.classShow = true;
 
-                (this.categoryShow = false),
-                (this.coordinationShow = false),
-                (this.mainShow = false);
+                (this.categoryShow = false)
+                (this.coordinationShow = false)
+              
             } else {
-                (this.classShow = false),
-                (this.coordinationShow = false),
-                (this.categoryShow = true);
-
-                this.mainShow = false;
+                (this.classShow = false)
+                (this.coordinationShow = false)
+                (this.categoryShow = true)
             }
+        },
+        toSort(){
+            this.pxIsShow=true;
         },
 
         // 查看任务详情
@@ -1044,8 +1076,6 @@ export default {
                 that.sxIsShow = false;
 
                 that.scrollerShow = true;
-
-                that.mainShow = true;
             }
         },
 
@@ -1497,7 +1527,28 @@ export default {
 
     margin-bottom: 10px;
 }
+#sortPopup .sortBox {
+    padding: 15px 0;
+}
 
+#sortPopup .weui-cells:before {
+    height: 0 !important;
+    border: none;
+}
+
+#sortPopup  .sortCell.active {
+    color: #3375C5;
+    font-weight: bolder;
+}
+
+#sortPopup .sortBox {
+    z-index: 9999999999999999999;
+}
+
+#sortPopup  .backBtn {
+    margin-left: 10px;
+    border:1px solid  #3375c5;
+}
 .long_btn.seeResultBtn {
     margin-top: 10px;
     margin-bottom: 10px;

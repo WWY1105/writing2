@@ -1,7 +1,7 @@
 <template>
 <!--排序条件弹窗-->
 <div v-transfer-dom class="bgW" id="sortPopup">
-    <popup v-model="pxIsShow" style="background-color:#fff;" class="sortBox bgW">
+    <popup  v-model="myShow" style="background-color:#fff;" class="sortBox bgW">
         <div style="background-color:#fff;height:auto;margin:0 auto;border-radius:5px;">
             <!-- <group>
                 <cell v-for="item,index in sortOptions" :class="index==0?'sortCell active':'sortCell'" :title="item.title" :value="item.value" :key="index" @click.native="choostItem(index)">
@@ -49,11 +49,16 @@ export default {
             rangValue: 17,
             data2: 0,
             order: '',
-            originSort: []
+            originSort: [],
+            myShow:false
 
         }
     },
     props: ['pxIsShow', 'sortOptions'],
+    beforeUpdate(){
+        console.log(this.pxIsShow)
+       this.myShow=this.pxIsShow
+    },
     directives: {
         TransferDom
     },

@@ -137,15 +137,16 @@ export default {
                     AlertModule.show({
                         title: "发送成功",
                         onHide() {
-                            that.$router.push({
-                                path: '/writerDetail',
-                                query: {
-                                    writerId: that.uid
-                                },
-                                meta: {
-                                    keepAlive: true
-                                }
-                            })
+                            // that.$router.push({
+                            //     path: '/writerDetail',
+                            //     query: {
+                            //         writerId: that.uid
+                            //     },
+                            //     meta: {
+                            //         keepAlive: true
+                            //     }
+                            // })
+                             that.$router.go(-1)
                         }
                     });
 

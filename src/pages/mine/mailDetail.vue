@@ -1,43 +1,45 @@
 <template>
 <div id="mailDetail">
-    <!-- 信箱详情 -->
-    <div class="eachMail flexSpace bgW">
-        <div class="imgBox">
-            <img :src="$store.state.imgUrl+mailDetail.user.imgurl"  class="userImg"  alt="">
-            <!-- <span class="redDot"></span> -->
-        </div>
-        <div class="text">
-            <p class="flexSpace">
-               
-                <span class="name">{{mailDetail.user.nickname}}</span>
-                 <span class="date">{{mailDetail.msgTime}}</span>
-            </p>
-            
-            <p class="detailText">{{mailDetail.content}}</p>
-            
-        </div>
-    </div>
-
-    <!-- 回复详情 -->
-    <div class="eachMail replayBox flexSpace bgW" v-for="i,j in  comments" @click="replayMsgId(i.msgId)">
-        <div class="imgBox">
-            <img  :src="$store.state.imgUrl+i.user.imgurl"   class="userImg"  alt="">
-        </div>
+    <div class="content">
+        <!-- 信箱详情 -->
+        <div class="eachMail flexSpace bgW">
+            <div class="imgBox">
+                <img :src="mailDetail.user?$store.state.imgUrl+mailDetail.user.imgurl:''" class="userImg" alt="">
+                <!-- <span class="redDot"></span> -->
+            </div>
             <div class="text">
-                 <p class="flexSpace">
-                     <span class="name">{{i.user.nickname}}</span>
-                    <span class="date">{{i.commentTime}}</span>
+                <p class="flexSpace">
+
+                    <span class="name">{{mailDetail.user.nickname}}</span>
+                    <span class="date">{{mailDetail.msgTime}}</span>
                 </p>
-                
-                <p class="detailText">{{i.content}}</p>
-               
+
+                <p class="detailText">{{mailDetail.content}}</p>
+
             </div>
         </div>
-        <div class="replay bgW flexSpace">
-            <input type="text" placeholder="回复私信" v-model="content"  ref='input'>
-            <button class="long_btn" @click="sendMsg">发送</button>
+
+        <!-- 回复详情 -->
+        <div class="eachMail replayBox flexSpace bgW" v-for="i,j in comments" @click="replayMsgId(i.msgId)">
+            <div class="imgBox">
+                <img :src="i.user?$store.state.imgUrl+i.user.imgurl:''" class="userImg" alt="">
+            </div>
+            <div class="text">
+                <p class="flexSpace">
+                    <span class="name">{{i.user.nickname}}</span>
+                    <span class="date">{{i.commentTime}}</span>
+                </p>
+
+                <p class="detailText">{{i.content}}</p>
+
+            </div>
         </div>
     </div>
+    <div class="replay bgW flexSpace">
+        <input type="text" placeholder="回复私信" v-model="content" autofocus ref='input'>
+        <button class="long_btn" @click.stop="sendMsg">发送</button>
+    </div>
+</div>
 </template>
 
 <script>
@@ -60,7 +62,6 @@ export default {
     },
     mounted() {
         this.getDetail();
-        this.$refs.input.focus()
     },
     methods: {
         getDetail() {
@@ -74,6 +75,7 @@ export default {
                 } else {
                     that.mailDetail = res.data.data;
                     that.comments = res.data.data.comments;
+
                     // 设置已读
                     that.$http('put', baseUrl + 'api/PrivateMsg/read/' + that.mailId).then(function (res) {
                         if (res.data.code != '00') {
@@ -94,23 +96,29 @@ export default {
             this.msgId = id;
         },
         sendMsg() {
-                var that = this;
-                var baseUrl = this.$store.state.baseUrl;
-                that.$http('post', baseUrl + 'api/PrivateMsg/comment', {
-                    privateMsgId: that.mailDetail.id,
-                    uid: that.$store.state.uid,
-                    content: that.content
-                }).then(function (res) {
-                    if (res.data.code != '00') {
-                        AlertModule.show({
-                            title: res.data.msg
-                        })
-                    } else {
-                       that.getDetail();
-                       that.content=''
-                    }   
-                })
-            
+            var that = this;
+            var baseUrl = this.$store.state.baseUrl;
+            if(that.content.trim()==''){
+                 AlertModule.show({
+                        title: "不能发送空消息哦"
+                    })
+                    return false;
+            }
+            that.$http('post', baseUrl + 'api/PrivateMsg/comment', {
+                privateMsgId: that.mailDetail.id,
+                uid: that.$store.state.uid,
+                content: that.content
+            }).then(function (res) {
+                if (res.data.code != '00') {
+                    AlertModule.show({
+                        title: res.data.msg
+                    })
+                } else {
+                    that.getDetail();
+                    that.content = '';
+                }
+            })
+
         }
     }
 }
@@ -170,25 +178,36 @@ export default {
     height: 40px;
     border-radius: 50%;
     margin-right: 10px;
-      display: inline-block;
-  border: 1px solid #e9e9e9;
+    display: inline-block;
+    border: 1px solid #e9e9e9;
 
 }
-
+#mailDetail  .content{
+    position:absolute;
+    width:100%;
+    top:0;
+    left:0;
+        max-height: 100%;
+    height: 100%;
+    overflow: scroll;
+    padding-bottom:80px;
+}
 #mailDetail .replay {
     padding: 9px 16px;
-    position: fixed;
+    position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
 
 }
-#mailDetail .replay .long_btn{
+
+#mailDetail .replay .long_btn {
     margin: 0;
     max-width: 80px;
     margin-left: 10px;
-        height: 36px;
+    height: 36px;
 }
+
 #mailDetail .replay input {
     width: 100%;
     height: 36px;

@@ -10,7 +10,7 @@ export default new Vuex.Store({
         // imgUrl:"http://www.shuimujiajia.net/storage/",
         // baseUrl: "http://www.shuimujiajia.net/works/",
         // imgUrl:'http://nian.im/storage/',
-        // baseUrl:'http://nian.im/works/',
+        //  baseUrl:'http://nian.im/works/',
         uid:''||localStorage.getItem('uid'),
         openid:'', 
         userImg:'',
@@ -45,4 +45,4 @@ export default new Vuex.Store({
 })
 
 //34 ,80 ,11  business
-//101,7  作者  author
+//107,7,116  作者  author

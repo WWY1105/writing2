@@ -11,7 +11,7 @@
                     <span class="title ">{{shortName}}</span>
                     <div>
                         <p class='priceDesc' v-if="type=='author'">预算费用</p>
-                        <p class="price">{{!soleCost?'￥暂无':soleCost}}</p>
+                        <p class="price">{{!soleCost?'￥暂无':'￥'+soleCost+'/小时'}}</p>
                      </div>
                 </div>
                  <!-- <div class="titleBox flexSpace">
@@ -22,8 +22,8 @@
                 <div class="details" v-if="type=='author'">
                     <!-- 1 -->
                     <div class="hang">
-                        <p class="text">
-                            <span class="mainText"> {{org?org:'机构：暂无'}}</span>
+                        <p class="text tagText">
+                            <span class="mainText "> {{org?org:'机构：暂无'}}<i class="iconfont icon-gouxuan" v-if="org?true:false"></i></span>
                         </p>
                          <p class="option">实名
                             <i class="iconfont icon-wenhao" v-if="realAuth!=2?true:false"></i>
@@ -36,7 +36,7 @@
                     </div>
                     <!-- 2 -->
                     <div class="hang">
-                        <p class="text">
+                        <p class="text schoolText">
                             {{school?school:'学校：暂无'}}
                         </p>
                           <p class="text">
@@ -130,11 +130,14 @@ display: -webkit-box;
     color:#242424;
 }
 .hang p {
-    width: 33.33%;
+    width:26%;
     color:#242424;
 
 }
-
+.hang  .tagText,.hang p.schoolText{
+    width: 44%;
+    display: inline-block
+}
 .hang p.text {
     text-align: left;
     color:#242424;
@@ -258,5 +261,9 @@ text-align: left;
 }
 #missionInAfterEvaluteBuss .hang p.right{
 text-align: right;
+}
+.priceDesc {
+    color: #707070;
+    font-size: 12px;
 }
 </style>

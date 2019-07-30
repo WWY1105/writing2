@@ -8,6 +8,7 @@
             <input v-if="isios" type="file" name="img" accept="image/*" id="upload_file" mutiple="mutiple" class="add" @change="chooseImage" />
             <input v-if="!isios" type="file" name="img" accept="image/*" id="upload_file" mutiple="mutiple" class="add" @change="chooseImage" />
             <!-- capture="camera" -->
+            <p class="editTips">修改头像</p>
 
         </div>
 
@@ -942,6 +943,18 @@ html {}
     bottom: 10px;
     z-index: 99999;
 }
+#myMainPage .editTips{
+        position: absolute;
+    bottom: 10%;
+    left: 0;
+    right: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    color:  #3375c5;
+    text-decoration: underline;
+
+  }
 
 .vux-cell-box:not(:first-child):before {
 
