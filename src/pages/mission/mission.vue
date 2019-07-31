@@ -367,7 +367,7 @@ export default {
                 }
             ],
 
-            nowPath: "/mission",
+            nowPath: "/index",
 
             borderColor: "",
 

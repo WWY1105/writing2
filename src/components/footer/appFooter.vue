@@ -8,7 +8,8 @@
         <!--@click.native="tabActive(index)"-->
         <tabbar>
             <tabbar-item :selected="nowPath==item.link?true:false" v-for="item,index in routers" is-link :link="item.link" :key="index" >
-                <span slot="icon" :class="item.iconfontName"></span>
+                <img slot="icon" :src="item.activeSrc" v-if="nowPath==item.link?true:false"/>
+                <img slot="icon" :src="item.src" v-if="nowPath!=item.link?true:false"/>
                 <span slot="label">{{item.name}}</span>
             </tabbar-item>
         </tabbar>
@@ -26,22 +27,27 @@ export default {
             routers: [
                 {
                     name: '找家教',
-                    iconfontName: 'iconfont icon-boshimao',
+                    activeSrc: './static/a.png',
+                    src:'./static/a1.png',
                     link: '/index',
                     active: true
                 }, {
                     name: '订单',
-                    iconfontName: 'iconfont icon-dingdan1',
+                      activeSrc: './static/c.png',
+                    src:'./static/c1.png',
                     link: '/order',
                     active: false
                 }, {
                     name: '消息',
-                    iconfontName: 'iconfont icon-send',
+                  
+                    activeSrc: './static/b.png',
+                    src:'./static/b1.png',
                     link: '/myMailbox',
                     active: false
                 }, {
                     name: '我的',
-                    iconfontName: 'iconfont icon-wode',
+                    activeSrc: './static/d.png',
+                    src:'./static/d1.png',
                     link: '/mineIndex',
                     active: false
                 },
@@ -97,6 +103,9 @@ export default {
     justify-content: center;
 }
 #footer .weui-tabbar .iconfont.icon-boshimao{
-    font-size: 24px;
+    /* font-size: 24px; */
+}
+.weui-tabbar__icon img{
+    transform: scale(0.7)
 }
 </style>

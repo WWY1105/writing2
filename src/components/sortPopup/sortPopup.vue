@@ -1,7 +1,7 @@
 <template>
 <!--排序条件弹窗-->
 <div v-transfer-dom class="bgW" id="sortPopup">
-    <popup  v-model="myShow" style="background-color:#fff;" class="sortBox bgW">
+    <popup  v-model="pxIsShow" style="background-color:#fff;" class="sortBox bgW">
         <div style="background-color:#fff;height:auto;margin:0 auto;border-radius:5px;">
             <!-- <group>
                 <cell v-for="item,index in sortOptions" :class="index==0?'sortCell active':'sortCell'" :title="item.title" :value="item.value" :key="index" @click.native="choostItem(index)">
@@ -44,12 +44,7 @@ export default {
 
     data() {
         return {
-            stringValue: '',
-            seexCheckType: '', //性别选中值
-            rangValue: 17,
-            data2: 0,
             order: '',
-            originSort: [],
             myShow:false
 
         }
@@ -116,7 +111,7 @@ export default {
     border: none;
 }
 
-.sortCell.active {
+#sortPopup  .sortCell.active {
     color: #3375C5;
     font-weight: bolder;
 }
@@ -125,7 +120,7 @@ export default {
     z-index: 9999999999999999999;
 }
 
-.backBtn {
+#sortPopup  .backBtn {
     margin-left: 10px;
 }
 </style>
