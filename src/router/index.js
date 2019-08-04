@@ -371,7 +371,7 @@ export default new Router({
       name: 'myMediator',
       component: myMediator,
       meta:{
-        title:'我的调解人'
+        title:'我的推荐人'
       }
     },{
       path: '/addFellow',

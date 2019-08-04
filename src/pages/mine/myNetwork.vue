@@ -19,7 +19,7 @@
     <!-- 上半部分 END-->
     <p class="midTitle">上图长按保存图片后分享好友或群</p>
     <div class="mymediator topMyMediator">
-        <p class="smallTitle">我的调解人</p>
+        <p class="smallTitle">我的推荐人</p>
         <div v-if="myMediator.length==0?false:true" v-for="item,index in myMediator" class="mediator flexSpace bgW">
             <!-- 有数据的时候 -->
             <div class="left flexStart">
@@ -37,7 +37,7 @@
 
         <div class="mediator flexSpace bgW" @click="addMyMediator" v-if="myMediator.length==0?true:false">
             <!-- 没有数据的时候 -->
-            <div class="left flexStart">添加我的调解人</div>
+            <div class="left flexStart">添加我的推荐人</div>
             <div class="right">
                 <!-- 发消息 -->
                 <p class="msg" @click.stop="toSendMsg(item.id)"><i class="iconfont icon-feiji"></i></p>
@@ -177,7 +177,7 @@ export default {
                     }
                 });
         },
-        // 获取我的调解人
+        // 获取我的推荐人
         getMediator() {
             var that = this;
             var baseUrl = this.$store.state.baseUrl;
@@ -196,7 +196,7 @@ export default {
                     }
                 });
         },
-        // 添加我的调解人
+        // 添加我的推荐人
         addMyMediator() {
             this.$router.push({
                 path: "/myMediator"

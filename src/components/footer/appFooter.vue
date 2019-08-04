@@ -7,9 +7,9 @@
                         </yd-tabbar>-->
         <!--@click.native="tabActive(index)"-->
         <tabbar>
-            <tabbar-item :selected="nowPath==item.link?true:false" v-for="item,index in routers" is-link :link="item.link" :key="index" >
-                <img slot="icon" :src="item.activeSrc" v-if="nowPath==item.link?true:false"/>
-                <img slot="icon" :src="item.src" v-if="nowPath!=item.link?true:false"/>
+            <tabbar-item :show-dot="msgList.length>0&&index==2?true:false" :selected="nowPath==item.link?true:false" v-for="item,index in routers" is-link :link="item.link" :key="index" >
+                <img slot="icon" :src="item.activeSrc" v-if="nowPath==item.link?true:false" :class="item.i"/>
+                <img slot="icon" :src="item.src" v-if="nowPath!=item.link?true:false" :class="item.i"/>
                 <span slot="label">{{item.name}}</span>
             </tabbar-item>
         </tabbar>
@@ -30,16 +30,18 @@ export default {
                     activeSrc: './static/a.png',
                     src:'./static/a1.png',
                     link: '/index',
-                    active: true
+                    active: true,
+                    i:'one'
                 }, {
                     name: '订单',
                       activeSrc: './static/c.png',
                     src:'./static/c1.png',
                     link: '/order',
-                    active: false
+                    active: false,
+                    i:'two'
                 }, {
                     name: '消息',
-                  
+                    i:'three',
                     activeSrc: './static/b.png',
                     src:'./static/b1.png',
                     link: '/myMailbox',
@@ -49,9 +51,11 @@ export default {
                     activeSrc: './static/d.png',
                     src:'./static/d1.png',
                     link: '/mineIndex',
-                    active: false
+                    active: false,
+                    i:'four'
                 },
-            ]
+            ],
+            msgList:[]
         }
     },
     props:["nowPath"],
@@ -63,7 +67,7 @@ export default {
     },
     mounted() {
         console.log(this.nowPath)
-
+        this.getMsgList()
     },
     // watch: {
     //     $route: {
@@ -87,7 +91,29 @@ export default {
                 this.routers[i].active = false;
             }
             this.routers[index].active = true;
-        }
+        },
+        // 获取私信列表/api/UserMsg/List
+        getMsgList() {
+            var that = this;
+            var baseUrl = this.$store.state.baseUrl;
+            // alert(that.uid)
+            that
+                .$http("get", baseUrl + "api/PrivateMsg/List", {
+                    toUid: that.$store.state.uid
+                })
+                .then(function (res) {
+                    console.log(res.data.data);
+                    var result = res.data.data;
+                    // that.mailId = result.id;
+                    that.msgList = result.filter((item)=>{
+                        if(!item.read){
+                            return true;
+                        }
+                    });
+                    console.log('--------------')
+                    console.log(that.msgList)
+                });
+        },
     }
 }
 </script>
@@ -105,7 +131,20 @@ export default {
 #footer .weui-tabbar .iconfont.icon-boshimao{
     /* font-size: 24px; */
 }
-.weui-tabbar__icon img{
-    transform: scale(0.7)
+.weui-tabbar__icon img.one{
+    width: 29px;
+    height: 17px;
+}
+.weui-tabbar__icon img.two{
+    width: 17px;
+    height: 19px;
+}
+.weui-tabbar__icon img.three{
+    width: 20px;
+    height: 20px;
+}
+.weui-tabbar__icon img.four{
+    width: 17px;
+    height: 21px;
 }
 </style>

@@ -174,7 +174,7 @@
                 </div>
             </div>
             <!-- 固定按钮 -->
-            <button class="fixBtn" @click="goToPost" v-if="$store.state.userType!='author'">
+            <button class="fixBtn" @click.self.stop="goToPost" v-if="$store.state.userType!='author'">
                 <span>+</span>
                 <span>发布</span>
             </button>
@@ -692,6 +692,17 @@ export default {
                     title: "抱歉您不能报名自己的任务"
                 });
 
+                return false;
+            }
+            // 报名的作者是否所有认证都通过userData
+            //realAuth eduAuth authorAuth==2
+            // console.log(that.userData.realAuth)
+            // console.log(that.userData.eduAuth)
+            // console.log(that.userData.authorAuth)
+            if (that.userData.realAuth!=2||that.userData.eduAuth !=2||that.userData.authorAuth !=2) {
+                AlertModule.show({
+                    title: "您有认证没有做完"
+                });
                 return false;
             }
 

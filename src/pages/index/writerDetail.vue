@@ -289,7 +289,7 @@ export default {
     },
     methods: {
         ...common,
-        // 获取我的调解人
+        // 获取我的推荐人
         getMediator(uid) {
             var that = this;
             var baseUrl = this.$store.state.baseUrl;

@@ -151,7 +151,7 @@ export default {
                     that.$store.commit('setUserType',res.data.data.type)
                     localStorage.setItem('uid', res.data.data.id);
                     localStorage.setItem('userType', res.data.data.type);
-                    // 添加新用户作为调解人
+                    // 添加新用户作为推荐人
                      if (localStorage.getItem('newUser')) {
                         that.$http('post', that.$store.state.baseUrl + 'api/Mediator/add', {
                             uid: res.data.data.id,
@@ -164,7 +164,7 @@ export default {
                                 })
                             } else {
                                  AlertModule.show({
-                                    title: "添加调解人成功"
+                                    title: "添加推荐人成功"
                                 })
                             }
 

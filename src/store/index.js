@@ -5,18 +5,18 @@ Vue.use(Vuex)
 // http://www.shuimujiajia.net/works/
 export default new Vuex.Store({
     state: {
-         imgUrl:"/storage/",
-         baseUrl: "/works/",
+        //  imgUrl:"/storage/",
+        //  baseUrl: "/works/",
         // imgUrl:"http://www.shuimujiajia.net/storage/",
         // baseUrl: "http://www.shuimujiajia.net/works/",
-        // imgUrl:'http://nian.im/storage/',
-        //  baseUrl:'http://nian.im/works/',
-        uid:''||localStorage.getItem('uid'),
+        imgUrl:'http://nian.im/storage/',
+         baseUrl:'http://nian.im/works/',
+        uid:'11'||localStorage.getItem('uid'),
         openid:'', 
         userImg:'',
         code:'',
         recommadd:''||localStorage.getItem('recommadd'),
-        userType:""||localStorage.getItem('userType')
+        userType:"business"||localStorage.getItem('userType')
     },
     mutations: {
         setCode(state, n) {

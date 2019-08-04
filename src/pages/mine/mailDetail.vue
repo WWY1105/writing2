@@ -198,6 +198,7 @@ export default {
     bottom: 0;
     left: 0;
     width: 100%;
+    z-index: 9999;
 
 }
 
@@ -216,6 +217,8 @@ export default {
     background: #f2f2f2;
     padding-left: 15px;
     font-size: 15px;
+        padding: 0;
+    margin: 0;
 }
 
 #mailDetail .replay input::placeholder {

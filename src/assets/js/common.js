@@ -7,7 +7,7 @@ const common = {
     that.$http('get', baseUrl + 'api/WebUser/' + uid, {
       loginUid: that.$store.state.uid
     }).then(function (res) {
-      that.userData = res.data.data;
+      that.userData = {...res.data.data};
       that.userImg=res.data.data.imgurl;
       that.classNo = res.data.data.authorInfo.classNo;
       that.subject = res.data.data.authorInfo.subject;
