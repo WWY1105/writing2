@@ -1,11 +1,10 @@
 <template>
 <div id="mailDetail">
-    <div class="content">
+    <div class="content" id="content">
         <!-- 信箱详情 -->
-        <div class="eachMail flexSpace bgW">
+        <!-- <div class="eachMail flexSpace bgW">
             <div class="imgBox">
                 <img :src="mailDetail.user?$store.state.imgUrl+mailDetail.user.imgurl:''" class="userImg" alt="">
-                <!-- <span class="redDot"></span> -->
             </div>
             <div class="text">
                 <p class="flexSpace">
@@ -17,10 +16,10 @@
                 <p class="detailText">{{mailDetail.content}}</p>
 
             </div>
-        </div>
+        </div> -->
 
         <!-- 回复详情 -->
-        <div class="eachMail replayBox flexSpace bgW" v-for="i,j in comments" @click="replayMsgId(i.msgId)">
+        <div class="eachMail replayBox flexSpace bgW" v-for="i,j in mailList" @click="replayMsgId(i.msgId)">
             <div class="imgBox">
                 <img :src="i.user?$store.state.imgUrl+i.user.imgurl:''" class="userImg" alt="">
             </div>
@@ -34,9 +33,10 @@
 
             </div>
         </div>
+        <div class="btnBox" style="min-height:90px"></div>
     </div>
-    <div class="replay bgW flexSpace">
-        <input type="text" placeholder="回复私信" v-model="content" autofocus ref='input'>
+    <div class="replay bgW flexSpace" v-if="inputShow">
+        <input type="text" placeholder="回复私信" v-model="content" autofocus v-focus @focus="handleFocus($event)" @blur="handleblur" id="input" ref='input'>
         <button class="long_btn" @click.stop="sendMsg">发送</button>
     </div>
 </div>
@@ -46,35 +46,62 @@
 import {
     AlertModule
 } from 'vux'
+import { setPriority } from 'os';
+import { setTimeout } from 'timers';
 export default {
     data() {
         return {
             isSaw: false,
             mailId: this.$route.query.mailId,
+            toUid: this.$route.query.toUid,
             mailDetail: {},
             comments: [],
             msgId: '',
-            content: ''
+            content: '',
+            inputShow:false,
+            timer:'',
+            mailList:[]
         }
     },
     components: {
         AlertModule
     },
+    directives: {
+        focus: {
+            // 指令的定义
+            inserted: function (el) {
+                 el.focus()
+            }
+        }
+},
     mounted() {
         this.getDetail();
     },
     methods: {
+        handleFocus(event) {
+            clearTimeout(this.timer);
+        },
+        handleblur() {
+            this.timer = setTimeout(() => {
+                document.body.scrollTop = 0;
+                window.pageXOffset = 0;
+                document.documentElement.scrollTop = 0;
+            }, 100);
+        },
         getDetail() {
             var that = this;
             var baseUrl = this.$store.state.baseUrl;
-            that.$http('get', baseUrl + 'api/PrivateMsg/' + that.mailId).then(function (res) {
+            that.$http('get', baseUrl + 'api/PrivateMsg/get-record',{
+                'uid': that.$store.state.uid,
+                'toUid' :that.toUid
+            }).then(function (res) {
                 if (res.data.code != '00') {
                     AlertModule.show({
                         title: res.data.msg
                     })
                 } else {
-                    that.mailDetail = res.data.data;
-                    that.comments = res.data.data.comments;
+                    that.mailList = res.data.data;
+                    // that.comments = res.data.data.comments;
 
                     // 设置已读
                     that.$http('put', baseUrl + 'api/PrivateMsg/read/' + that.mailId).then(function (res) {
@@ -83,8 +110,18 @@ export default {
                                 title: res.data.msg
                             })
                         } else {
-                            // that.mailDetail = res.data.data;
-                            // that.comments = res.data.data.comments
+                            that.inputShow=true
+                            var ele = document.getElementById('content');
+                            ele.scrollTop = ele.scrollHeight;
+                            // setTimeout(function(){
+                            //     ele.scrollTop = ele.scrollHeight
+                            // },200)
+                            that.$router.replace({
+                            path: "/mailDetail",
+                            query: {
+                                mailId: that.mailId
+                            }
+                        })
                         }
                     })
 
@@ -104,20 +141,44 @@ export default {
                     })
                     return false;
             }
-            that.$http('post', baseUrl + 'api/PrivateMsg/comment', {
-                privateMsgId: that.mailDetail.id,
+            // that.$http('post', baseUrl + 'api/PrivateMsg/comment', {
+            //     privateMsgId: that.mailDetail.id,
+            //     uid: that.$store.state.uid,
+            //     content: that.content
+            // }).then(function (res) {
+            //     if (res.data.code != '00') {
+            //         AlertModule.show({
+            //             title: res.data.msg
+            //         })
+            //     } else {
+            //          that.content = '';
+            //         that.inputShow=false;
+            //         that.getDetail();
+                   
+            //     }
+            // })
+            var postData = {
+                content: that.content,
                 uid: that.$store.state.uid,
-                content: that.content
-            }).then(function (res) {
-                if (res.data.code != '00') {
+                toUid :that.toUid
+            };
+            that.$http("post", baseUrl + "api/PrivateMsg", postData).then(function (res) {
+                if (res.data.code != "00") {
                     AlertModule.show({
                         title: res.data.msg
-                    })
+                    });
                 } else {
+                    // AlertModule.show({
+                    //     title: "发送成功",
+                    //     onHide() {
+                    //          that.$router.go(-1)
+                    //     }
+                    // });
+                     that.content = '';
                     that.getDetail();
-                    that.content = '';
+
                 }
-            })
+            });
 
         }
     }
@@ -129,6 +190,7 @@ export default {
     position: relative;
     height: 100%;
     width: 100%;
+    /*  */
 }
 
 #mailDetail .eachMail {
@@ -187,14 +249,15 @@ export default {
     width:100%;
     top:0;
     left:0;
-        max-height: 100%;
+    max-height: 100%;
     height: 100%;
     overflow: scroll;
-    padding-bottom:80px;
+   z-index:9;
+   padding-bottom:80px;
 }
 #mailDetail .replay {
     padding: 9px 16px;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
@@ -207,6 +270,7 @@ export default {
     max-width: 80px;
     margin-left: 10px;
     height: 36px;
+      z-index: 999999;
 }
 
 #mailDetail .replay input {
@@ -219,6 +283,7 @@ export default {
     font-size: 15px;
         padding: 0;
     margin: 0;
+     z-index: 99999;
 }
 
 #mailDetail .replay input::placeholder {

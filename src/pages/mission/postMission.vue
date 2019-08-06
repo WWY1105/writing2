@@ -41,17 +41,12 @@
                 <x-textarea :show-counter="false" :rows="3" :max="20" autosize v-model="content"></x-textarea>
             </group>
         </div>
-        <!-- <div class="eachArea">
-            <group title="详述（200字内，选填）">
-                <x-textarea :show-counter="false" :rows="8" :max="200" autosize v-model="content"></x-textarea>
-            </group>
-        </div> -->
-        <!--选项内容END-->
     </div>
     <div class="btnBox  bgW">
         <button class="long_btn" @click="postMission">发布任务</button>
     </div>
-
+        <!-- Toast -->
+        <toast v-model="toastShow1" type="text" width="20em">{{toastTest1}}</toast>
 </div>
 </template>
 
@@ -75,13 +70,17 @@ import {
     XAddress,
     AlertModule,
     Alert,
+    Toast ,
     PopupPicker,
     Value2nameFilter as value2name
 } from 'vux'
+import { setTimeout } from 'timers';
 
 export default {
     data() {
         return {
+            toastShow1:false,
+            toastTest1:'',
             bookseller: [],
             // 根据顶部tab某些部件不显示
             seeZZ: true,
@@ -182,7 +181,8 @@ export default {
         Alert,
         slidePicker,
         PopupPicker,
-        AlertModule
+        AlertModule,
+        Toast 
     },
     mounted() {
         this.getCategory();
@@ -230,7 +230,6 @@ export default {
             }
 
         },
-
         // 年级
         changeResultGrade(value) {
             var that = this;
@@ -298,9 +297,11 @@ export default {
 
             
             if (that.isEmpty(dataArr, nameArr).length != 0) {
-                AlertModule.show({
-                    title: "请填写：" + that.isEmpty(dataArr, nameArr).join(',')
-                })
+                // AlertModule.show({
+                //     title: "请填写：" + that.isEmpty(dataArr, nameArr).join(',')
+                // })
+                that.toastTest1="请填写：" + that.isEmpty(dataArr, nameArr).join(',')
+                that.toastShow1=true;
             } else {
               
                     /***
@@ -346,19 +347,31 @@ export default {
                     that.postData.deadline = that.postData.deadline + " 24:00:00"
 
                     if (!dateCompare(startDate, yourtime)) {
-                        AlertModule.show({
-                            title: "截止时间不能是今天之前"
-                        })
+                        // AlertModule.show({
+                        //     title: "截止时间不能是今天之前"
+                        // })
+                          that.toastTest1="截止时间不能是今天之前"
+                          that.toastShow1=true;
                     } else {
                         that.$http('post', that.$store.state.baseUrl + 'api/Order', that.postData).then(function (res) {
                             console.log(res.data)
                             if (res.data.code == '00') {
-                                AlertModule.show({
-                                    title: '操作成功！',
-                                    onHide() {
-                                        that.$router.go(-1)
-                                    }
-                                })
+                                // AlertModule.show({
+                                //     title: '操作成功！',
+                                //     onHide() {
+                                //         that.$router.go(-1)
+                                //     }
+                                // })
+                                 that.toastTest1='操作成功！'
+                                 that.toastShow1=true;
+                                 setTimeout(function(){
+                                      that.$router.go(-1)
+                                 },1000)
+                                
+                                //  that.onHide(()=>{
+                                //      that.$router.go(-1)
+                                //  })
+                                  
                             } else {
                                 AlertModule.show({
                                     title: res.data.msg

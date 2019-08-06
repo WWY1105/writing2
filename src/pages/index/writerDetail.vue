@@ -15,7 +15,7 @@
             <!-- <x-button v-if="!isLocalUser" @click.native="gotoSendOrientationTask">
                 <i class="iconfont icon-xie"></i>发起任务</x-button> -->
             <a class="weui-btn" :href="'tel://'+userData.mobile" v-if="!isLocalUser">
-                <x-button   @click.native="goTel">
+                <x-button @click.native="goTel">
                     <i class="iconfont icon-dianhua"></i>电话</x-button>
             </a>
         </div>
@@ -65,7 +65,7 @@
     <div class="eachBox">
         <p class="title flexTitle">
             <span>TA的任务（2018-7-1起的最近10次）</span>
-            <router-link tag="span" class="right" :to="{path:'/myPostMission',query:{uid:writerId,showAllMsg:true}}">更多
+            <router-link tag="span" class="right" :to="{path:'/order',query:{uid:writerId,showAllMsg:false}}">更多
                 <x-icon type="ios-arrow-right" size="13"></x-icon>
             </router-link>
         </p>
@@ -273,8 +273,8 @@ export default {
     mounted() {
         // 获取用户信息
         this.getWebUser(this.writerId);
-        // 获取任务信息
-        this.getMIssionlist()
+      
+
         // 获取圈子信息
         // this.getCircleLoist();
         // alert(this.writerId)
@@ -288,7 +288,7 @@ export default {
 
     },
     methods: {
-        ...common,
+        // ...common,
         // 获取我的推荐人
         getMediator(uid) {
             var that = this;
@@ -438,11 +438,63 @@ export default {
 
             })
         },
+        getWebUser(uid) {
+            // alert(uid)
+            var that = this;
+            var baseUrl = this.$store.state.baseUrl;
+            that.$http('get', baseUrl + 'api/WebUser/' + uid, {
+                loginUid: that.$store.state.uid
+            }).then(function (res) {
+                that.userData = {
+                    ...res.data.data
+                };
+                  // 获取任务信息
+                that.getMIssionlist(res.data.data.type)
+                that.userType = res.data.data.type;
+                that.userImg = res.data.data.imgurl;
+                that.classNo = res.data.data.authorInfo.classNo;
+                that.subject = res.data.data.authorInfo.subject;
+                that.selfCon = res.data.data.authorInfo.selfCon;
+                that.soleCost = res.data.data.authorInfo.soleCost;
+                that.jointCost = res.data.data.authorInfo.jointCost;
+                that.coordination = res.data.data.authorInfo.coordination;
+                that.experience = res.data.data.authorAuthInfo.experience
+                that.org = res.data.data.authorAuthInfo.org
+                that.area = res.data.data.authorInfo.area;
+                that.gender = res.data.data.authorInfo.gender;
+                that.achievement = res.data.data.authorAuthInfo.achievement
+                that.books = res.data.data.authorAuthInfo.books
+                that.userTags = res.data.data.authorInfo.userTags
+
+                // that.userType = res.data.data.type;
+                // 拼接名字
+                that.workAge = res.data.data.authorAuthInfo.workAge;
+                that.networkCount = res.data.data.networkCount
+                console.log("用户信息")
+                console.log(that.classNo)
+                console.log(res.data.data.networkCount);
+
+                // 标签分类
+                var arr = [];
+                var arr1 = [];
+                for (var i in res.data.data.authorInfo.userTags) {
+                    if (res.data.data.authorInfo.userTags[i].type == '1') {
+                        arr.push(res.data.data.authorInfo.userTags[i])
+                    } else {
+                        arr1.push(res.data.data.authorInfo.userTags[i])
+                    }
+                }
+                that.selfTag = arr;
+                that.otherTags = arr1;
+            })
+
+        },
         // 获取任务列表
-        getMIssionlist(status) {
+        getMIssionlist(type) {
             var that = this;
             // 对家长状态(1-报名中,2-已选择,3-已评价,4-已失效,5-已取消),, 对家教状态(1-已报名,2-未选中,3-待评价,4-已完成)) ,
-            if (that.$store.state.userType == 'author') {
+            console.log(that.userData)
+            if (type == 'author') {
                 // 家教获取订单列表
                 that.$http('get', that.$store.state.baseUrl + 'api/Order/apply?uid=' + that.$route.query.writerId).then(function (res) {
                     res.data.data.forEach((item, index) => {
@@ -566,9 +618,10 @@ export default {
 </script>
 
 <style>
-#writerDetail{
+#writerDetail {
     padding-bottom: 100px;
 }
+
 #writerDetail .reacResult {
     margin-top: 0;
 }

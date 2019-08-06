@@ -69,7 +69,7 @@
                     </div>
                     <div class="hang flexSpace">
                         <p class="left "><span class="title">费用单价：</span><span class="mainText">￥ {{Math.floor((infoObj.price-infoObj.handlingFee-infoObj.adjustmentFee)/infoObj.totalTime*100)/100}}/人时</span></p>
-                        <p class="right"><span class="title">调解费({{adjustmentRate*100}}%)：</span><span class="mainText redText">{{infoObj.adjustmentFee}}</span></p>
+                        <p class="right"><span class="title">推荐费({{adjustmentRate*100}}%)：</span><span class="mainText redText">{{infoObj.adjustmentFee}}</span></p>
 
                     </div>
                     <div class="lastHang flexStart">
@@ -87,11 +87,11 @@
             <div class="topTips flexSpace">
                 <x-icon type="ios-information-outline" size="30" class="icon"></x-icon>
                 <div>
-                    <p>调解费为可能出现的纠纷，而带来的费用</p>
+                    <p>推荐费为可能出现的纠纷，而带来的费用</p>
                     <p>1.即使没有出现纠纷，该费用也会转给推荐人</p>
                     <p>2.初始推荐人是您“我的网络”中的分享人，您可以去掉或替换 分享人从而改变推荐人</p>
                     <p>3.建议您选择推荐人，可以提高本次合作的对方的信心度</p>
-                 <p>4.调解费说明：调解费支付给任务双方的推荐人，在任务每阶段完成时发放给推荐人；当您没有推荐人的时候，需您自己处理任务的纠纷事宜，调解费也会在任务每阶段完成时发放至您的余额</p>
+                 <p>4.推荐费说明：推荐费支付给任务双方的推荐人，在任务每阶段完成时发放给推荐人；当您没有推荐人的时候，需您自己处理任务的纠纷事宜，推荐费也会在任务每阶段完成时发放至您的余额</p>
                 </div>
             </div>
             <!--发送确认==================end====================页面才会显示-->
@@ -255,7 +255,7 @@ export default {
         this.timeArr.push(arr);
 
         this.getMissiondetail(this.taskId);
-        // 调解费
+        // 推荐费
         this.getBaseRate();
 
         // console.log("当前任务对象");

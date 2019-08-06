@@ -65,13 +65,13 @@
                 <!--显示的情况： 未被选中且不是登陆的用户|| 登陆用户是发布者 || 选中之后，不是未被选中的人-->
                 <div class="eachWriter flexBox" v-for="item,index in enrollerWriterList" v-if="(item.status!='3'&& item.uid==$store.state.uid)||(showData.uid==$store.state.uid&&item.status!='3')" :q="item.uid" :a="$store.state.uid">
                     <div class="left">
-                        <img  @click.stop="goToWriterDetail(item.uid)" :src="$store.state.imgUrl+item.user.imgurl" class="userImg" alt="">
+                        <img  @click.stop="goToWriterDetail(item.uid)" :src="item.user?$store.state.imgUrl+item.user.imgurl:''" class="userImg" alt="">
                     </div>
                     <div class="right flexBox">
                         <div class="top flexBox">
-                            <p class="nickname">{{item.user.nickname}}</p>
+                            <p class="nickname">{{item.user?item.user.nickname:''}}</p>
                             <div>
-                                <p class="tel" v-if="$store.state.userType=='business'"><a  @click.stop=""  :href="'tel://'+item.user.mobile" > <i class="iconfont icon-dianhua"></i></a></p>
+                                <p class="tel" v-if="$store.state.userType=='business'"><a  @click.stop=""  :href="item.user?'tel://'+item.user.mobile:''" > <i class="iconfont icon-dianhua"></i></a></p>
                                 <p class="msg" v-if="$store.state.userType=='business'" @click="gotoSendMsg(item.uid)"><i class="iconfont icon-send"></i></p>
                                 <button class="choose" @click.stop="chooseWriter(item.id,index)" v-if="(showData.status=='1'&&isSelectedWriter)||(showData.status=='1'&&showData.uid==$store.state.uid)">选择</button>
                                  <button class="choose"   v-if="showData.status=='1'&& !isSelectedWriter&&showData.uid!=$store.state.uid">已报名</button>
@@ -83,25 +83,25 @@
                             <div class="hang">
                                     <div class="item mainText tagText">
                                         <!-- 机构 -->
-                                      <span style="word-break: keep-all">  {{item.user.tag&&item.user?item.user.tag.tag:'暂无'}}<i class="iconfont icon-gouxuan" v-if="item.user.tag?true:false"></i></span>
+                                      <span style="word-break: keep-all">  {{item.user&&item.user.tag?item.user.tag.tag:'暂无'}}<i class="iconfont icon-gouxuan" v-if="item.user&&item.user.tag?true:false"></i></span>
 
                                     </div>
                                 <p class="item">实名
-                                    <i class="iconfont icon-wenhao" v-if="item.user.realAuth!=2?true:false"></i>
-                                    <i class="iconfont icon-gouxuan" v-if="item.user.realAuth==2?true:false"></i>
+                                    <i class="iconfont icon-wenhao" v-if="item.user?item.user.realAuth!=2?true:false:false"></i>
+                                    <i class="iconfont icon-gouxuan" v-if="item.user?item.user.realAuth==2?true:false:false"></i>
                                 </p>
                                 <p class="item">学历
-                                    <i class="iconfont icon-wenhao" v-if="item.user.eduAuth!=2?true:false"></i>
-                                    <i class="iconfont icon-gouxuan" v-if="item.user.eduAuth==2?true:false"></i>
+                                    <i class="iconfont icon-wenhao" v-if="item.user?item.user.eduAuth!=2?true:false:false"></i>
+                                    <i class="iconfont icon-gouxuan" v-if="item.user?item.user.eduAuth==2?true:false:false"></i>
                                 </p>
                             </div>
                             <div class="hang">
-                                 <div class="item schoolText">{{item.user.eduCertificate.school?item.user.eduCertificate.school:'暂无'}}</div>
-                            <div class="item">{{item.user.authorInfo?item.user.authorInfo.gender=='1'?'男':"女":'暂无'}}</div>
-                            <div class="item">资历：{{item.user.authorAuthInfo?item.user.authorAuthInfo.workAge:0}}年</div>
+                                 <div class="item schoolText">{{item.user&&item.user.eduCertificate.school?item.user.eduCertificate.school:'暂无'}}</div>
+                            <div class="item">{{item.user&&item.user.authorInfo?item.user.authorInfo.gender=='1'?'男':"女":'暂无'}}</div>
+                            <div class="item">资历：{{item.user&&item.user.authorAuthInfo?item.user.authorAuthInfo.workAge:0}}年</div>
                             </div>
                             <div class="hang">
-                                {{item.user.authorInfo?item.user.authorInfo.selfCon:'暂无'}}
+                                {{item.user&&item.user.authorInfo?item.user.authorInfo.selfCon:'暂无'}}
                             </div>
                         </div>
                     </div>
@@ -737,6 +737,7 @@ body {
     font-size: 14px;
     color: #242424;
     font-weight: bold;
+    max-width:30%;
 }
 
 .eachWriter .right .tel,

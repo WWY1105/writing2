@@ -134,6 +134,10 @@ export default {
 </script>
 
 <style scoped>
+#evaluationAuthor {
+
+    padding-bottom: 70px;
+}
 #evaluationAuthor .topBox {
     padding: 20px 16px;
 }
@@ -190,8 +194,9 @@ export default {
 
 #evaluationAuthor .btnBox {
       width: 100%;
-    /* padding-left: 10px; */
-    /* padding-right: 10px; */
+    position: fixed;
+    bottom: 0;
+    left: 0;
     padding: 10px;
     background: #fff;
     border-top: 10px solid #f5f5f5;
@@ -200,5 +205,6 @@ export default {
 #evaluationAuthor .btnBox button.long_btn {
     width: 100%;
     margin-top: 0px;
+    
 }
 </style>

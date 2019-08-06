@@ -5,18 +5,18 @@ Vue.use(Vuex)
 // http://www.shuimujiajia.net/works/
 export default new Vuex.Store({
     state: {
-        //  imgUrl:"/storage/",
-        //  baseUrl: "/works/",
+         imgUrl:"/storage/",
+         baseUrl: "/works/",
         // imgUrl:"http://www.shuimujiajia.net/storage/",
         // baseUrl: "http://www.shuimujiajia.net/works/",
         imgUrl:'http://nian.im/storage/',
          baseUrl:'http://nian.im/works/',
-        uid:'11'||localStorage.getItem('uid'),
+        uid:''||localStorage.getItem('uid'),
         openid:'', 
         userImg:'',
         code:'',
         recommadd:''||localStorage.getItem('recommadd'),
-        userType:"business"||localStorage.getItem('userType')
+        userType:""||localStorage.getItem('userType')
     },
     mutations: {
         setCode(state, n) {
@@ -44,5 +44,5 @@ export default new Vuex.Store({
     }
 })
 
-//34 ,80 ,11  business
-//107,7,116  作者  author
+//34 ,80 ,11 ,117 business
+//107,7,116 ,115 作者  author

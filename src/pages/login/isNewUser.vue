@@ -17,6 +17,7 @@ export default {
     },
     mounted() {
         this.code = this.GetQueryString('code');
+        // alert(window.location.href)
         if (this.code != null) {
             // alert(this.code)
             this.$store.commit('setCode', this.code)

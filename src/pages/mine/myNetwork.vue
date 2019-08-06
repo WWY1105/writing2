@@ -40,26 +40,28 @@
             <div class="left flexStart">添加我的推荐人</div>
             <div class="right">
                 <!-- 发消息 -->
-                <p class="msg" @click.stop="toSendMsg(item.id)"><i class="iconfont icon-feiji"></i></p>
+                <p class="msg" @click.stop="toSendMsg(item.id)"  v-if="myMediator.length>0?true:false"><i class="iconfont icon-feiji"></i></p>
                 <i class="iconfont icon-jiantou"></i>
             </div>
         </div>
     </div>
     <!-- 最底部 -->
     <div class="mymediator bottomMediator">
-        <p class="smallTitle">我要调解的人</p>
+        <p class="smallTitle">我要推荐的人</p>
         <p class="tips">
             <i class="iconfont icon-warming"></i> 将来，下方用户产生交易时，您将获得一定比例奖励，敬请期待！
         </p>
-        <router-link :to="{path:'/writerDetail',query:{'writerId':item.id}}" class="mediator flexSpace bgW" v-for="item,index in needMediator">
+        <div  @click.self="toSeeRecom(item)" class="mediator flexSpace bgW" v-for="item,index in needMediator">
             <div class="left flexStart">
                 <img :src="$store.state.imgUrl+item.imgurl" class="userImg mediatorImg" alt>
                 <p class="name">{{item.nickname}}</p>
             </div>
             <div class="right">
+                  <!-- 发消息 -->
+                <p class="msg" @click.stop="toSendMsg(item.id)"  v-if="needMediator.length>0?true:false"><i class="iconfont icon-feiji"></i></p>
                 <i class="iconfont icon-jiantou"></i>
             </div>
-        </router-link>
+        </div>
     </div>
     <div v-transfer-dom>
         <previewer :list="imgArr" ref="previewer" :options="options"></previewer>
@@ -145,6 +147,12 @@ export default {
     },
     methods: {
         ...common,
+        toSeeRecom(item){
+            // :to="{path:'/writerDetail',query:{'writerId':item.id}}"
+            this.$router.push({
+                path:'/writerDetail',query:{'writerId':item.id}
+            })
+        },
         // 发消息
         toSendMsg(uid){
             var that = this;

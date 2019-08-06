@@ -174,7 +174,7 @@
                 </div>
             </div>
             <!-- 固定按钮 -->
-            <button class="fixBtn" @click.self.stop="goToPost" v-if="$store.state.userType!='author'">
+            <button class="fixBtn" @click.stop="goToPost" v-if="$store.state.userType!='author'">
                 <span>+</span>
                 <span>发布</span>
             </button>

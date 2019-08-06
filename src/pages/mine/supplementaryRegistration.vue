@@ -485,7 +485,7 @@ export default {
         this.getCategory();
         this.getGrade();
         // this.getPriceArr()
-        // 调解费
+        // 推荐费
         this.getBaseRate();
 
         this.getUser(this.$store.state.uid);

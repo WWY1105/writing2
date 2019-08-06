@@ -98,15 +98,18 @@ export default {
             var baseUrl = this.$store.state.baseUrl;
             // alert(that.uid)
             that
-                .$http("get", baseUrl + "api/PrivateMsg/List", {
+                .$http("get", baseUrl + "api/PrivateMsg/msg-user", {
                     toUid: that.$store.state.uid
                 })
                 .then(function (res) {
                     console.log(res.data.data);
                     var result = res.data.data;
                     // that.mailId = result.id;
+                     if(result.length==0){
+                         return false;
+                     }
                     that.msgList = result.filter((item)=>{
-                        if(!item.read){
+                        if(!item.msg.read){
                             return true;
                         }
                     });

@@ -98,7 +98,7 @@
                 </div>
                 <div class="hang flexSpace">
                     <p class="left "><span class="title">费用单价：</span><span class="mainText">￥ {{Math.floor((stageDetail.price-stageDetail.handlingFee-stageDetail.adjustmentFee)/stageDetail.totalTime*100)/100}}/人时</span></p>
-                    <p class="right"><span class="title">调解费({{adjustmentRate*100}}%)：</span><span class="mainText redText">{{stageDetail.adjustmentFee}}</span></p>
+                    <p class="right"><span class="title">推荐费({{adjustmentRate*100}}%)：</span><span class="mainText redText">{{stageDetail.adjustmentFee}}</span></p>
 
                 </div>
                 <div class="lastHang flexStart">
@@ -243,7 +243,7 @@ export default {
     },
 
     mounted() {
-        // 调解费
+        // 推荐费
         this.getStageDetail()
         this.getBaseRate();
         this.getCancelMsg();

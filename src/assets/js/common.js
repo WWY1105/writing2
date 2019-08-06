@@ -2,12 +2,14 @@ const common = {
 
   // 根据ID获取用户信息、
   getWebUser(uid) {
+    // alert(uid)
     var that = this;
     var baseUrl = this.$store.state.baseUrl;
     that.$http('get', baseUrl + 'api/WebUser/' + uid, {
       loginUid: that.$store.state.uid
     }).then(function (res) {
       that.userData = {...res.data.data};
+      that.userType=res.data.data.type;
       that.userImg=res.data.data.imgurl;
       that.classNo = res.data.data.authorInfo.classNo;
       that.subject = res.data.data.authorInfo.subject;
@@ -23,7 +25,7 @@ const common = {
       that.books = res.data.data.authorAuthInfo.books
       that.userTags = res.data.data.authorInfo.userTags
 
-      that.userType = res.data.data.type;
+      // that.userType = res.data.data.type;
       // 拼接名字
       that.workAge = res.data.data.authorAuthInfo.workAge;
       that.networkCount = res.data.data.networkCount

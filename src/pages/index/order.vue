@@ -36,10 +36,8 @@
             <div class="otherMsg flexSpace">
                 <p class="left">
                     <span>截至报名：{{!item.deadline?"":item.deadline.substr(0,10)}}</span>
-
                     <span>已报名：{{item.applicationCount}}</span>
                 </p>
-
                 <p class="right">
                     <!-- <button class="submitBtn" @click.stop="toEnroll(index)" v-if="$store.state.userType=='author'">报名</button> -->
                     <button :class="$store.state.userType == 'author'&&item.status=='3'||$store.state.userType == 'business'&&item.status=='2'?'submitBtn':'submitBtn submitBtnDis'">
@@ -50,7 +48,7 @@
         </div>
     </div>
     <!-- 任务列表 end-->
-    <appFooter :nowPath="nowPath"></appFooter>
+    <appFooter :nowPath="nowPath" v-if="showAllMsg"></appFooter>
 </div>
 </template>
 
@@ -65,8 +63,10 @@ export default {
             uid: this.$route.query.uid,
             isCancel: false,
             userData: {},
+            // 从用户主页过来的
             showAllMsg: false,
-            nowPath: '/order'
+            nowPath: '/order',
+            
         };
     },
     components: {
@@ -79,8 +79,10 @@ export default {
 
         this.getUser(this.$store.state.uid);
         //  alert(this.$route.query.showAllMsg)
-        if (this.$route.query.showAllMsg) {
+        if (this.$route.query.showAllMsg==false) {
             this.showAllMsg = this.$route.query.showAllMsg;
+        }else{
+            this.showAllMsg=true
         }
 
     },

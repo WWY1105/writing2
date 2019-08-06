@@ -1,13 +1,13 @@
 <template>
 <div id="myMailbox">
-    <div class="eachMail flexSpace bgW" @click="toShowMailDetail(item.id)" v-for="item,index in msgList">
+    <div class="eachMail flexSpace bgW" @click="toShowMailDetail(item)" v-for="item,index in msgList">
         <div class="imgBox">
-            <img :src="item.user?$store.state.imgUrl+item.user.imgurl:''" class="userImg" alt>
-            <span class="redDot" v-if="!item.read"></span>
+            <img :src="item.webUser?$store.state.imgUrl+item.webUser.imgurl:''" class="userImg" alt>
+            <span class="redDot" v-if="!item.msg.read"></span>
         </div>
         <div class="text">
-            <p class="flexSpace"><span class="name">{{item.user?item.user.nickname:''}}</span><span class="date">{{item.msgTime.substring(10,16)}}</span> </p>
-            <p class="detailText">{{item.content}}</p>
+            <p class="flexSpace"><span class="name">{{item.webUser?item.webUser.nickname:''}}</span><span class="date">{{item.msg.msgTime.substring(10,16)}}</span> </p>
+            <p class="detailText"  >{{item.msg.content}}</p>
 
             <!-- <span class="money" v-if="item.amount>0">红包：{{!item.amount?'0':item.amount}}元</span> -->
 
@@ -44,7 +44,7 @@ export default {
             var baseUrl = this.$store.state.baseUrl;
             // alert(that.uid)
             that
-                .$http("get", baseUrl + "api/PrivateMsg/List", {
+                .$http("get", baseUrl + "api/PrivateMsg/msg-user", {
                     toUid: that.uid
                 })
                 .then(function (res) {
@@ -56,11 +56,13 @@ export default {
                     console.log(that.msgList)
                 });
         },
-        toShowMailDetail(id) {
+        toShowMailDetail(item) {
             this.$router.push({
                 path: "/mailDetail",
                 query: {
-                    mailId: id
+                    mailId: item.msg.id,
+                    toUid:item.webUser.id
+
                 }
             })
         }
