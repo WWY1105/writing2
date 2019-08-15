@@ -24,7 +24,7 @@
                     </group>
                     <group>
                         <!--上课区域-->
-                        <x-address :popup-style="{zIndex: 502}" @on-show="addressChange" v-model="myarea" :gradesArr="addressData" :title="leftText5" :list="addressData" class="areaBox" @on-hide="onAddressChange"></x-address>
+                        <x-address :popup-style="{zIndex: 90000}" @on-show="addressChange" v-model="myarea" :gradesArr="addressData" :title="leftText5" :list="addressData" class="areaBox" @on-hide="onAddressChange"></x-address>
                     </group>
                     <group>
                         <button class="long_btn seeResultBtn" @click="showSSdata">显示筛选结果</button>
@@ -36,7 +36,7 @@
         <div >
             <!--顶部按钮-->
 
-            <div class="topBox flexSpace">
+            <div class="topBox flexSpace"  v-if="$store.state.userType=='author'">
                 <div class="eachBtn shortOne" @click="toSort">
                     排序
                     <i class="iconfont icon-paixu"></i>
@@ -58,10 +58,10 @@
                             <div :class="'eachPeople bgW '+item.borderColor" v-for="item,index of postList" @click.stop="toSeeMissionDetail(index)">
                                 <div class="titleBox flexSpace">
                                     <div class="left flexStart">
-                                        <img :src="$store.state.imgUrl+item.author.imgurl" @click.stop="seeUserDetail(item.uid)" class="userImg" alt>
+                                        <img :src="item.author?$store.state.imgUrl+item.author.imgurl:''" @click.stop="seeUserDetail(item.uid)" class="userImg" alt>
 
                                         <div>
-                                            <p class="name">{{item.nickname==null?'':item.nickname}}</p>
+                                            <p class="name">{{item.user?item.user.nickname:''}}</p>
                                         </div>
                                     </div>
 
@@ -384,7 +384,7 @@ export default {
             sliderBigClassArr: [],
 
             sliderClassArr: [],
-
+            priceArr:[],
             slidePriceArr: [],
 
             slidePriceArr2: [],
@@ -589,7 +589,7 @@ export default {
         var that = this;
 
         that.myarea = [];
-
+        this.getWebUser(this.$store.state.uid);
         that.getPriceArr();
 
         that.getCategory();
@@ -598,7 +598,7 @@ export default {
         that.getSwipper();
         // 获取当前登陆用户信息
 
-        this.getWebUser(this.$store.state.uid);
+        
 
         // 获取家教总数
 
@@ -1032,6 +1032,11 @@ export default {
             that.postData.directional = false;
 
             that.postData.loginUid = that.$store.state.uid;
+            that.postData.classNo=that.postData.classNo=='不限'?'':that.postData.classNo
+            that.postData.subject=that.postData.subject=='不限'?'':that.postData.subject
+             that.postData.coordination=that.postData.coordination=='不限'?'':that.postData.coordination
+              that.postData.fee=that.postData.fee=='不限'?'':that.postData.fee
+            // fee
 
             // console.log(that.postData);
 
@@ -1063,7 +1068,7 @@ export default {
 
                                 result[i].priceMax = arr[1];
 
-                                result[i].nickname = result[i].author.nickname;
+                                // result[i].nickname = result[i].author.nickname;
 
                                 // console.log(result[i].author.nickname);
 
@@ -1142,10 +1147,11 @@ export default {
             that.getMIssionlist(data => {
                 // that.postList = data;
 
-                if (data.length <= 4) {
+                if (data.length <= 0) {
                     //禁止上啦，已经没有数据
 
                     that.$refs.scrollerBottom.disablePullup();
+                    return false;
                 }
 
                 that.postList = that.postList.concat(data);
@@ -1196,7 +1202,7 @@ export default {
 
                             result[i].priceMax = arr[1];
 
-                            result[i].nickname = result[i].author.nickname;
+                            // result[i].nickname = result[i].author.nickname;
 
                             // console.log(result[i].author.nickname);
 

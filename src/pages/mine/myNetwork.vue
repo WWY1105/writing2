@@ -47,7 +47,7 @@
     </div>
     <!-- 最底部 -->
     <div class="mymediator bottomMediator">
-        <p class="smallTitle">我要推荐的人</p>
+        <p class="smallTitle">我推荐的人</p>
         <p class="tips">
             <i class="iconfont icon-warming"></i> 将来，下方用户产生交易时，您将获得一定比例奖励，敬请期待！
         </p>

@@ -1,6 +1,7 @@
 <template>
 <div id="evaluationAuthor">
-    <div class="topBox">
+    <div class="TopBox">
+         <div class="topBox">
         <div class="areaBox bgW">
             <x-textarea :height="147" name="description" v-model="content" placeholder="请输入评价内容，100字以内"></x-textarea>
         </div>
@@ -29,8 +30,9 @@
             <div :class="item.active?'eachItem active':'eachItem '" v-for="item,index in badtags" @click="chooseTags(index)">{{item.tagName}} </div>
         </div> -->
     </div>
+    </div>
     <div class="btnBox">
-        <button class="long_btn" @click="saveMyTags">保存</button>
+        <button class="long_btn" @click="saveMyTags">提交</button>
     </div>
 </div>
 </template>
@@ -102,6 +104,12 @@ export default {
                     arr.push(this.badtags[i].tagName)
                 }
             }
+            if(this.content.trim()==''&&arr.length==0){
+                AlertModule.show({
+                        title: "请填写评价再提交"
+                    })
+                    return false;
+            }
             var postData = {
                 uid: this.$store.state.uid,
                 taskId: this.$route.query.taskId,
@@ -160,12 +168,18 @@ export default {
     color: #3375C5;
     font-size: 12px;
 }
-
+#evaluationAuthor .TopBox{
+/* position: absolute;
+    left: 0;
+    bottom: 50px;
+    width: 100%; */
+}
 #evaluationAuthor .content {
     padding-top: 14px;
     padding-right: 10px;
-   width: 50%;
+    width: 50%;
     flex-wrap: wrap;
+    /* ; */
 }
 .goodTag{
     border-bottom: 10px solid #f5f5f5;
@@ -193,13 +207,14 @@ export default {
 }
 
 #evaluationAuthor .btnBox {
-      width: 100%;
+    width: 100%;
     position: fixed;
     bottom: 0;
     left: 0;
     padding: 10px;
     background: #fff;
     border-top: 10px solid #f5f5f5;
+    z-index: 999999999
 }
 
 #evaluationAuthor .btnBox button.long_btn {

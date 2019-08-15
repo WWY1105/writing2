@@ -83,7 +83,9 @@
                             <div class="hang">
                                     <div class="item mainText tagText">
                                         <!-- 机构 -->
-                                      <span style="word-break: keep-all">  {{item.user&&item.user.tag?item.user.tag.tag:'暂无'}}<i class="iconfont icon-gouxuan" v-if="item.user&&item.user.tag?true:false"></i></span>
+                                      <router-link tag="span" 
+                                      :to="{path:'/viewingMechanism',query:{id:item.user.tag.id}}"
+                                      style="word-break:break-all">  {{item.user&&item.user.tag?item.user.tag.tag:'暂无'}}<i class="iconfont icon-gouxuan" v-if="item.user&&item.user.tag?true:false"></i></router-link>
 
                                     </div>
                                 <p class="item">实名
@@ -220,7 +222,8 @@ export default {
             show:false,
             chooseWriterId:'',
             commentList:[],
-            isSelectedWriter:false
+            isSelectedWriter:false,
+            userData:{}
         }
     },
     created() {
@@ -305,11 +308,15 @@ export default {
                             }
                         })
                     } else {
+                        // alert(that.missionId)
                         AlertModule.show({
                             title: '选择成功',
                             onHide: function () {
                                 that.$router.push({
-                                    name: 'chooseSuccess'
+                                    path: '/chooseSuccess',
+                                    query:{
+                                        taskId:that.missionId
+                                    }
                                 })
                             }
 
@@ -369,7 +376,8 @@ export default {
         },
         // 去评价
         toEvaluate() {
-            const that=this;
+            var that=this;
+            alert(missionId)
             that.$router.push({
                 path:'/evaluationAuthor',
                 query:{
@@ -409,7 +417,12 @@ export default {
         // 报名
         toEnroll() {
             var that = this;
-
+            //  if (that.userData.realAuth!=2||that.userData.eduAuth !=2||that.userData.authorAuth !=2) {
+            //     AlertModule.show({
+            //         title: "您有认证没有做完"
+            //     });
+            //     return false;
+            // }
             //任务类型：1-找家教,2-找家长,3-团家长找家教
             // var missionType = that.showData.taskType;
             // 当前用户的身份
@@ -793,6 +806,7 @@ body {
     flex-wrap: wrap;
     justify-content: space-between;
     width: 100%;
+    font-size: 12px;
 }
 .eachWriter .right .content .item {
     width:28%;
@@ -800,6 +814,7 @@ body {
 }
 .eachWriter .right .content .item.tagText,.eachWriter .right .content .item.schoolText{
     width: 44%;
+    margin-bottom: 0;
 }
 
 /* ======================================================= */

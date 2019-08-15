@@ -275,6 +275,7 @@ body {
     height: 100%;
     padding: 19px 0px;
     border: none;
+    text-align: left;
 }
 
 #educationAuthentication .eachHang input::-webkit-input-placeholder {

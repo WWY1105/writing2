@@ -124,9 +124,8 @@ export default {
 
             var postData = {
                 content: that.content,
-                uid: that.fromUid,
-                toUid: that.uid
-                // amount: 9
+                uid: that.uid,
+                toUid: that.fromUid
             };
             that.$http("post", baseUrl + "api/PrivateMsg", postData).then(function (res) {
                 if (res.data.code != "00") {
@@ -137,15 +136,6 @@ export default {
                     AlertModule.show({
                         title: "发送成功",
                         onHide() {
-                            // that.$router.push({
-                            //     path: '/writerDetail',
-                            //     query: {
-                            //         writerId: that.uid
-                            //     },
-                            //     meta: {
-                            //         keepAlive: true
-                            //     }
-                            // })
                              that.$router.go(-1)
                         }
                     });

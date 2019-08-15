@@ -9,7 +9,10 @@ const common = {
       loginUid: that.$store.state.uid
     }).then(function (res) {
       that.userData = {...res.data.data};
-      that.userType=res.data.data.type;
+      if(res.data.data&&res.data.data.type){
+        that.userType=res.data.data.type;
+      }
+     
       that.userImg=res.data.data.imgurl;
       that.classNo = res.data.data.authorInfo.classNo;
       that.subject = res.data.data.authorInfo.subject;
@@ -94,6 +97,11 @@ const common = {
       type: 'login'
     }).then(function (res) {
       var slideArr = [];
+      res.data.data.unshift({
+        categroy: "不限",
+        id: 0,
+        nameValue: "",
+      })
       for (var i in res.data.data) {
         var obj = {};
         obj.name = res.data.data[i].categroy;
@@ -104,8 +112,8 @@ const common = {
       that.subjectArr = res.data.data;
 
       that.sliderSubjectArr.push(slideArr)
-      // console.log("科目")
-      // console.log(res.data.data)
+      console.log("科目")
+      console.log(res.data.data)
     })
 
   },
@@ -137,6 +145,10 @@ const common = {
       type: 'login'
     }).then(function (res) {
       var slideArr = [];
+      res.data.data.unshift({
+        'className': "不限",
+        'nameValue': ""
+      })
       for (var i in res.data.data) {
         var obj = {};
         obj.name = res.data.data[i].className;
@@ -159,7 +171,9 @@ const common = {
     that.$http('get', baseUrl + 'api/CategoryConfig/Charge/List', ).then(function (res) {
       var arr = [];
       var slideArr = [];
-
+      res.data.data.unshift({
+        name:'不限'
+      })
       for (var i in res.data.data) {
         var obj = {};
         obj.name = res.data.data[i].name;
@@ -170,7 +184,7 @@ const common = {
       console.log('价格!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
       console.log(slideArr)
       that.slidePriceArr2.push(slideArr);
-      that.priceArr.push(arr);
+      that.priceArr.concat(arr);
 
       that.slidePriceArr.push(slideArr);
 

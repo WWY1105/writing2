@@ -23,7 +23,8 @@
                     <!-- 1 -->
                     <div class="hang">
                         <p class="text tagText">
-                            <span class="mainText "> {{org?org:'机构：暂无'}}<i class="iconfont icon-gouxuan" v-if="org?true:false"></i></span>
+                            <router-link tag="span" 
+                           :to="{path:'/viewingMechanism',query:{id:orgid}}" class="mainText "> {{org?org:'机构：暂无'}}<i class="iconfont icon-gouxuan" v-if="org?true:false"></i></router-link>
                         </p>
                          <p class="option">实名
                             <i class="iconfont icon-wenhao" v-if="realAuth!=2?true:false"></i>
@@ -92,7 +93,7 @@ export default {
     mounted() {
       
     },
-    props: ['org','school','cost','type','soleCost','serviceHours','selfCon','imgurl', 'serviceOrderCount','gender','serviceUserCount','authorAuth','feeConfirm', 'uid','sole','joint', 'priceType','avaTaskCount','workHours', 'missionNum', 'hang2IsShow', 'isMissionDetail', 'isChoosen','shortName', 'workAge', 'realAuth', 'eduAuth', 'userCount', 'isCanChoose']
+    props: ['org','school','cost','type','orgid','soleCost','serviceHours','selfCon','imgurl', 'serviceOrderCount','gender','serviceUserCount','authorAuth','feeConfirm', 'uid','sole','joint', 'priceType','avaTaskCount','workHours', 'missionNum', 'hang2IsShow', 'isMissionDetail', 'isChoosen','shortName', 'workAge', 'realAuth', 'eduAuth', 'userCount', 'isCanChoose']
 
 }
 </script>

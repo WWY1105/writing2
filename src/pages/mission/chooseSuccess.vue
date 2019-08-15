@@ -9,6 +9,9 @@
 </template>
 <script>
 export default {
+    data:{
+        // taskId:this.$route.query.taskId
+     },
     methods:{
         toEvaluate(){
             const that=this;
