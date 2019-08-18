@@ -8,7 +8,7 @@ export default new Vuex.Store({
          imgUrl:"/storage/",
          baseUrl: "/works/",
         // imgUrl:"http://www.shuimujiajia.net/storage/",
-        // // baseUrl: "http://www.shuimujiajia.net/works/",
+        // baseUrl: "http://www.shuimujiajia.net/works/",
         // imgUrl:'http://nian.im/storage/',
         //  baseUrl:'http://nian.im/works/',
         uid:''||localStorage.getItem('uid'),

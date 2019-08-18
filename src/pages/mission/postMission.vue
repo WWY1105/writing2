@@ -16,7 +16,7 @@
         </div>
         <div class="eachArea">
            
-            <!--费用预算（每小时）-->
+            <!--每小时参考费用 （具体费用，双方再交流）-->
             <sliderPopupPicker :rightText="rightJg" :gradesArr="slidePriceArr" :leftText="leftText3" v-on:changeResult="changeResultPrice1"></sliderPopupPicker>
 
             <!--找家长找家教（招标家长人数）-->
@@ -38,7 +38,7 @@
         </div>
         <div class="eachArea">
             <group title="描述（20字内，必填）">
-                <x-textarea :show-counter="false" :rows="3" :max="20" autosize v-model="content"></x-textarea>
+                <x-textarea :show-counter="false" :rows="3" :max="20" autosize v-model="content" placeholder="可描述孩子特点或家长的期望"></x-textarea>
             </group>
         </div>
     </div>
@@ -135,7 +135,7 @@ export default {
             ],
 
             leftText2: '科目',
-            leftText3: '费用预算（每小时）',
+            leftText3: '每小时参考费用',
             leftText4: '上课方式',
             leftText5: '上课区域',
             leftText6: '招标家长人数',
@@ -289,10 +289,10 @@ export default {
                 if (that.postData.coordination == '远程协作') {
                     that.postData.area = '远程协作'
                     var dataArr = [that.postData.classNo, that.postData.subject, that.postData.fee,  that.postData.deadline, that.postData.coordination, that.postData.content];
-                    var nameArr = ['年级', "科目", '出资方式', '费用预算（每小时）', '截止日期', '上课方式', '描述']
+                    var nameArr = ['年级', "科目", '出资方式', '每小时参考费用', '截止日期', '上课方式', '描述']
                 } else {
                     var dataArr = [that.postData.classNo, that.postData.subject, that.postData.taskType,  that.postData.fee, that.postData.deadline, that.postData.coordination, that.postData.area, that.postData.content];
-                    var nameArr = ['年级', "科目", '出资方式', '费用预算（每小时）',  '截止日期', '上课方式', '上课区域', '描述']
+                    var nameArr = ['年级', "科目", '出资方式', '每小时参考费用',  '截止日期', '上课方式', '上课区域', '描述']
                 }
 
             

@@ -11,7 +11,7 @@
                     </div>
                 </div>
                 <div class="right flexEnd">
-                    <span class="priceDesc">费用预算</span>
+                    <span class="priceDesc">每小时参考费用</span>
                     <p class="price">{{'￥'+item.fee.split('-')[0]+'-￥'+item.fee.split('-')[1]}}</p>
 
                 </div>

@@ -8,9 +8,9 @@
                     <div class="flexSpace">
                         <!-- 推荐人 -->
                     <img  v-if="recommenderId"  :recommenderId="recommenderId" :src="recommenderSrc" alt="" class="recommender"  @click.stop.self="gotoWriterDetail">
-                    <!-- 发信息 -->
-                    <p   v-if="isMsg&&recommenderId" class="msg flexCenter" @click.stop="gotoSendMsg">
-                        <i class="iconfont icon-feiji"></i>
+                    <!-- 打电弧 -->
+                    <p   v-if="isMsg&&recommenderId" class="msg flexCenter" >
+                       <a  @click.stop=""  :href="'tel://'+mobile" > <i class="iconfont icon-dianhua"></i></a> 
                     </p>
                     <p v-if="!recommenderId" >暂无</p>
                     </div>
@@ -23,7 +23,7 @@
 import { Cell, Badge } from 'vux'
 
 export default {
-    props: ['leftTitle', 'num', 'icon','noBorder','link','writerId','uid','isMsg','recommenderSrc','recommenderId'],
+    props: ['leftTitle', 'num', 'icon','noBorder','link','writerId','uid','isMsg','mobile','recommenderSrc','recommenderId'],
     components: {
         Cell,
         Badge
@@ -119,7 +119,7 @@ export default {
     display: inline-block;
 }
 .msg{
-    background: #44C447;
+    background: #3375c5;
     color: #fff;
    
 }

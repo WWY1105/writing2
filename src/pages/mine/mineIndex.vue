@@ -81,8 +81,10 @@
           :link="item.link"
           :uid="item.uid"
           :leftTitle="item.title"
+          :mobile="item.mobile"
           :icon="item.icon"
           :num="item.rightNum"
+           :writerId="item.writerId"
           @tofellow="tofellow"
         ></cellNav>
       </group>
@@ -125,16 +127,7 @@ export default {
       myMediator: {},
       navList: [
           //0
-        {
-          title: "我的推荐人",
-          icon: "icon-hezuo",
-          isLink: "true",
-          rightNum: 0,
-          recommenderSrc: "",
-          recommenderId: "",
-          isMsg: true,
-          link: "myNetwork"
-        },
+        
          //1
         {
           title: "关注公众号",
@@ -149,7 +142,6 @@ export default {
           isLink: true,
           link: "writerDetail",
           writerId: this.$store.state.uid,
-
           rightNum: 0,
           icon: "icon-zhuye"
         },
@@ -203,6 +195,20 @@ export default {
     this.getSystemMsg();
     // this.getNewMailMsg();
     this.getMediator(this.$store.state.uid);
+    if(this.$store.state.userType=='author'){
+      this.navList.unshift(
+        {
+          title: "我的推荐人",
+          icon: "icon-hezuo",
+          isLink: "false",
+          rightNum: 0,
+          recommenderSrc: "",
+          recommenderId: "",
+          isMsg: true,
+          mobile:''
+        }
+      )
+    }
   },
 
   methods: {
@@ -229,6 +235,7 @@ export default {
               that.navList[0].recommenderSrc =
                 that.$store.state.imgUrl + res.data.data.myMediator[0].imgurl;
               that.navList[0].recommenderId = res.data.data.myMediator[0].id;
+              that.navList[0].mobile = res.data.data.myMediator[0].mobile;
             }
 
             // that.needMediator = res.data.data.needMediator;
@@ -293,27 +300,47 @@ export default {
         // 关注
          that.navList[3].rightNum = res.data.data.attention
         // 基本资料百分比
-        var num = 20;
-        that.baseObj = {
-          sex: Boolean(res.data.data.authorInfo.gender),
-          categories:
-            res.data.data.authorInfo.categories.length == 0 ? false : true,
-          classList:
-            res.data.data.authorInfo.classList.length == 0 ? false : true,
-          jointCost: Boolean(res.data.data.authorInfo.jointCost),
-          soleCost: Boolean(res.data.data.authorInfo.soleCost),
-          coordination: Boolean(res.data.data.authorInfo.coordination),
-          area: Boolean(res.data.data.authorInfo.area),
-          selfCon: Boolean(res.data.data.authorInfo.selfCon)
-        };
-
-        for (var i in that.baseObj) {
+        var num ;
+        if(that.$store.state.userType=='author'){
+            num = 20
+            that.baseObj = {
+            sex: Boolean(res.data.data.authorInfo.gender),
+            categories:
+              res.data.data.authorInfo.categories.length == 0 ? false : true,
+            classList:
+              res.data.data.authorInfo.classList.length == 0 ? false : true,
+            jointCost: Boolean(res.data.data.authorInfo.jointCost),
+            soleCost: Boolean(res.data.data.authorInfo.soleCost),
+            coordination: Boolean(res.data.data.authorInfo.coordination),
+            area: Boolean(res.data.data.authorInfo.area),
+            selfCon: Boolean(res.data.data.authorInfo.selfCon)
+          };
+          for (var i in that.baseObj) {
           if (that.baseObj[i]) {
             num += 10;
           } else {
             num += 0;
           }
         }
+        }else{
+          num = 0;
+           that.baseObj = {
+          sex: Boolean(res.data.data.authorInfo.gender),
+          classList:res.data.data.authorInfo.classList.length == 0 ? false : true,
+          nickname:true,
+          imgUrl:true
+        };
+        for (var i in that.baseObj) {
+          if (that.baseObj[i]) {
+            num += 25;
+          } else {
+            num += 0;
+          }
+        }
+        }
+       
+
+        
         that.persentNum = num;
         console.log("基本资料%%%%%%%%%" + num);
         console.log(that.baseObj);

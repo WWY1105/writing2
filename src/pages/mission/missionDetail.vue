@@ -11,7 +11,7 @@
                     </div>
                 </div>
                 <div class="right">
-                    <p class="priceDesc">费用预算</p>
+                    <p class="priceDesc">每小时参考费用</p>
                     <p class="price">￥{{showData.fee}}/人时</p>
                 </div>
             </div>

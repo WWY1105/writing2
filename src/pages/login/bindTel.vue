@@ -20,7 +20,7 @@
     </yd-cell-group>
     <p class="tips">
         <i class="iconfont icon-warming"></i>
-        <span>绑定手机后，平台能给您及时发送关键任务的短消息，避免任务失败</span>
+        <span>注册总计3个步骤，20秒时间</span>
     </p>
     <button class="long_btn" @click.prevent="gotoBind">绑定</button>
 </div>

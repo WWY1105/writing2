@@ -9,7 +9,7 @@
             <div class="right">
                 <div class=" titleBox flexSpace">
                     <span class="title ">{{shortName}}</span>
-                    <div>
+                    <div v-if="!writerDetail">
                         <p class='priceDesc' v-if="type=='author'">预算费用</p>
                         <p class="price">{{!soleCost?'￥暂无':'￥'+soleCost+'/小时'}}</p>
                      </div>
@@ -93,7 +93,7 @@ export default {
     mounted() {
       
     },
-    props: ['org','school','cost','type','orgid','soleCost','serviceHours','selfCon','imgurl', 'serviceOrderCount','gender','serviceUserCount','authorAuth','feeConfirm', 'uid','sole','joint', 'priceType','avaTaskCount','workHours', 'missionNum', 'hang2IsShow', 'isMissionDetail', 'isChoosen','shortName', 'workAge', 'realAuth', 'eduAuth', 'userCount', 'isCanChoose']
+    props: ['org','school','writerDetail','cost','type','orgid','soleCost','serviceHours','selfCon','imgurl', 'serviceOrderCount','gender','serviceUserCount','authorAuth','feeConfirm', 'uid','sole','joint', 'priceType','avaTaskCount','workHours', 'missionNum', 'hang2IsShow', 'isMissionDetail', 'isChoosen','shortName', 'workAge', 'realAuth', 'eduAuth', 'userCount', 'isCanChoose']
 
 }
 </script>

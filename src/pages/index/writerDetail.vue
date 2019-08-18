@@ -5,7 +5,7 @@
     </button>
     <!--顶部简介-->
     <div class="topBox" :type="userData.type" :type1="$store.state.userType">
-        <writers :orgid="userData.tag?userData.tag.id:''"  :gender="gender" :soleCost="soleCost" :school="userData.eduCertificate?userData.eduCertificate.school:''" :org="userData.tag?userData.tag.tag:''" :hang2IsShow='hang2IsShow' :selfCon="userData.authorInfo?userData.authorInfo.selfCon:''" :tag="userData.tag" :serviceHours="userData.serviceHours" :serviceOrderCount="userData.serviceOrderCount" :serviceUserCount="userData.serviceUserCount" :authorAuth="userData.authorAuth" :type="userData.type" :isMissionDetail="isMissionDetail" :missionNum="userData.taskCount" :userTags="userTags" :realAuth="userData.realAuth" :eduAuth="userData.eduAuth" :userCount="userData.userCount" :avaTaskCount="userData.avaTaskCount " :cost="userData.cost" :workAge="workAge" :workHours="userData.workHours" :imgurl="userImg" :shortName="userData.nickname"></writers>
+        <writers :writerDetail="true" :orgid="userData.tag?userData.tag.id:''"  :gender="gender" :soleCost="soleCost" :school="userData.eduCertificate?userData.eduCertificate.school:''" :org="userData.tag?userData.tag.tag:''" :hang2IsShow='hang2IsShow' :selfCon="userData.authorInfo?userData.authorInfo.selfCon:''" :tag="userData.tag" :serviceHours="userData.serviceHours" :serviceOrderCount="userData.serviceOrderCount" :serviceUserCount="userData.serviceUserCount" :authorAuth="userData.authorAuth" :type="userData.type" :isMissionDetail="isMissionDetail" :missionNum="userData.taskCount" :userTags="userTags" :realAuth="userData.realAuth" :eduAuth="userData.eduAuth" :userCount="userData.userCount" :avaTaskCount="userData.avaTaskCount " :cost="userData.cost" :workAge="workAge" :workHours="userData.workHours" :imgurl="userImg" :shortName="userData.nickname"></writers>
         <!--三个按钮-->
         <div class="btnBox bgW" v-if="userData.type=='author'&&$store.state.userType=='business'" :isLocalUser="isLocalUser">
             <x-button v-if="!isLocalUser" @click.native="fellowThisWriter" :class="userData.follow?'hasFellow':''">
@@ -29,7 +29,7 @@
     <!-- 推荐人 -->
     <div class="bgW recommenderBox">
         <group>
-            <cellNav :recommenderId="recommenderId" :link="recommenderLink" :leftTitle="leftTitle" :icon="recommenderIcon" :recommenderSrc="$store.state.imgUrl+recommenderSrc" :num="recommenderNum" :isMsg="isMsg"></cellNav>
+            <cellNav :recommenderId="recommenderId"  :mobile="recommenderMobile" :link="recommenderLink" :leftTitle="leftTitle" :icon="recommenderIcon" :recommenderSrc="$store.state.imgUrl+recommenderSrc" :num="recommenderNum" :isMsg="isMsg"></cellNav>
         </group>
     </div>
     <!--工作方式-->
@@ -37,11 +37,11 @@
         <p class="title">工作方式</p>
         <div class="content">
             <div class="eachHang">
-                <p class="leftText">书本年级：</p>
+                <p class="leftText">年级：</p>
                 <p class="rightText">{{classNo}}</p>
             </div>
             <div class="eachHang">
-                <p class="leftText">书本科目：</p>
+                <p class="leftText">科目：</p>
                 <p class="rightText">{{subject}}</p>
             </div>
             <div class="eachHang">
@@ -92,7 +92,7 @@
                     <p class="button searchSS" v-if="taskObj.taskType=='2'?true:false">找家长</p>
                     <p class="button searchZZ" v-if="taskObj.taskType=='1'?true:false">找家教</p>
                     <p class="button searchSZ" v-if="taskObj.taskType=='3'?true:false">团家长找家教</p> -->
-                    <p class="priceDesc">费用预算</p>
+                    <p class="priceDesc">每小时参考费用</p>
                     <p class="price">￥{{taskObj.fee}}/人时</p>
                 </div>
             </div>
@@ -121,7 +121,7 @@
     <div class="eachBox" v-if="userData.type=='author'">
         <p class="title">家长评价标签（2018-7-1起）</p>
         <div class="content">
-            <p class="evaluateTag" v-for="item,index in otherTags">
+            <p class="evaluateTag" v-for="item,index in otherTags" v-if="item.tag">
                 <span>{{item.tag}}</span>
             </p>
         </div>
@@ -136,14 +136,14 @@
         </div>
     </div>
     <!--自我标签-->
-    <div class="eachBox" v-if="userData.type=='author'">
+    <!-- <div class="eachBox" v-if="userData.type=='author'">
         <p class="title">自我标签</p>
         <div class="content">
             <p class="evaluateTag" v-for="item,index in selfTag">
                 <span>{{item.tag}}</span>
             </p>
         </div>
-    </div>
+    </div> -->
     <!--家教经历-->
     <div class="eachBox" v-if="userData.type=='author'">
         <p class="title">家教经历</p>
@@ -229,7 +229,8 @@ export default {
             userImg: '',
             recommenderIcon: 'icon-hezuo',
             recommenderId: '',
-            recommenderSrc: ''
+            recommenderSrc: '',
+            recommenderMobile:''
 
         }
     },
@@ -307,6 +308,7 @@ export default {
                             //   that.myMediator = res.data.data.myMediator[0];
                             that.recommenderSrc = res.data.data.myMediator[0].imgurl;
                             that.recommenderId = res.data.data.myMediator[0].id;
+                            that.recommenderMobile=res.data.data.myMediator[0].mobile
                         }
 
                         // that.needMediator = res.data.data.needMediator;

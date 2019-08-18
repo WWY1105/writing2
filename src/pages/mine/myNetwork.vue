@@ -28,28 +28,31 @@
                 </router-link>
                 <p class="name">{{item.nickname}}</p>
             </div>
-            <div class="right" @click="addMyMediator">
-                <!-- 发消息 -->
-                <p class="msg" @click.stop="toSendMsg(item.id)"><i class="iconfont icon-feiji"></i></p>
-                <i class="iconfont icon-jiantou"></i>
+            <!-- 发消息 @click="addMyMediator"-->
+            <div class="right" >
+                <!-- <p class="msg" >
+                    <a  @click.stop=""  :href="'tel://'+item.mobile" > <i class="iconfont icon-dianhua"></i></a>`
+                    
+                    </p> -->
+                <!-- <i class="iconfont icon-jiantou"></i> -->
             </div>
         </div>
-
-        <div class="mediator flexSpace bgW" @click="addMyMediator" v-if="myMediator.length==0?true:false">
+        <!-- @click="addMyMediator"  -->
+        <div class="mediator flexSpace bgW" v-if="myMediator.length==0?true:false">
             <!-- 没有数据的时候 -->
             <div class="left flexStart">添加我的推荐人</div>
-            <div class="right">
-                <!-- 发消息 -->
+             <!-- 发消息 -->
+            <!-- <div class="right" @click="addMyMediator">
                 <p class="msg" @click.stop="toSendMsg(item.id)"  v-if="myMediator.length>0?true:false"><i class="iconfont icon-feiji"></i></p>
                 <i class="iconfont icon-jiantou"></i>
-            </div>
+            </div> -->
         </div>
     </div>
     <!-- 最底部 -->
     <div class="mymediator bottomMediator">
         <p class="smallTitle">我推荐的人</p>
         <p class="tips">
-            <i class="iconfont icon-warming"></i> 将来，下方用户产生交易时，您将获得一定比例奖励，敬请期待！
+            <i class="iconfont icon-warming"></i> 谢谢您推荐下面用户使用本平台，相信平台会给TA们带来价值！同时，我们也计划以后回报您的推荐，谢谢~
         </p>
         <div  @click.self="toSeeRecom(item)" class="mediator flexSpace bgW" v-for="item,index in needMediator">
             <div class="left flexStart">
@@ -57,9 +60,12 @@
                 <p class="name">{{item.nickname}}</p>
             </div>
             <div class="right">
-                  <!-- 发消息 -->
-                <p class="msg" @click.stop="toSendMsg(item.id)"  v-if="needMediator.length>0?true:false"><i class="iconfont icon-feiji"></i></p>
-                <i class="iconfont icon-jiantou"></i>
+                  <!-- 发消息@click.stop="toSendMsg(item.id)" -->
+                <!-- <p class="msg"   v-if="needMediator.length>0?true:false">
+                   
+                    <a  @click.stop=""  :href="'tel://'+item.mobile" > <i class="iconfont icon-dianhua"></i></a>
+                 </p> -->
+                <!-- <i class="iconfont icon-jiantou"></i> -->
             </div>
         </div>
     </div>
@@ -307,7 +313,7 @@ export default {
     line-height: 25px;
     text-align: center;
     display: inline-block;
-        background: #44C447;
+        background: #3374C4;
     color: #fff
 }
 #myNetwork .ewmPic {

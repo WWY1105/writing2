@@ -17,7 +17,7 @@
         <!-- <div class="eachArea"> -->
         <!--组班方式-->
         <!-- <radioPicker :radiosArr="radiosArr" :title="publish_title" v-on:getRadioValue="getPublicWay"></radioPicker> -->
-        <!--费用预算（每小时）-->
+        <!--每小时参考费用 （具体费用，双方再交流）-->
         <!-- <sliderPopupPicker :gradesArr="slidePriceArr" :leftText="leftText3" v-on:changeResult="changeResultPrice"></sliderPopupPicker> -->
         <!--找家长找家教（招标家长人数）-->
         <!-- <group v-if="postData.taskType=='1'?false:true">-->
@@ -132,7 +132,7 @@ export default {
             ],
 
             leftText2: '科目',
-            leftText3: '费用预算（每小时）',
+            leftText3: '每小时参考费用',
             leftText4: '上课方式',
             leftText5: '上课区域',
             leftText6: '招标家长人数',

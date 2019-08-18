@@ -29,20 +29,20 @@
                 <!--年级选择-->
                 <cell title="年级" is-link :value="rightText1" @click.native="gotoMultiPicker('class')"></cell>
                 <!--科目选择器-->
-                <cell title="科目" is-link :value="rightText2" @click.native="gotoMultiPicker('category')"></cell>
+                <cell title="科目" v-if="$store.state.userType=='author'"  is-link :value="rightText2" @click.native="gotoMultiPicker('category')"></cell>
             </div>
-            <div class="eachArea">
-                <!--费用预算（每小时）-->
+            <div class="eachArea" v-if="$store.state.userType=='author'">
+                <!--每小时参考费用 （具体费用，双方再交流）-->
                 <sliderPopupPicker class="bgG" :gradesArr="slidePriceArr2" :leftText="leftText3" :rightText="rightText4" v-on:changeResult="changeResultSoleCost"></sliderPopupPicker>
                 <!-- <sliderPopupPicker class="bgG" :gradesArr="slidePriceArr2" :leftText="leftText7" :rightText="rightText5" v-on:changeResult="changeResultJointCost"></sliderPopupPicker> -->
             </div>
-            <div class="eachArea">
+            <div class="eachArea" v-if="$store.state.userType=='author'">
                 <cell class="xzfs" title="上课方式" is-link :value="rightText3" @click.native="gotoMultiPicker('coordination')"></cell>
                 <!--上课区域-->
                 <x-address :gradesArr="addressData" :title="leftText5" :list="addressData" class="areaBox" v-model="address" @on-hide="onAddressChange"></x-address>
             </div>
             <!--报名截至日期-->
-            <div class="eachArea">
+            <div class="eachArea" v-if="$store.state.userType=='author'">
                 <group title="简述（200字内）">
                     <x-textarea style="background:#f5f5f5" :show-counter="false" :rows="3" :max="200" autosize v-model="introductionContent"></x-textarea>
                 </group>
@@ -604,21 +604,28 @@ export default {
                 that.coordinations = that.coordinations.join(",")
             }
             // that.editFlag ? that.shortName : that.notEditshortName
-            var postData = {
-                uid: that.uid,
-                gender: that.gender,
-                classNo: that.classNo.length > 0 ? that.classNo.join(",") : that.classNo,
-                subject: that.subject.length > 0 ? that.subject.join(",") : that.subject,
-                soleCost: that.soleCost, //1对1参考费用
-                // jointCost: that.jointCost, //1对多参考费用
-                coordination: that.coordinations,
-                area: that.area,
-                selfCon: that.introductionContent,
-                nickname: that.shortName,
-                
-            };
+            var postData ;
             if(that.$store.state.userType=='author'){
-                postData.experience=that.value2
+                postData.experience=that.value2;
+                postData = {
+                    uid: that.uid,
+                    gender: that.gender,
+                    classNo: that.classNo.length > 0 ? that.classNo.join(",") : that.classNo,
+                    subject: that.subject.length > 0 ? that.subject.join(",") : that.subject,
+                    soleCost: that.soleCost, //1对1参考费用
+                    coordination: that.coordinations,
+                    area: that.area,
+                    selfCon: that.introductionContent,
+                    nickname: that.shortName,
+                
+                 };
+            }else{
+                postData = {
+                    uid: that.uid,
+                    gender: that.gender,
+                    classNo: that.classNo.length > 0 ? that.classNo.join(",") : that.classNo,
+                    nickname: that.shortName
+                 };
             }
             var flag = false;
             for (var i in postData) {

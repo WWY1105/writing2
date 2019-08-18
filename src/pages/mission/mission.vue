@@ -15,7 +15,7 @@
                         <sliderPopupPicker :zindex="90000" :gradesArr="sliderSubjectArr" :leftText="leftText2" v-on:changeResult="changeResultKM"></sliderPopupPicker>
                     </group>
                     <group>
-                        <!--费用预算（每小时）-->
+                        <!--每小时参考费用 （具体费用，双方再交流）-->
                         <sliderPopupPicker :zindex="90000" :rightText="rightText4" :gradesArr="slidePriceArr2" :leftText="leftText3" v-on:changeResult="changeResultPrice"></sliderPopupPicker>
                     </group>
                     <group>
@@ -66,7 +66,7 @@
                                     </div>
 
                                     <div class="right flexEnd">
-                                        <span class="priceDesc">费用预算</span>
+                                        <span class="priceDesc">每小时参考费用 （具体费用，双方再交流）</span>
 
                                         <p class="price">￥ {{item.fee.split('-')[0]}} - ￥{{item.fee.split('-')[1]}}/小时</p>
                                     </div>
@@ -405,7 +405,7 @@ export default {
 
             rightText3: "",
 
-            leftText3: "费用预算（每小时）",
+            leftText3: "每小时参考费用 （具体费用，双方再交流）",
 
             leftText4: "上课方式",
 
@@ -664,7 +664,10 @@ export default {
         // 点击轮播图
         seeBannerUrl() {
             var url = this.swipperList[this.demo01_index].bannerContent;
-            window.location.href = url;
+            if(url){
+                window.location.href = url;
+            }
+            
         },
         // 轮播图
         getSwipper() {
