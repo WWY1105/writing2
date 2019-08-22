@@ -61,24 +61,32 @@ export default {
         },
         submitMsg() {
             var that = this;
-            if (!Boolean(that.data.classNo)) {
-                AlertModule.show({
-                    title: '请填写信息'
-                })
-            } else {
-                that.$http('post', that.$store.state.baseUrl + 'api/WebUser/Author', {
+            // if (Boolean(that.data.classNo)) {
+            //     AlertModule.show({
+            //         title: '请填写信息'
+            //     })
+            // } else {
+                var postData={
                     uid: that.uid,
-                    classNo: that.data.classNo,
-                    subject: that.data.category == undefined ? 0 : that.data.category
-                }).then(function (res) {
+                    classNo: that.data.classNo== undefined ? '不限' : that.data.classNo,
+                    subject: that.data.category == undefined ? '不限' : that.data.category
+                }
+                // console.l.og()
+                if(!Boolean(that.data.classNo)){
+                    delete postData.classNo
+                }
+                if(!Boolean(that.data.category)){
+                    delete postData.subject
+                }
+                that.$http('post', that.$store.state.baseUrl + 'api/WebUser/Author', postData).then(function (res) {
                     if (res.data.code == '00') {
                         that.$http('get', that.$store.state.baseUrl + 'api/WebUser/' + that.$store.state.uid).then(function (res) {
                             if (res.data.code == '00') {
                                 console.log(res.data.data)
                                 var result = res.data.data;
                                 var type = result.type == "author" ? '家教' : '家长';
-                                var clas = result.authorInfo.classParent == '' ? '' : result.authorInfo.classParent.substr(0, 2);
-                                var category = result.authorInfo.subject == '' ? '' : result.authorInfo.subject.substr(0, 2);
+                                var clas = !(result.authorInfo.classParent) ? '' : result.authorInfo.classParent.substr(0, 2);
+                                var category = !(result.authorInfo.subject) ? '' : result.authorInfo.subject.substr(0, 2);
                                 var nickname = clas + category + type;
                                 console.log(nickname);
                                 var postData = {
@@ -119,7 +127,7 @@ export default {
                         })
                     }
                 })
-            }
+            // }
 
         },
         changeResultGrade(val) {

@@ -99,13 +99,13 @@ const common = {
       var slideArr = [];
       res.data.data.unshift({
         categroy: "不限",
-        id: 0,
+        id: "",
         nameValue: "",
       })
       for (var i in res.data.data) {
         var obj = {};
         obj.name = res.data.data[i].categroy;
-        obj.value = res.data.data[i].id + "";
+        obj.value = res.data.data[i].id? res.data.data[i].id+ "":'';
         res.data.data[i].active = false;
         slideArr.push(obj)
       }
@@ -152,7 +152,7 @@ const common = {
       for (var i in res.data.data) {
         var obj = {};
         obj.name = res.data.data[i].className;
-        obj.value = res.data.data[i].id + "";
+        obj.value = res.data.data[i].id?res.data.data[i].id + "":'';
         res.data.data[i].active = false;
 
         slideArr.push(obj)

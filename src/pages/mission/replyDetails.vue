@@ -26,7 +26,7 @@
                 </div>
                 <div class="right">
                     <p>{{taskObj.classNo}} / {{taskObj.category}}</p>
-                    <p>{{taskObj.priceType=='1'?'1对1':'1对多'}} / {{taskObj.coordination=='online'?'线上沟通':taskObj.coordination=='author'?'家教上课':'家长拜访'}}</p>
+                    <p>{{taskObj.priceType=='1'?'1对1':'1对多'}} / {{taskObj.coordination=='online'?'线上沟通':taskObj.coordination=='author'?'家教上课':'学生拜访'}}</p>
                     <p>{{taskObj.area}}</p>
                 </div>
             </div>

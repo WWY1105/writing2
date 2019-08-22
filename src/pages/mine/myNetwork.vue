@@ -40,7 +40,7 @@
         <!-- @click="addMyMediator"  -->
         <div class="mediator flexSpace bgW" v-if="myMediator.length==0?true:false">
             <!-- 没有数据的时候 -->
-            <div class="left flexStart">添加我的推荐人</div>
+            <div class="left flexStart">暂无</div>
              <!-- 发消息 -->
             <!-- <div class="right" @click="addMyMediator">
                 <p class="msg" @click.stop="toSendMsg(item.id)"  v-if="myMediator.length>0?true:false"><i class="iconfont icon-feiji"></i></p>
@@ -256,6 +256,7 @@ export default {
     padding-left: 19px;
     margin-bottom: 14px;
     color: #f83345;
+    font-size: 13px;
 }
 
 #myNetwork .mymediator .tips .iconfont {

@@ -106,7 +106,7 @@
                     <span>已报名：{{taskObj.applicationCount}} </span>
                 </p>
                 <p class="flexSpace">
-                    <span>{{taskObj.coordination=='online'?'远程协作':taskObj.coordination=='busniess'?'家长拜访':'家教拜访'}}/ {{taskObj.area}}</span>
+                    <span>{{taskObj.coordination=='online'?'远程协作':taskObj.coordination=='busniess'?'学生拜访':'家教拜访'}}/ {{taskObj.area}}</span>
                     <span>发布日期：{{taskObj.createTime.slice(0,11)}}</span>
                 </p>
             </div>

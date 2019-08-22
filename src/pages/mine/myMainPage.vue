@@ -177,7 +177,7 @@ export default {
                     active: false
                 },
                 {
-                    name: "家长拜访",
+                    name: "学生拜访",
                     active: false
                 },
                 {
@@ -606,7 +606,7 @@ export default {
             // that.editFlag ? that.shortName : that.notEditshortName
             var postData ;
             if(that.$store.state.userType=='author'){
-                postData.experience=that.value2;
+               
                 postData = {
                     uid: that.uid,
                     gender: that.gender,
@@ -617,7 +617,7 @@ export default {
                     area: that.area,
                     selfCon: that.introductionContent,
                     nickname: that.shortName,
-                
+                    experience:that.value2
                  };
             }else{
                 postData = {

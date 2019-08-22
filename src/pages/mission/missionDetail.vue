@@ -25,7 +25,7 @@
                     <span>已报名：{{showData.applicationCount}}</span>
                 </p>
                 <p class="flexSpace">
-                    <!-- <span>{{showData.coordination=='online'?'远程协作':showData.coordination=='author'?'家教拜访':showData.coordination=='busniess'?'家长拜访':'不限'}} / {{showData.area.split(',').join('')}}</span> -->
+                    <!-- <span>{{showData.coordination=='online'?'远程协作':showData.coordination=='author'?'家教拜访':showData.coordination=='busniess'?'学生拜访':'不限'}} / {{showData.area.split(',').join('')}}</span> -->
                     <span>发布日期：{{showData.createTime?showData.createTime.substr(0,10):''}}</span>
                 </p>
             </div>
@@ -84,7 +84,7 @@
                                     <div class="item mainText tagText">
                                         <!-- 机构 -->
                                       <router-link tag="span" 
-                                      :to="{path:'/viewingMechanism',query:{id:item.user.tag.id}}"
+                                      :to="{path:'/viewingMechanism',query:{id:item.user.tag?item.user.tag.id:''}}"
                                       style="word-break:break-all">  {{item.user&&item.user.tag?item.user.tag.tag:'暂无'}}<i class="iconfont icon-gouxuan" v-if="item.user&&item.user.tag?true:false"></i></router-link>
 
                                     </div>
@@ -377,7 +377,7 @@ export default {
         // 去评价
         toEvaluate() {
             var that=this;
-            alert(missionId)
+            // alert(missionId)
             that.$router.push({
                 path:'/evaluationAuthor',
                 query:{

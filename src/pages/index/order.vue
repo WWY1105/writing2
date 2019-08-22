@@ -23,7 +23,7 @@
                         <span class="eachItem">科目：{{item.subject}}</span>
                     </p>
                     <p class="hang flexStart">
-                        <span class="eachItem">上课：{{item.coordination=='online'?'远程协作':item.coordination=='busniess'?'家长拜访':'家教拜访'}}</span>
+                        <span class="eachItem">上课：{{item.coordination=='online'?'远程协作':item.coordination=='busniess'?'学生拜访':'家教拜访'}}</span>
 
                         <span class="eachItem add">区域：{{item.area}}</span>
                     </p>

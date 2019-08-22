@@ -4,13 +4,13 @@
     <yd-cell-group>
         <yd-cell-item class="telHang">
             <span slot="left">电话号码</span>
-            <yd-input slot="right" class="telInput" required type="number" v-model="telNum" max="20" placeholder=""></yd-input>
+            <yd-input slot="right" class="telInput" required type="number" v-model="telNum"  placeholder=""></yd-input>
         </yd-cell-item>
         <yd-cell-item class="codeHang">
             <div slot="left" class="code">
 
                 <span slot="left">短信验证码</span>
-                <yd-input slot="right" type="number" class="yzm" v-model="msg" placeholder=""></yd-input>
+                <yd-input slot="right" type="number" class="yzm" @keydown.native="inputMsg" v-model="msg" placeholder="" max="9999"></yd-input>
             </div>
             <div slot="right" class="button">
                 <!-- 获取按钮 -->
@@ -58,11 +58,16 @@ export default {
         // alert(this.GetQueryString('openid'))
         // alert(this.GetQueryString('imgurl'))
     },
+  
     components: {
         AlertModule,
         Alert
     },
     methods: {
+        inputMsg(){
+            console.log(this.msg)
+            this.msg=this.msg.substr(0,4)
+        },
         // 获取验证码
         getCode() {
             var that = this;
@@ -152,7 +157,7 @@ export default {
                     localStorage.setItem('uid', res.data.data.id);
                     localStorage.setItem('userType', res.data.data.type);
                     // 添加新用户作为推荐人
-                     if (localStorage.getItem('newUser')) {
+                     if (that.GetQueryString('recommadd')) {
                         that.$http('post', that.$store.state.baseUrl + 'api/Mediator/add', {
                             uid: res.data.data.id,
                             mediator: that.GetQueryString('recommadd').split('_')[0] 

@@ -14,7 +14,7 @@
                 <p class="left"><span class="title">服务提供者：</span>
                  <router-link tag="span" :to="{path:'/writerDetail',query:{'writerId':serviceProvider.id}}"    class="mainText">{{serviceProvider.nickname}}</router-link>
                  </p>
-                <p class="right">{{showData.priceType =='1'?'1对1':"1对多"}}/{{showData.coordination=="online"?"远程协作":showData.coordination=="author"?"家教上课":"家长拜访"}}</p>
+                <p class="right">{{showData.priceType =='1'?'1对1':"1对多"}}/{{showData.coordination=="online"?"远程协作":showData.coordination=="author"?"家教上课":"学生拜访"}}</p>
             </div>
             <div class="hang flexSpace">
                 <p class="left"><span class="title">服务接收者：</span>

@@ -51,7 +51,7 @@
                     <!-- <span class="eachItem">组班方式：{{item.taskType}}</span> -->
                 </p>
                 <p class="hang flexStart">
-                    <span class="eachItem">{{item.coordination=='online'?'远程协作':item.coordination=='busniess'?'家长拜访':'家教拜访'}}/{{item.area}}</span>
+                    <span class="eachItem">{{item.coordination=='online'?'远程协作':item.coordination=='busniess'?'学生拜访':'家教拜访'}}/{{item.area}}</span>
                     <span class="eachItem add textAright">发布日期：{{!item.createTime?'':item.createTime.substr(0,10)}}</span>
                 </p>
             </div>

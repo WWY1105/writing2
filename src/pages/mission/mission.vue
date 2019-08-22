@@ -66,7 +66,7 @@
                                     </div>
 
                                     <div class="right flexEnd">
-                                        <span class="priceDesc">每小时参考费用 （具体费用，双方再交流）</span>
+                                        <span class="priceDesc">每小时参考费用</span>
 
                                         <p class="price">￥ {{item.fee.split('-')[0]}} - ￥{{item.fee.split('-')[1]}}/小时</p>
                                     </div>
@@ -78,7 +78,7 @@
                                         <span class="eachItem">科目：{{item.subject}}</span>
                                     </p>
                                     <p class="hang flexStart">
-                                        <span class="eachItem">上课：{{item.coordination=='online'?'远程协作':item.coordination=='busniess'?'家长拜访':'家教拜访'}}</span>
+                                        <span class="eachItem">上课：{{item.coordination=='online'?'远程协作':item.coordination=='busniess'?'学生拜访':'家教拜访'}}</span>
 
                                         <span class="eachItem add">区域：{{item.area}}</span>
                                     </p>
@@ -414,11 +414,11 @@ export default {
             myarea: [],
 
             coordination: [
-                ["不限", "家教拜访", "家长拜访", "远程协作"]
+                ["不限", "家教拜访", "学生拜访", "远程协作"]
             ],
 
             coordination2: [
-                ["不限", "家教拜访", "家长拜访", "远程协作"]
+                ["不限", "家教拜访", "学生拜访", "远程协作"]
             ],
 
             rightText2: "不限",

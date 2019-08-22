@@ -147,7 +147,7 @@ export default {
             if (this.postData.priceType == undefined) {
                 this.postData.priceType = 0;
             }
-            //"online"="远程协作";"author"="家教上课";"家长拜访"
+            //"online"="远程协作";"author"="家教上课";"学生拜访"
             switch (this.postData.coordination) {
                 case undefined:
                     this.postData.coordination = '';
@@ -159,7 +159,7 @@ export default {
                     this.postData.coordination = '远程协作';
                     break;
                 case 'busniess':
-                    this.postData.coordination = '家长拜访';
+                    this.postData.coordination = '学生拜访';
                     break;
             }
 
@@ -245,7 +245,7 @@ export default {
             publish_title: '组班方式',
             slidePriceArr2: [],
             coordination: [
-                ['不限', '家教拜访', '家长拜访', '远程协作']
+                ['不限', '家教拜访', '学生拜访', '远程协作']
             ],
             leftText2: '科目',
             leftText3: '每小时参考费用',

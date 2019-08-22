@@ -131,7 +131,7 @@ export default {
             slidePriceArr: [],
             slidePriceArr2: [],
             coordination: [
-                ['不限', '家教拜访', '家长拜访', '远程协作']
+                ['不限', '家教拜访', '学生拜访', '远程协作']
             ],
 
             leftText2: '科目',
