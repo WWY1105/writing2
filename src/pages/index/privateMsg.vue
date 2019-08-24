@@ -124,8 +124,8 @@ export default {
 
             var postData = {
                 content: that.content,
-                uid: that.uid,
-                toUid: that.fromUid
+                uid:that.fromUid,
+                toUid: that.uid
             };
             that.$http("post", baseUrl + "api/PrivateMsg", postData).then(function (res) {
                 if (res.data.code != "00") {

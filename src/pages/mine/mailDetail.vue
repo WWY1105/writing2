@@ -21,7 +21,7 @@
         <!-- 回复详情 -->
         <div class="eachMail replayBox flexSpace bgW" v-for="i,j in mailList" @click="replayMsgId(i.msgId)">
             <div class="imgBox">
-                <img :src="i.user?$store.state.imgUrl+i.user.imgurl:''" class="userImg" alt="">
+                 <router-link tag="img" :to="{path:'/writerDetail',query:{'writerId':i.user.id}}"  :src="i.user?$store.state.imgUrl+i.user.imgurl:''" class="userImg" alt=""></router-link>
             </div>
             <div class="text">
                 <p class="flexSpace">

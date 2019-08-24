@@ -85,7 +85,7 @@
                                         <!-- 机构 -->
                                       <router-link tag="span" 
                                       :to="{path:'/viewingMechanism',query:{id:item.user.tag?item.user.tag.id:''}}"
-                                      style="word-break:break-all">  {{item.user&&item.user.tag?item.user.tag.tag:'暂无'}}<i class="iconfont icon-gouxuan" v-if="item.user&&item.user.tag?true:false"></i></router-link>
+                                      style="word-break:break-all;font-size:12px">  {{item.user&&item.user.tag?item.user.tag.tag:'暂无'}}<i class="iconfont icon-gouxuan" v-if="item.user&&item.user.tag?true:false"></i></router-link>
 
                                     </div>
                                 <p class="item">实名
@@ -371,6 +371,7 @@ export default {
                     that.isMyTask = false;
                     // 我是家教
                 }
+                // alert(that.showData.uid +"== == == "+that.$store.state.uid )
 
             })
         },
@@ -524,6 +525,10 @@ body {
     color: #646464;
     font-size: 14px;
     margin-bottom: 10px;
+        overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 155px;
 }
 
 #missionDetail .content .peple .tag {
@@ -750,7 +755,11 @@ body {
     font-size: 14px;
     color: #242424;
     font-weight: bold;
-    max-width:30%;
+       overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 155px;
+    /* border: 1px solid red; */
 }
 
 .eachWriter .right .tel,
@@ -849,7 +858,12 @@ body {
 .commentPart .name {
     color: #333;
     font-size: 12px;
-    margin-bottom: 14px;
+    /* margin-bottom: 14px; */
+        overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 155px;
+    font-weight: 600;
 }
 
 .commentPart .date {
@@ -860,7 +874,7 @@ body {
 .tags .eachTags {
     color: #333333;
     font-size: 12px;
-    width: 65px;
+    /* width: 65px; */
     height: 22px;
     line-height: 22px;
     text-align: center;
@@ -869,6 +883,7 @@ body {
     margin-right: 5px;
     margin-top: 10px;
     background: #FFF6C5;
+    padding: 0 10px;
 }
 .long_btn.notSelect{
     background: #c3c3c3;

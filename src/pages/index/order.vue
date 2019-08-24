@@ -12,7 +12,7 @@
                 </div>
                 <div class="right flexEnd">
                     <span class="priceDesc">每小时参考费用</span>
-                    <p class="price">{{'￥'+item.fee.split('-')[0]+'-￥'+item.fee.split('-')[1]}}</p>
+                    <p class="price">{{item.fee=='不限'?'￥'+item.fee:'￥'+item.fee.split('-')[0]+'-￥'+item.fee.split('-')[1]}}</p>
 
                 </div>
             </div>
@@ -429,8 +429,12 @@ export default {
 }
 
 .reacResult p.name {
-    /* max-width: 30%; */
+    overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 155px;
+    border: 1px solid red;
+
 }
 
 #resultPeoples.reacResult .details {

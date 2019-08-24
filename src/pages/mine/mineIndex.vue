@@ -305,16 +305,15 @@ export default {
             num = 20
             that.baseObj = {
             sex: Boolean(res.data.data.authorInfo.gender),
-            categories:
-              res.data.data.authorInfo.categories.length == 0 ? false : true,
-            classList:
-              res.data.data.authorInfo.classList.length == 0 ? false : true,
-            jointCost: Boolean(res.data.data.authorInfo.jointCost),
+            categories:res.data.data.authorInfo.categories.length == 0 ? false : true,
+            classList:res.data.data.authorInfo.classList.length == 0 ? false : true,
             soleCost: Boolean(res.data.data.authorInfo.soleCost),
             coordination: Boolean(res.data.data.authorInfo.coordination),
             area: Boolean(res.data.data.authorInfo.area),
-            selfCon: Boolean(res.data.data.authorInfo.selfCon)
+            selfCon: Boolean(res.data.data.authorInfo.selfCon),
+            experience: Boolean(res.data.data.experience)
           };
+          console.log(that.baseObj)
           for (var i in that.baseObj) {
           if (that.baseObj[i]) {
             num += 10;
@@ -367,7 +366,9 @@ export default {
   padding: 11px 23px 16px 23px;
   border-bottom: 1px solid #dedede;
 }
-
+#mineIndex .mainInfoTop .imgBox{
+  width: 100%;
+}
 #mineIndex .mainInfoBottom {
   padding-top: 10px;
   padding-bottom: 10px;
@@ -409,8 +410,8 @@ export default {
   font-weight: bolder;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 100px;
-  word-break: keep-all;
+      max-width: 155px;
+    word-break: keep-all;
 }
 
 #mineIndex .myCell .vux-label {
@@ -431,6 +432,9 @@ export default {
   border: 1px solid #b7b7b7;
   border-radius: 5px;
   margin-bottom: 8px;
+  display: flex;
+  flex-wrap: nowrap;
+      word-break: keep-all;
 }
 
 #mineIndex .mineInfo .right .tagBox.active {

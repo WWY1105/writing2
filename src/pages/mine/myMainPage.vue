@@ -407,7 +407,7 @@ export default {
                     //    that.notEditshortName  = grade + subject + firstName + type;
                     that.shortName = res.data.data.nickname;
                     that.notEditshortName = grade + subject + firstName + type;
-
+                    that.value2=res.data.data.experience;
                     // 获取用户信息做默认展示res.data.data.authorInfo.gender=='1'
                     // 性别authorInfo.gender
                     // ?that.radiosArr[0].selected=true;that.radiosArr[1].selected=false:that.radiosArr[1].selected=true;
@@ -760,6 +760,7 @@ html {}
 
 #myMainPage .disPart .right {
     font-weight: bold;
+    width: 80%;
 }
 
 #myMainPage .vux-cell-box:not(:first-child):before {
@@ -796,6 +797,7 @@ html {}
     height: 100%;
     padding: 11px 5px;
     border: none;
+    width: 100%;
 }
 
 #myMainPage .vux-x-textarea.weui-cell {

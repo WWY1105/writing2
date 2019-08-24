@@ -27,7 +27,7 @@
 
     </div>
     <!-- 推荐人 -->
-    <div class="bgW recommenderBox">
+    <div class="bgW recommenderBox" v-if="userData.type=='author'">
         <group>
             <cellNav :recommenderId="recommenderId"  :mobile="recommenderMobile" :link="recommenderLink" :leftTitle="leftTitle" :icon="recommenderIcon" :recommenderSrc="$store.state.imgUrl+recommenderSrc" :num="recommenderNum" :isMsg="isMsg"></cellNav>
         </group>
@@ -337,7 +337,7 @@ export default {
             var that = this;
             console.log(that.taskObj)
             that.$router.push({
-                path: '/missionInAfterEvaluteBuss',
+                path: '/missionDetail',
                 query: {
                     id: that.taskObj.id,
                     showAllMsg: true

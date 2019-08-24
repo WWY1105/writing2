@@ -24,7 +24,7 @@
                     <div class="hang">
                         <p class="text tagText">
                             <router-link tag="span" 
-                           :to="{path:'/viewingMechanism',query:{id:orgid}}" class="mainText "> {{org?org:'机构：暂无'}}<i class="iconfont icon-gouxuan" v-if="org?true:false"></i></router-link>
+                           :to="{path:'/viewingMechanism',query:{id:orgid}}" class="mainText " style="gont-size:12px"> {{org?org:'机构：暂无'}}<i class="iconfont icon-gouxuan" v-if="org?true:false"></i></router-link>
                         </p>
                          <p class="option">实名
                             <i class="iconfont icon-wenhao" v-if="realAuth!=2?true:false"></i>
